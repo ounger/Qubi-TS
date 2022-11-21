@@ -43,7 +43,7 @@ export class Qubit {
   /**
    * Simulating a measurement
    */
-  measure(): 0 | 1 {
+  measure(): bit {
     if (!this.measuredValue) {
       const probabilities = this.probabilities(); // Sums to 1
       const stateZeroProb = round(probabilities[0], 2);
