@@ -25,6 +25,8 @@ import {
 } from "../../model/complex";
 import {round} from "../math/util";
 
+// TODO Gehoeren alle Tests in in it()?
+
 describe('Identity on |0>', () => {
   it('Should not modify the state', () => {
     expect(identity(STATE_ZERO_QUBIT).vector()).toEqual([_1, _0]);
@@ -261,8 +263,8 @@ describe('Phase', () => {
 });
 
 function expToBeCloseTo(q0: Qubit, q1: Qubit): void {
-  expect(q0.stateZeroAmplitude.re).toBeCloseTo(q1.stateZeroAmplitude.re, 0.001);
-  expect(q0.stateZeroAmplitude.im).toBeCloseTo(q1.stateZeroAmplitude.im, 0.001);
-  expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 0.001);
-  expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 0.001);
+  expect(q0.stateZeroAmplitude.re).toBeCloseTo(q1.stateZeroAmplitude.re, 2);
+  expect(q0.stateZeroAmplitude.im).toBeCloseTo(q1.stateZeroAmplitude.im, 2);
+  expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 2);
+  expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 2);
 }

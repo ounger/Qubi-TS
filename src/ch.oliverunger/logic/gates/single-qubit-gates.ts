@@ -11,7 +11,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../model/complex";
-import {degsToRads} from "../math/util";
+import {expOfiTimesAngleDegrees} from "../math/util";
 
 export const IDENTITY_MATRIX: Complex[][] = [
     [_1, _0],
@@ -104,7 +104,7 @@ export function phaseS(qubit: Qubit): Qubit {
 /**
  * Phase shift by Math.PI (180°)
  */
-export function phaseZ(qubit: Qubit) {
+export function phaseZ(qubit: Qubit): Qubit {
     return z(qubit);
 }
 
@@ -118,11 +118,9 @@ export function phaseZ(qubit: Qubit) {
  * e^(i*phi) = cos(phi) + i * sin(phi)
  */
 export function phase(qubit: Qubit, angleDegrees: number) {
-    const phi = degsToRads(angleDegrees);
-    const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
     const phaseGate = [
         [_1, _0],
-        [_0, expOfiTimesAngle]
+        [_0, expOfiTimesAngleDegrees(angleDegrees)]
     ];
     return Qubit.ofVector(multiplyMatrixVector2c(phaseGate, qubit.vector()));
 }

@@ -29,23 +29,23 @@ export function getAllRowsWith1InCol(n: number, col: number): number[] {
     return result;
 }
 
-export function getTruthtableValueAt(n: number, row: number, col: number): bit {
-    if (col >= n) {
-        throw new Error(`Given col="${col}" is >= n="${n}"`);
+export function getTruthtableValueAt(numCols: number, row: number, col: number): bit {
+    if (col >= numCols) {
+        throw new Error(`Given col="${col}" is >= n="${numCols}"`);
     }
-    const rows = countRows(n);
+    const rows = countRows(numCols);
     if (row >= rows) {
-        throw new Error("Given row is greater or equal to 2^n");
+        throw new Error("Given row is greater or equal to 2^numCols");
     }
     // @ts-ignore
-    return Math.floor(row / Math.pow(2, n - 1 - col)) % 2;
+    return Math.floor(row / Math.pow(2, numCols - 1 - col)) % 2;
 }
 
-export function getTruthtableCol(n: number, col: number): bit[] {
-    return [...Array(Math.pow(2, n)).keys()].map(index => getTruthtableValueAt(n, index, col));
+export function getTruthtableCol(numCols: number, col: number): bit[] {
+    return [...Array(Math.pow(2, numCols)).keys()].map(index => getTruthtableValueAt(numCols, index, col));
 }
 
-export function get1sTruthtableCol(n: number): bit[] {
+export function getTruthtable1sCol(n: number): bit[] {
     return [...Array(Math.pow(2, n)).keys()].map(_ => 1);
 }
 
