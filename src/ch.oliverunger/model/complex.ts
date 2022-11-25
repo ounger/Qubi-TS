@@ -1,14 +1,14 @@
 export class Complex {
 
-    constructor(private readonly _re: number, private readonly _im: number) {
+    constructor(private readonly real: number, private readonly imaginary: number) {
     }
 
     get re(): number {
-        return this._re;
+        return this.real;
     }
 
     get im(): number {
-        return this._im;
+        return this.imaginary;
     }
 
     static ofRe(re: number) {
@@ -20,31 +20,31 @@ export class Complex {
     }
 
     add(that: Complex): Complex {
-        return new Complex(this._re + that._re, this._im + that._im);
+        return new Complex(this.re + that.re, this.im + that.im);
     }
 
     sub(that: Complex): Complex {
-        return new Complex(this._re - that._re, this._im - that._im);
+        return new Complex(this.re - that.re, this.im - that.im);
     }
 
     scale(scalar: number): Complex {
-        return new Complex(scalar * this._re, scalar * this._im);
+        return new Complex(scalar * this.re, scalar * this.im);
     }
 
     mul(that: Complex): Complex {
-        return new Complex(this._re * that._re - this._im * that._im, this._re * that._im + this._im * that._re);
+        return new Complex(this.re * that.re - this.im * that.im, this.re * that.im + this.im * that.re);
     }
 
     abs(): number {
-        return Math.sqrt(this._re * this._re + this._im * this._im);
+        return Math.sqrt(this.re * this.re + this.im * this.im);
     }
 
     conjugate(): Complex {
-        return new Complex(this._re, -this._im);
+        return new Complex(this.re, -this.im);
     }
 
     div(that: Complex): Complex {
-        if (that._re === 0 && that._im === 0) {
+        if (that.real === 0 && that.imaginary === 0) {
             throw new Error("Division by 0 not possible!");
         }
         return that.conjugate().mul(this.scale(1 / (that.abs() * that.abs())));
@@ -62,15 +62,19 @@ export class Complex {
      * |z| is called the modulus of z
      */
     modulus(): number {
-        return Math.sqrt(this._re * this.re + this.im * this.im);
+        return Math.sqrt(this.re * this.re + this.im * this.im);
+    }
+
+    square(): Complex {
+        return this.mul(this);
     }
 
     equals(that: Complex): boolean {
-        return this._re === that._re && this._im === that._im;
+        return this.re === that.re && this.im === that.im;
     }
 
     toString(): string {
-        return this._re + " + " + this._im + "i";
+        return this.re + " + " + this.im + "i";
     }
 
 }

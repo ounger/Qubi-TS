@@ -4,13 +4,34 @@ import {
   countRows,
   cross,
   dot,
-  hadamardProduct,
+  hadamardProductVectors,
+  multiplyColVectorRowVector,
   multiplyMatrices,
   multiplyMatrixScalar,
   multiplyMatrixVector,
+  multiplyRowVectorColVector,
   tensor
 } from "./linear-algebra";
-import {_0, _1, _10, _11, _12, _2, _3, _4, _5, _6, _7, _8, _9, Complex, i, MINUS_1, MINUS_i} from "../../model/complex";
+import {
+  _0,
+  _1,
+  _10,
+  _11,
+  _12,
+  _15,
+  _2,
+  _3,
+  _4,
+  _5,
+  _6,
+  _7,
+  _8,
+  _9,
+  Complex,
+  i,
+  MINUS_1,
+  MINUS_i
+} from "../../model/complex";
 import {IDENTITY_MATRIX, PAULI_X_MATRIX, PAULI_Y_MATRIX, PAULI_Z_MATRIX} from "../gates/single-qubit-gates";
 
 const matrix = [
@@ -160,9 +181,31 @@ describe('hadamardProduct', () => {
   it('', () => {
     const v0 = [Complex.ofRe(1), Complex.ofRe(2)];
     const v1 = [Complex.ofRe(3), Complex.ofRe(4)];
-    expect(hadamardProduct(v0, v1)).toEqual([Complex.ofRe(3), Complex.ofRe(8)]);
+    expect(hadamardProductVectors(v0, v1)).toEqual([Complex.ofRe(3), Complex.ofRe(8)]);
   });
 });
+
+describe('multiplyColVectorRowVector', () => {
+  it('', () => {
+    const v0 = [_1, _2, _1];
+    const v1 = [_2, _6, _1];
+    expect(multiplyColVectorRowVector(v0, v1)).toEqual(_15);
+  });
+});
+
+describe('multiplyRowVectorColVector', () => {
+  it('', () => {
+    const v0 = [_1, _0, _2];
+    const v1 = [_2, _1, _1, _3];
+    expect(multiplyRowVectorColVector(v0, v1)).toEqual([
+      [_2, _1, _1, _3],
+      [_0, _0, _0, _0],
+      [_4, _2, _2, _6]
+    ]);
+  });
+});
+
+
 
 
 

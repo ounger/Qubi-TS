@@ -1,6 +1,5 @@
 import {_0, _1, Complex, i_OF_SQRT_TWO, MINUS_i_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./complex";
 import {Vector2c} from "./vector2c";
-import {round} from "../logic/math/util";
 import {bit} from "../logic/math/truth-table";
 
 export class Qubit {
@@ -34,6 +33,7 @@ export class Qubit {
   }
 
   probabilities(): [stateZeroProbability: number, stateOneProbability: number] {
+    // |z|^2 (Modulus of z squared)
     return [
       this.stateZeroAmplitude.re * this.stateZeroAmplitude.re + this.stateZeroAmplitude.im * this.stateZeroAmplitude.im,
       this.stateOneAmplitude.re * this.stateOneAmplitude.re + this.stateOneAmplitude.im * this.stateOneAmplitude.im
@@ -46,9 +46,8 @@ export class Qubit {
   measure(): bit {
     if (!this.measuredValue) {
       const probabilities = this.probabilities(); // Sums to 1
-      const stateZeroProb = round(probabilities[0], 2);
       const rand = Math.random();
-      this.measuredValue = rand > stateZeroProb ? 1 : 0
+      this.measuredValue = rand <= probabilities[0] ? 0 : 1;
     }
     return this.measuredValue;
   }

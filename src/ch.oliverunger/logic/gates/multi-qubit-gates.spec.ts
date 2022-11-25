@@ -1,5 +1,5 @@
 import {STATE_MINUS_QUBIT, STATE_ONE_QUBIT, STATE_PLUS_QUBIT, STATE_ZERO_QUBIT} from "../../model/qubit";
-import {ccx, cx, phase, phaseT, phaseZ, swap, x} from "./multi-qubit-gates";
+import {ccx, cx, phase, phaseS, phaseT, phaseZ, swap, x} from "./multi-qubit-gates";
 import {
     _0,
     _1,
@@ -369,7 +369,7 @@ describe('PhaseT', () => {
 describe('PhaseS', () => {
     it('', () => {
         let reg = QubitRegister.ofQubits(STATE_ONE_QUBIT);
-        phaseT(reg, 0);
+        phaseS(reg, 0);
         expect(reg.states).toEqual([_0, expOfiTimesAngle90Degrees]);
     });
 });

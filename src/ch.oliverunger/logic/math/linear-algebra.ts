@@ -82,14 +82,16 @@ export function tensor(...v: Vector2c[]): Complex[] {
   return result;
 }
 
-export function hadamardProduct(v0: Complex[], v1: Complex[]) {
+export function hadamardProductVectors(v0: Complex[], v1: Complex[]): Complex[] {
   if (v0.length !== v1.length) {
     throw new Error("Both vectors don't have the same amount of components");
   }
   return [...Array(v0.length).keys()].map(index => v0[index].mul(v1[index]));
 }
 
-// TODO HadamardProdct for matrices
+export function hadamardProductMatrices(m0: Complex[][], m1: Complex[][]) {
+  // TODO HadamardProdct for matrices
+}
 
 export function conjugate(matrix: Complex[][]): Complex[][] {
   return forEachMatrixElement(matrix, (c) => c.conjugate());
@@ -97,6 +99,46 @@ export function conjugate(matrix: Complex[][]): Complex[][] {
 
 export function multiplyMatrixScalar(matrix: Complex[][], scalar: Complex): Complex[][] {
   return forEachMatrixElement(matrix, (c) => c.mul(scalar));
+}
+
+/**
+ * Example: <br>
+ * | 1 | <br>
+ * | 0 | * [2 1 1] <br>
+ * | 2 | <br>
+ * = <br>
+ * | 2 1 1 | <br>
+ * | 0 0 0 | <br>
+ * | 4 2 2 | <br>
+ */
+export function multiplyRowVectorColVector(v0: Complex[], v1: Complex[]): Complex[][] {
+  let matrixResult: Complex[][] = new Array(v0.length).fill(false).map(() => new Array(v1.length).fill(false));
+  for (let row = 0; row < v0.length; row++) {
+    for (let col = 0; col < v1.length; col++) {
+      matrixResult[row][col] = v0[row].mul(v1[col]);
+    }
+  }
+  return matrixResult;
+}
+
+/**
+ * Example: <br>
+ * [1 2 1] * <br>
+ * | 2 | <br>
+ * | 6 | <br>
+ * | 1 | <br>
+ * = <br>
+ * 15
+ */
+export function multiplyColVectorRowVector(v0: Complex[], v1: Complex[]): Complex {
+  if (v0.length !== v1.length) {
+    throw new Error("Both vectors don't have the same amount of components");
+  }
+  let scalar = _0;
+  for (let i = 0; i < v0.length; i++) {
+    scalar = scalar.add(v0[i].mul(v1[i]));
+  }
+  return scalar;
 }
 
 function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => Complex): Complex[][] {
