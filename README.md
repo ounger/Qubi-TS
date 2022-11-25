@@ -5,4 +5,5 @@ You can create Qubits and Qubitregisters and apply gates to them to simulate a q
 
 Example: Generate a random number using a Quantum Random Number Generator (QRNG):
 
-const rand: bit = qrng();
+const rand: bit = qrng(); // Returns 0 or 1
+
