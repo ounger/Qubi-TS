@@ -7,6 +7,7 @@ import {
     STATE_ZERO_QUBIT
 } from "../../../main/ch.oliverunger/model/qubit";
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../main/ch.oliverunger/model/complex";
+import {expStatesToBeCloseTo} from "../util/TestUtil";
 
 describe('probabilityOfState', () => {
     it('', () => {
@@ -274,13 +275,5 @@ function expProbabilitiesToBeCloseTo(actual: number[], expected: number[]) {
     expect(actual.length).toEqual(expected.length);
     for (let i = 0; i < actual.length; i++) {
         expect(actual[i]).toBeCloseTo(expected[i], 2);
-    }
-}
-
-function expStatesToBeCloseTo(statesReg0: Complex[], statesReg1: Complex[]) {
-    expect(statesReg0.length).toEqual(statesReg1.length);
-    for (let i = 0; i < statesReg0.length; i++) {
-        expect(statesReg0[i].re).toBeCloseTo(statesReg1[i].re, 2);
-        expect(statesReg0[i].im).toBeCloseTo(statesReg1[i].im, 2);
     }
 }

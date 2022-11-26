@@ -1,4 +1,4 @@
-import {_0, _1, Complex} from "./complex";
+import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./complex";
 import {Qubit} from "./qubit";
 import {tensor} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
@@ -128,3 +128,8 @@ export class QubitRegister {
     }
 
 }
+
+export const BELL_STATE_PHI_PLUS: Complex[] = [ONE_OF_SQRT_TWO, _0, _0, ONE_OF_SQRT_TWO];
+export const BELL_STATE_PHI_MINUS: Complex[] = [ONE_OF_SQRT_TWO, _0, _0, MINUS_ONE_OF_SQRT_TWO];
+export const BELL_STATE_PSI_PLUS: Complex[] = [_0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0];
+export const BELL_STATE_PSI_MINUS: Complex[] = [_0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0];
