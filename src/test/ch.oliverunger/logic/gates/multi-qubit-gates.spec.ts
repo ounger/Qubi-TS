@@ -516,10 +516,3 @@ function createExampleRegister3Qubits(): QubitRegister {
         EX_REG_3Q_S7
     ]);
 }
-
-
-
-
-
-
-
