@@ -1,6 +1,6 @@
 import {QubitRegister} from './qubit-register';
 import {Qubit, STATE_MINUS_QUBIT, STATE_ONE_QUBIT, STATE_PLUS_QUBIT, STATE_ZERO_QUBIT} from "./qubit";
-import {Complex} from "./complex";
+import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "./complex";
 
 describe('probabilityOfState', () => {
     it('', () => {
@@ -172,6 +172,48 @@ describe('measureSingleQubit', () => {
         let measuredStateByProbs = reg.probabilities().findIndex(value => value > 0.99 && value < 1.01);
         let measuredStateByQubitvalues = measuredValue0 * 4 + measuredValue1 * 2 + measuredValue2 * 1;
         expect(measuredStateByProbs).toEqual(measuredStateByQubitvalues);
+
+
+    });
+});
+
+describe('ofStates', () => {
+    it(' ', () => {
+        let states: Complex[] = [];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_1];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_0, _0, _1];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_0, _0, _0, _0, _1];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_0, _0, _0, _0, _0, _1];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_0, _0, _0, _0, _0, _0, _1];
+        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+
+        states = [_0, _0];
+        expect(() => QubitRegister.ofStates(states)).toThrow("Probabilities dont sum up to 1");
+
+        states = [_1, _1];
+        expect(() => QubitRegister.ofStates(states)).toThrow("Probabilities dont sum up to 1");
+
+        states = [_0, _1];
+        expect(QubitRegister.ofStates(states).states).toEqual(states);
+
+        states = [_1, _0];
+        expect(QubitRegister.ofStates(states).states).toEqual(states);
+
+        states = [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO];
+        expect(QubitRegister.ofStates(states).states).toEqual(states);
+
+        states = [Complex.ofRe(0.5), _0, new Complex(0, -0.5), ONE_OF_SQRT_TWO];
+        expect(QubitRegister.ofStates(states).states).toEqual(states);
     });
 });
 

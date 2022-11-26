@@ -59,7 +59,6 @@ export function dot(v0: Complex[], v1: Complex[]): Complex {
 
 /**
  * The length of a vector v is also called its magnitude |v|.
- *
  */
 export function magnitude(v: Vector2c): [plusSolution: Complex, minusSolution: Complex] {
   return v[0].mul(v[0]).add(v[1].mul(v[1])).sqrt();
@@ -82,6 +81,14 @@ export function tensor(...v: Vector2c[]): Complex[] {
   return result;
 }
 
+export function inner() {
+  // TODO
+}
+
+export function outer() {
+  // TODO
+}
+
 export function hadamardProductVectors(v0: Complex[], v1: Complex[]): Complex[] {
   if (v0.length !== v1.length) {
     throw new Error("Both vectors don't have the same amount of components");
@@ -90,7 +97,7 @@ export function hadamardProductVectors(v0: Complex[], v1: Complex[]): Complex[] 
 }
 
 export function hadamardProductMatrices(m0: Complex[][], m1: Complex[][]) {
-  // TODO HadamardProdct for matrices
+  // TODO HadamardProduct for matrices
 }
 
 export function conjugate(matrix: Complex[][]): Complex[][] {

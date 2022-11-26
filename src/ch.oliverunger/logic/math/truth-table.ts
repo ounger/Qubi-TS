@@ -3,7 +3,7 @@ export type bit = 0 | 1;
 /**
  * This function returns an array of all row-indices of a truth table of n variables
  * where the given component by col is 1. <br>
- * Example: abc(n = 2, col = 0) -> (2, 3) <br>
+ * Example: Given n = 2 and col = 0 returns (2, 3) <br>
  * | a | b | <br>
  * | 0 | 0 | <br>
  * | 0 | 1 | <br>

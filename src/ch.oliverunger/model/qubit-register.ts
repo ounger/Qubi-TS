@@ -2,11 +2,33 @@ import {_0, _1, Complex} from "./complex";
 import {Qubit} from "./qubit";
 import {tensor} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
+import {round} from "../logic/math/util";
 
 export class QubitRegister {
 
     private measuredValue: number | null = null;
     private measuredValuesQubits: (bit | null)[];
+
+    static ofQubits(...qubits: Qubit[]): QubitRegister {
+        let reg = new QubitRegister(qubits.length);
+        reg._states = tensor(...qubits.map(q => q.vector()));
+        return reg;
+    }
+
+    static ofStates(states: Complex[]): QubitRegister {
+        let numQubits = Math.log2(states.length);
+        if (states.length < 2 || !Number.isInteger(numQubits)) {
+            throw new Error("Number of states is not a power of 2");
+        }
+        let reg = new QubitRegister(numQubits);
+        for (let state in states) {
+            reg._states[state] = states[state];
+        }
+        if (round(reg.probabilities().reduce((sum, current) => sum + current, 0), 2) !== 1) {
+            throw new Error("Probabilities dont sum up to 1");
+        }
+        return reg;
+    }
 
     /** Creates a register of the given number of qubits and initializes it in state |0...0> */
     constructor(private _numQubits: number) {
@@ -23,12 +45,6 @@ export class QubitRegister {
 
     public get numQubits(): number {
         return this._numQubits!;
-    }
-
-    static ofQubits(...qubits: Qubit[]) {
-        let reg = new QubitRegister(qubits.length);
-        reg._states = tensor(...qubits.map(q => q.vector()));
-        return reg;
     }
 
     /**
