@@ -16,15 +16,19 @@ export class QubitRegister {
     }
 
     static ofStates(states: Complex[]): QubitRegister {
+        if (states.length < 2) {
+            throw new Error("Number of states has to be > 1");
+        }
         let numQubits = Math.log2(states.length);
-        if (states.length < 2 || !Number.isInteger(numQubits)) {
+        if (!Number.isInteger(numQubits)) {
             throw new Error("Number of states is not a power of 2");
         }
         let reg = new QubitRegister(numQubits);
         for (let state in states) {
             reg._states[state] = states[state];
         }
-        if (round(reg.probabilities().reduce((sum, current) => sum + current, 0), 2) !== 1) {
+        let probsSum = reg.probabilities().reduce((sum, current) => sum + current, 0);
+        if (round(probsSum, 2) !== 1) {
             throw new Error("Probabilities dont sum up to 1");
         }
         return reg;

@@ -180,10 +180,10 @@ describe('measureSingleQubit', () => {
 describe('ofStates', () => {
     it(' ', () => {
         let states: Complex[] = [];
-        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+        expect(() => QubitRegister.ofStates(states)).toThrow("Number of states has to be > 1");
 
         states = [_1];
-        expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
+        expect(() => QubitRegister.ofStates(states)).toThrow("Number of states has to be > 1");
 
         states = [_0, _0, _1];
         expect(() => QubitRegister.ofStates(states)).toThrow('Number of states is not a power of 2');
