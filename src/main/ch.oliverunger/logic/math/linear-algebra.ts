@@ -65,11 +65,11 @@ export function magnitude(v: Vector2c): [plusSolution: Complex, minusSolution: C
 }
 
 /**
- * Tensor/Kronecker product
+ * Tensor/Kronecker product of two vectors
  * |ab> = |a> tensor |b> = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)]
  * |abc> = |a> tensor |b> tensor |c> = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
  */
-export function tensor(...v: Vector2c[]): Complex[] {
+export function tensorVectors(...v: Vector2c[]): Complex[] {
   const lengthTensor = Math.pow(2, v.length);
   let result: Complex[] = new Array<Complex>(lengthTensor);
   for (let indexTensor = 0; indexTensor < lengthTensor; indexTensor++) {
@@ -79,6 +79,28 @@ export function tensor(...v: Vector2c[]): Complex[] {
     }
   }
   return result;
+}
+
+/**
+ * Tensor/Kronecker product of two matrices
+ * https://www.quora.com/How-do-I-implement-a-tensor-product-of-two-matrices-in-R?share=1
+ */
+export function tensorMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] {
+  const resultMatrixRows: number = countRows(m0) * countRows(m1);
+  const resultMatrixCols: number = countCols(m0) * countCols(m1);
+  let resultMatrix: Complex[][] = new Array(resultMatrixRows).fill(false).map(() => new Array(resultMatrixCols).fill(false));
+  for (let rowM0 = 0; rowM0 < countRows(m0); rowM0++) {
+    for (let colM0 = 0; colM0 < countCols(m0); colM0++) {
+      for (let rowM1 = 0; rowM1 < countRows(m1); rowM1++) {
+        for (let colM1 = 0; colM1 < countCols(m1); colM1++) {
+          let resultRow = rowM0 * countRows(m1) + rowM1;
+          let resultCol = colM0 * countCols(m1) + colM1;
+          resultMatrix[resultRow][resultCol] = m0[rowM0][colM0].mul(m1[rowM1][colM1]);
+        }
+      }
+    }
+  }
+  return resultMatrix;
 }
 
 export function inner() {

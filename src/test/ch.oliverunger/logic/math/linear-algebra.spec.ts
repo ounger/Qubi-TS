@@ -10,7 +10,8 @@ import {
   multiplyMatrixScalar,
   multiplyMatrixVector,
   multiplyRowVectorColVector,
-  tensor
+  tensorMatrices,
+  tensorVectors
 } from "../../../../main/ch.oliverunger/logic/math/linear-algebra";
 import {
   _0,
@@ -18,8 +19,14 @@ import {
   _10,
   _11,
   _12,
+  _14,
   _15,
+  _18,
   _2,
+  _20,
+  _21,
+  _24,
+  _28,
   _3,
   _4,
   _5,
@@ -162,15 +169,15 @@ describe('-iXYZ = I', () => {
 
 describe('Tensor', () => {
   it('', () => {
-    expect(tensor([_1, _0], [_1, _0])).toEqual([_1, _0, _0, _0]); // |0> tensor |0> -> |00>
-    expect(tensor([_1, _0], [_0, _1])).toEqual([_0, _1, _0, _0]); // |0> tensor |1> -> |01>
-    expect(tensor([_0, _1], [_1, _0])).toEqual([_0, _0, _1, _0]); // |1> tensor |0> -> |10>
-    expect(tensor([_0, _1], [_0, _1])).toEqual([_0, _0, _0, _1]); // |1> tensor |1> -> |11>
-    expect(tensor([_0, i], [_0, _1])).toEqual([_0, _0, _0, i]);
-    expect(tensor([_0, i], [_0, i])).toEqual([_0, _0, _0, MINUS_1]);
-    expect(tensor([_0, _1], [_0, _1], [_0, _1])).toEqual([_0, _0, _0, _0, _0, _0, _0, _1]);
-    expect(tensor([_0, _1], [i, _0], [_0, _1])).toEqual([_0, _0, _0, _0, _0, i, _0, _0]);
-    expect(tensor([_0, _1])).toEqual([_0, _1]);
+    expect(tensorVectors([_1, _0], [_1, _0])).toEqual([_1, _0, _0, _0]); // |0> tensor |0> -> |00>
+    expect(tensorVectors([_1, _0], [_0, _1])).toEqual([_0, _1, _0, _0]); // |0> tensor |1> -> |01>
+    expect(tensorVectors([_0, _1], [_1, _0])).toEqual([_0, _0, _1, _0]); // |1> tensor |0> -> |10>
+    expect(tensorVectors([_0, _1], [_0, _1])).toEqual([_0, _0, _0, _1]); // |1> tensor |1> -> |11>
+    expect(tensorVectors([_0, i], [_0, _1])).toEqual([_0, _0, _0, i]);
+    expect(tensorVectors([_0, i], [_0, i])).toEqual([_0, _0, _0, MINUS_1]);
+    expect(tensorVectors([_0, _1], [_0, _1], [_0, _1])).toEqual([_0, _0, _0, _0, _0, _0, _0, _1]);
+    expect(tensorVectors([_0, _1], [i, _0], [_0, _1])).toEqual([_0, _0, _0, _0, _0, i, _0, _0]);
+    expect(tensorVectors([_0, _1])).toEqual([_0, _1]);
   });
 });
 
@@ -208,6 +215,68 @@ describe('multiplyRowVectorColVector', () => {
       [_4, _2, _2, _6]
     ]);
   });
+});
+
+describe('Tensor product of two matrices', () => {
+
+  test('Example 1', () => {
+    // https://www.quora.com/How-do-I-implement-a-tensor-product-of-two-matrices-in-R?share=1
+    const a: Complex[][] = [
+      [_1, _2],
+      [_3, _4]
+    ];
+    const b: Complex[][] = [
+      [_0, _5],
+      [_6, _7]
+    ];
+    expect(tensorMatrices(a, b)).toEqual([
+      [_0, _5, _0, _10],
+      [_6, _7, _12, _14],
+      [_0, _15, _0, _20],
+      [_18, _21, _24, _28]
+    ]);
+  });
+
+  test('Example 2', () => {
+    const a: Complex[][] = [
+      [_1, _2],
+      [_3, _4]
+    ];
+    const b: Complex[][] = [
+      [_1, _1, _1],
+      [_1, _1, _1],
+      [_1, _1, _2]
+    ];
+    expect(tensorMatrices(a, b)).toEqual([
+      [_1, _1, _1, _2, _2, _2],
+      [_1, _1, _1, _2, _2, _2],
+      [_1, _1, _2, _2, _2, _4],
+      [_3, _3, _3, _4, _4, _4],
+      [_3, _3, _3, _4, _4, _4],
+      [_3, _3, _6, _4, _4, _8]
+    ]);
+  });
+
+  test('Example 3', () => {
+    const a: Complex[][] = [
+      [_1, _1, _1],
+      [_1, _1, _1],
+      [_1, _1, _2]
+    ];
+    const b: Complex[][] = [
+      [_1, _2],
+      [_3, _4]
+    ];
+    expect(tensorMatrices(a, b)).toEqual([
+      [_1, _2, _1, _2, _1, _2],
+      [_3, _4, _3, _4, _3, _4],
+      [_1, _2, _1, _2, _1, _2],
+      [_3, _4, _3, _4, _3, _4],
+      [_1, _2, _1, _2, _2, _4],
+      [_3, _4, _3, _4, _6, _8]
+    ]);
+  });
+
 });
 
 

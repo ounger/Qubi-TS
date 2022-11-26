@@ -97,6 +97,22 @@ export function phase(reg: QubitRegister, q: number, angleDegrees: number) {
     }
 }
 
+export function hadamard(reg: QubitRegister, q: number) {
+    // TODO
+}
+
+export function cz() {
+    // TODO
+}
+
+export function cphase() {
+    // TODO
+}
+
+export function cswap() {
+    // TODO
+}
+
 
 
 

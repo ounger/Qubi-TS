@@ -1,6 +1,6 @@
 import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./complex";
 import {Qubit} from "./qubit";
-import {tensor} from "../logic/math/linear-algebra";
+import {tensorVectors} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
 import {round} from "../logic/math/util";
 
@@ -11,7 +11,7 @@ export class QubitRegister {
 
     static ofQubits(...qubits: Qubit[]): QubitRegister {
         let reg = new QubitRegister(qubits.length);
-        reg._states = tensor(...qubits.map(q => q.vector()));
+        reg._states = tensorVectors(...qubits.map(q => q.vector()));
         return reg;
     }
 
@@ -89,8 +89,11 @@ export class QubitRegister {
             let ttCol = getTruthtableCol(this.numQubits, q);
             for (let state = 0; state < ttCol.length; state++) {
                 if (ttCol[state] === measuredValue) {
+                    // A remaining state must be renormalized (division by the squareroot of the outcome probability)
+                    // so that the probabilities of the remaining states add up to 1.
                     this.states[state] = this.states[state].div(Complex.ofRe(Math.sqrt(probOutcome)));
                 } else {
+                    // Eliminated state
                     this.states[state] = _0;
                 }
             }
