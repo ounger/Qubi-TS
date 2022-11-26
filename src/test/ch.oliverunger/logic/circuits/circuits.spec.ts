@@ -1,5 +1,5 @@
-import {qrng} from './circuits';
-import {bit} from "../math/truth-table";
+import {qrng} from '../../../../main/ch.oliverunger/logic/circuits/circuits';
+import {bit} from "../../../../main/ch.oliverunger/logic/math/truth-table";
 
 describe('QRNG should generate 0s and 1s', () => {
   it('', () => {

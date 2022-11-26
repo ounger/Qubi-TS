@@ -1,6 +1,12 @@
-import {QubitRegister} from './qubit-register';
-import {Qubit, STATE_MINUS_QUBIT, STATE_ONE_QUBIT, STATE_PLUS_QUBIT, STATE_ZERO_QUBIT} from "./qubit";
-import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "./complex";
+import {QubitRegister} from '../../../main/ch.oliverunger/model/qubit-register';
+import {
+    Qubit,
+    STATE_MINUS_QUBIT,
+    STATE_ONE_QUBIT,
+    STATE_PLUS_QUBIT,
+    STATE_ZERO_QUBIT
+} from "../../../main/ch.oliverunger/model/qubit";
+import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../main/ch.oliverunger/model/complex";
 
 describe('probabilityOfState', () => {
     it('', () => {
@@ -67,6 +73,10 @@ describe('Probabilities', () => {
 
         reg = QubitRegister.ofQubits(STATE_MINUS_QUBIT, STATE_MINUS_QUBIT);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.25, 0.25, 0.25, 0.25]);
+
+        let states: Complex[] = [Complex.ofRe(-4 / 10), Complex.ofRe(-4 * Math.sqrt(3) / 10), Complex.ofRe(3 / 10), Complex.ofRe(3 * Math.sqrt(3) / 10)];
+        reg = QubitRegister.ofStates(states);
+        expProbabilitiesToBeCloseTo(reg.probabilities(), [0.16, 0.48, 0.09, 0.27]);
     });
 });
 
@@ -173,6 +183,49 @@ describe('measureSingleQubit', () => {
         let measuredStateByQubitvalues = measuredValue0 * 4 + measuredValue1 * 2 + measuredValue2 * 1;
         expect(measuredStateByProbs).toEqual(measuredStateByQubitvalues);
 
+        let states = [Complex.ofRe(0.5), _0, new Complex(0, -0.5), ONE_OF_SQRT_TWO];
+        reg = QubitRegister.ofStates(states);
+        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.75, 2);
+        measuredValue0 = reg.measureSingleQubit(0);
+        if (measuredValue0 === 1) {
+            expStatesToBeCloseTo(reg.states, [_0, _0, Complex.ofIm(-1 / Math.sqrt(3)), Complex.ofRe(Math.sqrt(2) / Math.sqrt(3))]);
+        } else {
+            expStatesToBeCloseTo(reg.states, [_1, _0, _0, _0]);
+        }
+
+        states = [Complex.ofRe(0.5), _0, new Complex(0, -0.5), ONE_OF_SQRT_TWO];
+        reg = QubitRegister.ofStates(states);
+        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.5);
+        measuredValue1 = reg.measureSingleQubit(1);
+        if (measuredValue1 === 1) {
+            expStatesToBeCloseTo(reg.states, [_0, _0, _0, _1]);
+        } else {
+            expStatesToBeCloseTo(reg.states, [Complex.ofRe(Math.sqrt(2) / 2), _0, Complex.ofIm(-Math.sqrt(2) / 2), _0]);
+        }
+
+        states = [
+            Complex.ofRe(1 / Math.sqrt(5)), _0, _0, _0,
+            Complex.ofRe(-Math.sqrt(2 / 5)), _0, Complex.ofRe(1 / Math.sqrt(5)), _0,
+            _0, _0, _0, _0,
+            _0, _0, _0, Complex.ofRe(1 / Math.sqrt(5))]
+        reg = QubitRegister.ofStates(states);
+        expect(1 - reg.probabilityOfQubit(0)).toBeCloseTo(0.8);
+        expect(1 - reg.probabilityOfQubit(3)).toBeCloseTo(0.8);
+        measuredValue0 = reg.measureSingleQubit(0);
+        let measuredValue3 = reg.measureSingleQubit(3);
+        if (measuredValue0 === 0 && measuredValue3 === 0) {
+            expStatesToBeCloseTo(reg.states, [
+                Complex.ofRe(1 / 2), _0, _0, _0,
+                Complex.ofRe(-1 / Math.sqrt(2)), _0, Complex.ofRe(1 / 2), _0,
+                _0, _0, _0, _0,
+                _0, _0, _0, _0]);
+        } else {
+            expStatesToBeCloseTo(reg.states, [
+                _0, _0, _0, _0,
+                _0, _0, _0, _0,
+                _0, _0, _0, _0,
+                _0, _0, _0, _1]);
+        }
 
     });
 });
@@ -221,5 +274,13 @@ function expProbabilitiesToBeCloseTo(actual: number[], expected: number[]) {
     expect(actual.length).toEqual(expected.length);
     for (let i = 0; i < actual.length; i++) {
         expect(actual[i]).toBeCloseTo(expected[i], 2);
+    }
+}
+
+function expStatesToBeCloseTo(statesReg0: Complex[], statesReg1: Complex[]) {
+    expect(statesReg0.length).toEqual(statesReg1.length);
+    for (let i = 0; i < statesReg0.length; i++) {
+        expect(statesReg0[i].re).toBeCloseTo(statesReg1[i].re, 2);
+        expect(statesReg0[i].im).toBeCloseTo(statesReg1[i].im, 2);
     }
 }

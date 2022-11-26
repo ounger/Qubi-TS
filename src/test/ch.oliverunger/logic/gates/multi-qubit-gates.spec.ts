@@ -1,5 +1,19 @@
-import {STATE_MINUS_QUBIT, STATE_ONE_QUBIT, STATE_PLUS_QUBIT, STATE_ZERO_QUBIT} from "../../model/qubit";
-import {ccx, cx, phase, phaseS, phaseT, phaseZ, swap, x} from "./multi-qubit-gates";
+import {
+    STATE_MINUS_QUBIT,
+    STATE_ONE_QUBIT,
+    STATE_PLUS_QUBIT,
+    STATE_ZERO_QUBIT
+} from "../../../../main/ch.oliverunger/model/qubit";
+import {
+    ccx,
+    cx,
+    phase,
+    phaseS,
+    phaseT,
+    phaseZ,
+    swap,
+    x
+} from "../../../../main/ch.oliverunger/logic/gates/multi-qubit-gates";
 import {
     _0,
     _1,
@@ -36,9 +50,9 @@ import {
     Complex,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from "../../model/complex";
-import {QubitRegister} from "../../model/qubit-register";
-import {expOfiTimesAngleDegrees} from "../math/util";
+} from "../../../../main/ch.oliverunger/model/complex";
+import {QubitRegister} from "../../../../main/ch.oliverunger/model/qubit-register";
+import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/util";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);

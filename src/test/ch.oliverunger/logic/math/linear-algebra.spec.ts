@@ -11,7 +11,7 @@ import {
   multiplyMatrixVector,
   multiplyRowVectorColVector,
   tensor
-} from "./linear-algebra";
+} from "../../../../main/ch.oliverunger/logic/math/linear-algebra";
 import {
   _0,
   _1,
@@ -31,8 +31,13 @@ import {
   i,
   MINUS_1,
   MINUS_i
-} from "../../model/complex";
-import {IDENTITY_MATRIX, PAULI_X_MATRIX, PAULI_Y_MATRIX, PAULI_Z_MATRIX} from "../gates/single-qubit-gates";
+} from "../../../../main/ch.oliverunger/model/complex";
+import {
+  IDENTITY_MATRIX,
+  PAULI_X_MATRIX,
+  PAULI_Y_MATRIX,
+  PAULI_Z_MATRIX
+} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 
 const matrix = [
   [_3, _2, _1],

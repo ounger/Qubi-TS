@@ -1,6 +1,16 @@
 // noinspection DuplicatedCode
 
-import {had, identity, phase, phaseS, phaseT, phaseZ, x, y, z} from './single-qubit-gates';
+import {
+  had,
+  identity,
+  phase,
+  phaseS,
+  phaseT,
+  phaseZ,
+  x,
+  y,
+  z
+} from '../../../../main/ch.oliverunger/logic/gates/single-qubit-gates';
 import {
   Qubit,
   STATE_L_QUBIT,
@@ -9,7 +19,7 @@ import {
   STATE_PLUS_QUBIT,
   STATE_R_QUBIT,
   STATE_ZERO_QUBIT
-} from "../../model/qubit";
+} from "../../../../main/ch.oliverunger/model/qubit";
 import {
   _0,
   _1,
@@ -22,8 +32,8 @@ import {
   MINUS_i_OF_SQRT_TWO,
   MINUS_ONE_OF_SQRT_TWO,
   ONE_OF_SQRT_TWO
-} from "../../model/complex";
-import {round} from "../math/util";
+} from "../../../../main/ch.oliverunger/model/complex";
+import {round} from "../../../../main/ch.oliverunger/logic/math/util";
 
 // TODO Gehoeren alle Tests in in it()?
 

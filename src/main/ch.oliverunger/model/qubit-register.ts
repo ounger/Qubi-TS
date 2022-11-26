@@ -56,8 +56,9 @@ export class QubitRegister {
      */
     probabilityOfQubit(q: number): number {
         let probsSum = 0;
-        for (let i of getAllRowsWith1InCol(this.numQubits, q)) {
-            probsSum += this.probabilityOfState(i);
+        let rows = getAllRowsWith1InCol(this.numQubits, q);
+        for (let row of rows) {
+            probsSum += this.probabilityOfState(row);
         }
         return probsSum;
     }
@@ -75,6 +76,7 @@ export class QubitRegister {
     }
 
     measureSingleQubit(q: number): bit {
+        // https://andisama.medium.com/qubit-an-intuition-3-quantum-measurement-full-and-partial-qubits-969340a6fb3
         // https://learn.microsoft.com/en-us/azure/quantum/concepts-multiple-qubits
         if (this.measuredValuesQubits[q] === null) {  // Don't use !this.measuredValue here, because of 0 = false (Falsy value of type number)
             // Randomized measuring of the qubit

@@ -1,4 +1,4 @@
-import {degsToRads, radsToDegs, round} from './util';
+import {degsToRads, radsToDegs, round} from '../../../../main/ch.oliverunger/logic/math/util';
 
 describe('Rounding', () => {
   it('', () => {

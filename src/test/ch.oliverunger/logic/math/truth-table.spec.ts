@@ -1,4 +1,8 @@
-import {getAllRowsWith1InCol, getTruthtableCol, getTruthtableValueAt} from "./truth-table";
+import {
+  getAllRowsWith1InCol,
+  getTruthtableCol,
+  getTruthtableValueAt
+} from "../../../../main/ch.oliverunger/logic/math/truth-table";
 
 describe('calcRowsOfTruthtable1InCol', () => {
   it('', () => {
