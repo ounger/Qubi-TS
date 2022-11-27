@@ -1,50 +1,37 @@
 import {QubitsRegister} from "../../model/qubits-register";
-import {bit, getAllRowsWith1InCol, getTruthtable1sCol, getTruthtableCol} from "../math/truth-table";
+import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
 import {Complex} from "../../model/math/complex";
 
 // TODO Controlled Gates but c shall be 0
 
-export function x(reg: QubitsRegister, q: number) {
-    ccx(reg, -1, -1, q);
+export function x(reg: QubitsRegister, targetQubit: number) {
+    mct(reg, [], targetQubit);
 }
 
 /**
  * The Controlled Pauli-X gate (CNOT, CX) is a multi-qubit operation, where one qubit acts as a control and one qubit acts as a target qubit.
- * It performs a NOT operation on the target qubit only when the first qubit is |1>.
+ * It performs a NOT operation on the target qubit only when the control qubit is in ket(1).
  */
-export function cx(reg: QubitsRegister, c: number, t: number) {
-    ccx(reg, c, -1, t);
+export function cx(reg: QubitsRegister, controlQubit: number, targetQubit: number) {
+    mct(reg, [controlQubit], targetQubit);
 }
 
 /**
- * Toffoli gate (CCNOT, CCX)
+ * The Toffoli gate (CCNOT, CCX) acts like {@link cx}, but with two control qubits.
  */
-export function ccx(reg: QubitsRegister, c0: number, c1: number, t: number) {
-    const numQubits = reg.numQubits;
-    const numStates = reg.states.length;
-    let ttColC0 = c0 >= 0 ? getTruthtableCol(numQubits, c0) : getTruthtable1sCol(numQubits); // Code reduction/duplication: Delegation x or cx -> ccx
-    let ttColC1 = c1 >= 0 && c1 !== c0 ? getTruthtableCol(numQubits, c1) : ttColC0; // Code reduction/duplication: Delegation x or cx -> ccx
-    let changedSwapPartnerStatesIndices = new Array<number>();
-    for (let i = 0; i < numStates; i++) {
-        if (ttColC0[i] === 1 && ttColC1[i] === 1 && !changedSwapPartnerStatesIndices.includes(i)) {
-            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - t);
-            swapStates(reg, i, swapPartnerStateIndex);
-            changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
-        }
-    }
+export function ccx(reg: QubitsRegister, firstControlQubit: number, secondControlQubit: number, targetQubit: number) {
+    mct(reg, [firstControlQubit, secondControlQubit], targetQubit);
 }
 
 /**
- * Multi-Control Toffoli (MCT) gate
+ * The Multi-Control Toffoli (MCT) acts like {@link cx}, but with an arbitrary number of control qubits.
  */
 export function mct(reg: QubitsRegister, controlQubits: number[], targetQubit: number) {
     const numQubits = reg.numQubits;
     const numStates = reg.states.length;
-    let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).map((_, index) => {
-        return controlQubits[index] >= 0
-            ? getTruthtableCol(numQubits, controlQubits[index])
-            : getTruthtable1sCol(numQubits);
+    let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).fill([]).map((_, index) => {
+        return getTruthtableCol(numQubits, controlQubits[index]);
     });
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let i = 0; i < numStates; i++) {
