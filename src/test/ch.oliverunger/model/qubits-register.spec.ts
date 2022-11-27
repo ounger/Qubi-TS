@@ -14,13 +14,13 @@ describe('probabilityOfState', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         let probs = reg.probabilities();
         for (let i = 0; i < reg.states.length; i++) {
-            expect(reg.probabilityOfState(i)).toEqual(probs[i]);
+            expect(reg.probabilityOfStateAtIndex(i)).toEqual(probs[i]);
         }
 
         reg = QubitsRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_PLUS);
         probs = reg.probabilities();
         for (let i = 0; i < reg.states.length; i++) {
-            expect(reg.probabilityOfState(i)).toEqual(probs[i]);
+            expect(reg.probabilityOfStateAtIndex(i)).toEqual(probs[i]);
         }
     });
 });

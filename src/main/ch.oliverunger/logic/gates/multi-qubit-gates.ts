@@ -1,5 +1,5 @@
 import {QubitsRegister} from "../../model/qubits-register";
-import {getAllRowsWith1InCol, getTruthtable1sCol, getTruthtableCol} from "../math/truth-table";
+import {bit, getAllRowsWith1InCol, getTruthtable1sCol, getTruthtableCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
 import {Complex} from "../../model/math/complex";
 
@@ -38,8 +38,22 @@ export function ccx(reg: QubitsRegister, c0: number, c1: number, t: number) {
 /**
  * Multi-Control Toffoli (MCT) gate
  */
-export function mct(controlQubits: number[], targetQubit: number) {
-    // TODO
+export function mct(reg: QubitsRegister, controlQubits: number[], targetQubit: number) {
+    const numQubits = reg.numQubits;
+    const numStates = reg.states.length;
+    let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).map((_, index) => {
+        return controlQubits[index] >= 0
+            ? getTruthtableCol(numQubits, controlQubits[index])
+            : getTruthtable1sCol(numQubits);
+    });
+    let changedSwapPartnerStatesIndices = new Array<number>();
+    for (let i = 0; i < numStates; i++) {
+        if (!changedSwapPartnerStatesIndices.includes(i) && ttCols.every(ttCol => ttCol[i] === 1)) {
+            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - targetQubit);
+            swapStates(reg, i, swapPartnerStateIndex);
+            changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
+        }
+    }
 }
 
 function swapStates(reg: QubitsRegister, oneStateIndex: number, anotherStateIndex: number) {

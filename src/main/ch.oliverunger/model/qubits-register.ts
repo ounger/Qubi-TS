@@ -51,19 +51,20 @@ export class QubitsRegister {
     }
 
     /**
-     * Returns the probability of the given qubit
+     * Returns the probability of measuring 1 for a qubit in the register.
      */
     probabilityOfQubit(q: number): number {
         let probsSum = 0;
         let rows = getAllRowsWith1InCol(this.numQubits, q);
         for (let row of rows) {
-            probsSum += this.probabilityOfState(row);
+            probsSum += this.probabilityOfStateAtIndex(row);
         }
         return probsSum;
     }
 
-    probabilityOfState(s: number): number {
-        return this.states[s].re * this.states[s].re + this.states[s].im * this.states[s].im;
+    probabilityOfStateAtIndex(index: number): number {
+        return this.states[index].re * this.states[index].re
+            + this.states[index].im * this.states[index].im;
     }
 
     /**
