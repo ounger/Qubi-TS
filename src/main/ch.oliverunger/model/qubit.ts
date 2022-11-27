@@ -1,6 +1,7 @@
 import {Complex} from "./math/complex";
 import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from "./qubit-state";
 import {bit} from "../logic/math/truth-table";
+import {inner} from "../logic/math/linear-algebra";
 
 export class Qubit {
 
@@ -44,6 +45,20 @@ export class Qubit {
     }
 
     /**
+     * Returns the probability that the qubit is measured in the given state. <br>
+     * The probability of measuring the state ket(b) to be ket(a) is <br>
+     * |bra(a)ket(b)|^2. <br>
+     * Examples:
+     * <li> bra(0)ket(1) = 0
+     * <li> bra(0)ket(0) = 1
+     * <li> bra(0)ket(+) = 0.5
+     * <li> bra(1)ket(+) = 0.5
+     */
+    probabilityOfState(state: QubitState): number {
+        return Math.pow(inner(state, this.state()).abs(), 2);
+    }
+
+    /**
      * Simulating a measurement
      */
     measure(): bit {
@@ -56,7 +71,8 @@ export class Qubit {
     }
 
     equals(that: Qubit) {
-        return this.basisStateZero.equals(that.basisStateZero) && this.basisStateOne.equals(this.basisStateOne);
+        return this.basisStateZero.equals(that.basisStateZero)
+            && this.basisStateOne.equals(that.basisStateOne);
     }
 
     private isValid(): boolean {

@@ -8,6 +8,7 @@ export class QubitsRegister {
 
     private measuredValue: number | null = null;
     private measuredValuesQubits: (bit | null)[];
+    private _states: Complex[];
 
     static ofQubits(...qubits: Qubit[]): QubitsRegister {
         let reg = new QubitsRegister(qubits.length);
@@ -40,8 +41,6 @@ export class QubitsRegister {
         this._states[0] = _1;
         this.measuredValuesQubits = new Array<bit | null>(_numQubits).fill(null);
     }
-
-    private _states: Complex[];
 
     public get states(): Complex[] {
         return this._states;

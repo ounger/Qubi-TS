@@ -10,7 +10,7 @@ import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../main/ch.oliverunger/mod
 import {expStatesToBeCloseTo} from "../util/TestUtil";
 
 describe('probabilityOfState', () => {
-    it('', () => {
+    test('', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         let probs = reg.probabilities();
         for (let i = 0; i < reg.states.length; i++) {
@@ -26,31 +26,31 @@ describe('probabilityOfState', () => {
 });
 
 describe('probabilityOfQubit', () => {
-    it('', () => {
+    test('', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
-        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.5, 2);
-        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.5, 2);
+        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.5, 5);
+        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.5, 5);
 
         reg = QubitsRegister.ofQubits(
             Qubit.of(Complex.ofRe(Math.sqrt(0.3)), Complex.ofRe(Math.sqrt(0.7))),
             Qubit.of(Complex.ofRe(Math.sqrt(0.2)), Complex.ofRe(Math.sqrt(0.8))));
         reg.probabilities();
-        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.7, 2);
-        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.8, 2);
+        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.7, 5);
+        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.8, 5);
 
         reg = QubitsRegister.ofQubits(
             Qubit.of(Complex.ofRe(Math.sqrt(0.1)), Complex.ofRe(Math.sqrt(0.9))),
             Qubit.of(Complex.ofRe(Math.sqrt(0.3)), Complex.ofRe(Math.sqrt(0.7))),
             Qubit.of(Complex.ofRe(Math.sqrt(0.2)), Complex.ofRe(Math.sqrt(0.8))));
         reg.probabilities();
-        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.9, 2);
-        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.7, 2);
-        expect(reg.probabilityOfQubit(2)).toBeCloseTo(0.8, 2);
+        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.9, 5);
+        expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.7, 5);
+        expect(reg.probabilityOfQubit(2)).toBeCloseTo(0.8, 5);
     });
 });
 
 describe('Probabilities', () => {
-    it('', () => {
+    test('', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_ZERO);
         expect(reg.probabilities()).toEqual([1, 0]);
 
@@ -82,7 +82,7 @@ describe('Probabilities', () => {
 });
 
 describe('Measuring multiple times always returns the same result', () => {
-    it('', () => {
+    test('', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         const result = reg.measure();
         for (let i = 0; i < 10; i++) {
@@ -92,7 +92,7 @@ describe('Measuring multiple times always returns the same result', () => {
 });
 
 describe('Measure', () => {
-    it('', () => {
+    test('', () => {
         let reg = QubitsRegister.ofQubits(QUBIT_STATE_ZERO);
         expect(reg.measure()).toEqual(0);
 
@@ -139,7 +139,7 @@ describe('Measure', () => {
 });
 
 describe('measureSingleQubit', () => {
-    it('', () => {
+    test('', () => {
         for (let i = 0; i < 10; i++) {
             let reg = QubitsRegister.ofQubits(QUBIT_STATE_ZERO);
             let measuredValue = reg.measureSingleQubit(0);
@@ -186,7 +186,7 @@ describe('measureSingleQubit', () => {
 
         let states = [Complex.ofRe(0.5), _0, new Complex(0, -0.5), ONE_OF_SQRT_TWO];
         reg = QubitsRegister.ofStates(states);
-        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.75, 2);
+        expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.75, 5);
         measuredValue0 = reg.measureSingleQubit(0);
         if (measuredValue0 === 1) {
             expStatesToBeCloseTo(reg.states, [_0, _0, Complex.ofIm(-1 / Math.sqrt(3)), Complex.ofRe(Math.sqrt(2) / Math.sqrt(3))]);
@@ -232,7 +232,7 @@ describe('measureSingleQubit', () => {
 });
 
 describe('ofStates', () => {
-    it(' ', () => {
+    test(' ', () => {
         let states: Complex[] = [];
         expect(() => QubitsRegister.ofStates(states)).toThrow("Number of states has to be > 1");
 
@@ -274,6 +274,6 @@ describe('ofStates', () => {
 function expProbabilitiesToBeCloseTo(actual: number[], expected: number[]) {
     expect(actual.length).toEqual(expected.length);
     for (let i = 0; i < actual.length; i++) {
-        expect(actual[i]).toBeCloseTo(expected[i], 2);
+        expect(actual[i]).toBeCloseTo(expected[i], 5);
     }
 }

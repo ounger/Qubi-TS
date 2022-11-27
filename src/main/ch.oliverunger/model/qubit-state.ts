@@ -11,7 +11,7 @@ import {
 
 export type QubitState = [basisStateZero: Complex, basisStateOne: Complex];
 
-// The two orthogonal z-basis states
+// The two orthogonal z-basis states (also called computational basis states)
 export const STATE_ZERO: QubitState = [_1, _0];
 export const STATE_ONE: QubitState = [_0, _1];
 
