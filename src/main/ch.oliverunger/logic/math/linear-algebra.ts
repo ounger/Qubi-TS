@@ -65,8 +65,8 @@ export function magnitude(v: QubitState): [plusSolution: Complex, minusSolution:
 }
 
 /**
- * Tensor/Kronecker product of two vectors
- * ket(ab) = ket(a) tensor ket(b) = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)]
+ * Returns the Tensor/Kronecker product of two vectors <br>
+ * ket(ab) = ket(a) tensor ket(b) = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)] <br>
  * ket(abc) = ket(a) tensor ket(b) tensor ket(c) = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
  */
 export function tensorVectors(...v: QubitState[]): Complex[] {
@@ -82,7 +82,7 @@ export function tensorVectors(...v: QubitState[]): Complex[] {
 }
 
 /**
- * Tensor/Kronecker product of two matrices
+ * Returns the Tensor/Kronecker product of two matrices <br>
  * https://www.quora.com/How-do-I-implement-a-tensor-product-of-two-matrices-in-R?share=1
  */
 export function tensorMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] {
