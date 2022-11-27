@@ -10,7 +10,7 @@ import {
     MINUS_i,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from "../../model/complex";
+} from "../../model/math/complex";
 import {expOfiTimesAngleDegrees} from "../math/util";
 
 export const IDENTITY_MATRIX: Complex[][] = [

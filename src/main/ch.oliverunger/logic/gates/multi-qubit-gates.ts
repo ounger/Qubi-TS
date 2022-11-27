@@ -1,9 +1,9 @@
-import {QubitRegister} from "../../model/qubit-register";
+import {QubitsRegister} from "../../model/qubits-register";
 import {getAllRowsWith1InCol, getTruthtable1sCol, getTruthtableCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
-import {Complex} from "../../model/complex";
+import {Complex} from "../../model/math/complex";
 
-export function x(reg: QubitRegister, q: number) {
+export function x(reg: QubitsRegister, q: number) {
     ccx(reg, -1, -1, q);
 }
 
@@ -11,14 +11,14 @@ export function x(reg: QubitRegister, q: number) {
  * The Controlled Pauli-X gate (CNOT, CX) is a multi-qubit operation, where one qubit acts as a control and one qubit acts as a target qubit.
  * It performs a NOT operation on the target qubit only when the first qubit is |1>.
  */
-export function cx(reg: QubitRegister, c: number, t: number) {
+export function cx(reg: QubitsRegister, c: number, t: number) {
     ccx(reg, c, -1, t);
 }
 
 /**
  * Toffoli gate (CCNOT, CCX)
  */
-export function ccx(reg: QubitRegister, c0: number, c1: number, t: number) {
+export function ccx(reg: QubitsRegister, c0: number, c1: number, t: number) {
     const numQubits = reg.numQubits;
     const numStates = reg.states.length;
     let ttColC0 = c0 >= 0 ? getTruthtableCol(numQubits, c0) : getTruthtable1sCol(numQubits); // Code reduction/duplication: Delegation x or cx -> ccx
@@ -40,13 +40,13 @@ export function mct(controlQubits: number[], targetQubit: number) {
     // TODO
 }
 
-function swapStates(reg: QubitRegister, oneStateIndex: number, anotherStateIndex: number) {
+function swapStates(reg: QubitsRegister, oneStateIndex: number, anotherStateIndex: number) {
     let iState = reg.states[oneStateIndex];
     reg.states[oneStateIndex] = reg.states[anotherStateIndex];
     reg.states[anotherStateIndex] = iState;
 }
 
-export function swap(reg: QubitRegister, q0: number, q1: number) {
+export function swap(reg: QubitsRegister, q0: number, q1: number) {
     // Swap q0 and q1 if q0 > q1
     let temp = q0;
     q0 = Math.min(q0, q1);
@@ -71,25 +71,25 @@ export function swap(reg: QubitRegister, q0: number, q1: number) {
 /**
  * Phase shift by Math.PI / 4 (45°)
  */
-export function phaseT(reg: QubitRegister, q: number) {
+export function phaseT(reg: QubitsRegister, q: number) {
     phase(reg, q, 45);
 }
 
 /**
  * Phase shift by Math.PI / 2 (90°)
  */
-export function phaseS(reg: QubitRegister, q: number) {
+export function phaseS(reg: QubitsRegister, q: number) {
     phase(reg, q, 90);
 }
 
 /**
  * Phase shift by Math.PI (180°)
  */
-export function phaseZ(reg: QubitRegister, q: number) {
+export function phaseZ(reg: QubitsRegister, q: number) {
     phase(reg, q, 180);
 }
 
-export function phase(reg: QubitRegister, q: number, angleDegrees: number) {
+export function phase(reg: QubitsRegister, q: number, angleDegrees: number) {
     const phi = degsToRads(angleDegrees);
     const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
     for (let i of getAllRowsWith1InCol(reg.numQubits, q)) {
@@ -97,7 +97,7 @@ export function phase(reg: QubitRegister, q: number, angleDegrees: number) {
     }
 }
 
-export function hadamard(reg: QubitRegister, q: number) {
+export function hadamard(reg: QubitsRegister, q: number) {
     // TODO
 }
 

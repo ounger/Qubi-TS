@@ -7,7 +7,7 @@ import {
     MINUS_i_OF_SQRT_TWO,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from "./complex";
+} from "./math/complex";
 
 export type QubitState = [basisStateZero: Complex, basisStateOne: Complex];
 

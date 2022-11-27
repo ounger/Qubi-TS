@@ -32,7 +32,7 @@ import {
   MINUS_i_OF_SQRT_TWO,
   MINUS_ONE_OF_SQRT_TWO,
   ONE_OF_SQRT_TWO
-} from "../../../../main/ch.oliverunger/model/complex";
+} from "../../../../main/ch.oliverunger/model/math/complex";
 import {round} from "../../../../main/ch.oliverunger/logic/math/util";
 import {expQubitsToBeCloseTo} from "../../util/TestUtil";
 import {STATE_MINUS_ONE, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";

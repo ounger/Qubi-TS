@@ -38,7 +38,7 @@ import {
   i,
   MINUS_1,
   MINUS_i
-} from "../../../../main/ch.oliverunger/model/complex";
+} from "../../../../main/ch.oliverunger/model/math/complex";
 import {
   IDENTITY_MATRIX,
   PAULI_X_MATRIX,

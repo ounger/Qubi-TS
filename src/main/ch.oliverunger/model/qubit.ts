@@ -1,4 +1,4 @@
-import {Complex} from "./complex";
+import {Complex} from "./math/complex";
 import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from "./qubit-state";
 import {bit} from "../logic/math/truth-table";
 

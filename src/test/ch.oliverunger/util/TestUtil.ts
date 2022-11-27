@@ -1,4 +1,4 @@
-import {Complex} from "../../../main/ch.oliverunger/model/complex";
+import {Complex} from "../../../main/ch.oliverunger/model/math/complex";
 import {Qubit} from "../../../main/ch.oliverunger/model/qubit";
 
 export function expStatesToBeCloseTo(statesReg0: Complex[], statesReg1: Complex[]) {

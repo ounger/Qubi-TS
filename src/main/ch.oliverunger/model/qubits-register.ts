@@ -1,21 +1,21 @@
-import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./complex";
+import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./math/complex";
 import {Qubit} from "./qubit";
 import {tensorVectors} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
 import {round} from "../logic/math/util";
 
-export class QubitRegister {
+export class QubitsRegister {
 
     private measuredValue: number | null = null;
     private measuredValuesQubits: (bit | null)[];
 
-    static ofQubits(...qubits: Qubit[]): QubitRegister {
-        let reg = new QubitRegister(qubits.length);
+    static ofQubits(...qubits: Qubit[]): QubitsRegister {
+        let reg = new QubitsRegister(qubits.length);
         reg._states = tensorVectors(...qubits.map(q => q.state()));
         return reg;
     }
 
-    static ofStates(states: Complex[]): QubitRegister {
+    static ofStates(states: Complex[]): QubitsRegister {
         if (states.length < 2) {
             throw new Error("Number of states has to be > 1");
         }
@@ -23,7 +23,7 @@ export class QubitRegister {
         if (!Number.isInteger(numQubits)) {
             throw new Error("Number of states is not a power of 2");
         }
-        let reg = new QubitRegister(numQubits);
+        let reg = new QubitsRegister(numQubits);
         for (let state in states) {
             reg._states[state] = states[state];
         }

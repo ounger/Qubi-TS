@@ -1,4 +1,4 @@
-import {Complex} from "../../model/complex";
+import {Complex} from "../../model/math/complex";
 
 export function round(num: number, fractionDigits: number): number {
     return Number(num.toFixed(fractionDigits));

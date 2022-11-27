@@ -1,4 +1,4 @@
-import {Complex} from '../../../main/ch.oliverunger/model/complex';
+import {Complex} from '../../../../main/ch.oliverunger/model/math/complex';
 
 const a = new Complex(5, 6);
 const b = new Complex(-3, 4);

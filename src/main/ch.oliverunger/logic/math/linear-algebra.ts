@@ -1,4 +1,4 @@
-import {_0, Complex} from "../../model/complex";
+import {_0, Complex} from "../../model/math/complex";
 import {QubitState} from "../../model/qubit-state";
 import {getTruthtableValueAt} from "./truth-table";
 
