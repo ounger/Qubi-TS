@@ -103,12 +103,50 @@ export function tensorMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] {
   return resultMatrix;
 }
 
-export function inner() {
-  // TODO
+/**
+ * Returns the inner product bra(a)ket(b) of two state vectors a and b. <br>
+ * It implies that the probability of measuring the state ket(b) to be ket(a) is <br>
+ * |bra(a)ket(b)|^2. <br>
+ * <br>
+ * Example: <br>
+ * [1 2 1] * <br>
+ * | 2 | <br>
+ * | 6 | <br>
+ * | 1 | <br>
+ * = <br>
+ * 15
+ */
+export function inner(rowVector: Complex[], colVector: Complex[]): Complex {
+    if (rowVector.length !== colVector.length) {
+        throw new Error("Both vectors don't have the same amount of components");
+    }
+    let scalar = _0;
+    for (let i = 0; i < rowVector.length; i++) {
+        scalar = scalar.add(rowVector[i].mul(colVector[i]));
+    }
+    return scalar;
 }
 
-export function outer() {
-  // TODO
+/**
+ * Returns the outer product ket(a)bra(b) of two state vectors a and b. <br>
+ * <br>
+ * Example: <br>
+ * | 1 | <br>
+ * | 0 | * [2 1 1] <br>
+ * | 2 | <br>
+ * = <br>
+ * | 2 1 1 | <br>
+ * | 0 0 0 | <br>
+ * | 4 2 2 | <br>
+ */
+export function outer(colVector: Complex[], rowVector: Complex[]): Complex[][] {
+    let matrixResult: Complex[][] = new Array(colVector.length).fill(false).map(() => new Array(rowVector.length).fill(false));
+    for (let row = 0; row < colVector.length; row++) {
+        for (let col = 0; col < rowVector.length; col++) {
+            matrixResult[row][col] = colVector[row].mul(rowVector[col]);
+        }
+    }
+    return matrixResult;
 }
 
 export function hadamardProductVectors(v0: Complex[], v1: Complex[]): Complex[] {
@@ -128,46 +166,6 @@ export function conjugate(matrix: Complex[][]): Complex[][] {
 
 export function multiplyMatrixScalar(matrix: Complex[][], scalar: Complex): Complex[][] {
   return forEachMatrixElement(matrix, (c) => c.mul(scalar));
-}
-
-/**
- * Example: <br>
- * | 1 | <br>
- * | 0 | * [2 1 1] <br>
- * | 2 | <br>
- * = <br>
- * | 2 1 1 | <br>
- * | 0 0 0 | <br>
- * | 4 2 2 | <br>
- */
-export function multiplyRowVectorColVector(v0: Complex[], v1: Complex[]): Complex[][] {
-  let matrixResult: Complex[][] = new Array(v0.length).fill(false).map(() => new Array(v1.length).fill(false));
-  for (let row = 0; row < v0.length; row++) {
-    for (let col = 0; col < v1.length; col++) {
-      matrixResult[row][col] = v0[row].mul(v1[col]);
-    }
-  }
-  return matrixResult;
-}
-
-/**
- * Example: <br>
- * [1 2 1] * <br>
- * | 2 | <br>
- * | 6 | <br>
- * | 1 | <br>
- * = <br>
- * 15
- */
-export function multiplyColVectorRowVector(v0: Complex[], v1: Complex[]): Complex {
-  if (v0.length !== v1.length) {
-    throw new Error("Both vectors don't have the same amount of components");
-  }
-  let scalar = _0;
-  for (let i = 0; i < v0.length; i++) {
-    scalar = scalar.add(v0[i].mul(v1[i]));
-  }
-  return scalar;
 }
 
 function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => Complex): Complex[][] {

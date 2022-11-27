@@ -6,6 +6,9 @@ export class Qubit {
 
     private measuredValue: bit | null = null;
 
+    /**
+     * Creates a Qubit with the given computational basis states.
+     */
     constructor(private _basisStateZero: Complex, private _basisStateOne: Complex) {
         if (!this.isValid()) {
             throw new Error("Invalid qubit state initalization. Probabilities of states have to sum up to 1.");

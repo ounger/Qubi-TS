@@ -14,11 +14,16 @@ import {
     swap,
     x
 } from "../../../../main/ch.oliverunger/logic/gates/multi-qubit-gates";
-import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "../../../../main/ch.oliverunger/model/math/complex";
+import {
+    _0,
+    _1,
+    Complex,
+    MINUS_ONE_OF_SQRT_TWO,
+    ONE_OF_SQRT_TWO
+} from "../../../../main/ch.oliverunger/model/math/complex";
 import {
     BELL_STATE_PHI_PLUS,
-    BELL_STATE_PSI_PLUS,
-    QubitsRegister
+    BELL_STATE_PSI_PLUS, QubitsRegister
 } from "../../../../main/ch.oliverunger/model/qubits-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/util";
 import {expStatesToBeCloseTo} from "../../util/TestUtil";

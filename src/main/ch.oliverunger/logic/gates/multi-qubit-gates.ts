@@ -3,6 +3,8 @@ import {getAllRowsWith1InCol, getTruthtable1sCol, getTruthtableCol} from "../mat
 import {degsToRads} from "../math/util";
 import {Complex} from "../../model/math/complex";
 
+// TODO Controlled Gates but c shall be 0
+
 export function x(reg: QubitsRegister, q: number) {
     ccx(reg, -1, -1, q);
 }

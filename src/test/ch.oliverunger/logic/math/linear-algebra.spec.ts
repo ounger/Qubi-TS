@@ -1,17 +1,15 @@
 import {
-  conjugate,
-  countCols,
-  countRows,
-  cross,
-  dot,
-  hadamardProductVectors,
-  multiplyColVectorRowVector,
-  multiplyMatrices,
-  multiplyMatrixScalar,
-  multiplyMatrixVector,
-  multiplyRowVectorColVector,
-  tensorMatrices,
-  tensorVectors
+    conjugate,
+    countCols,
+    countRows,
+    cross,
+    dot,
+    hadamardProductVectors,
+    multiplyMatrices,
+    multiplyMatrixScalar,
+    multiplyMatrixVector,
+    tensorMatrices,
+    tensorVectors, inner, outer
 } from "../../../../main/ch.oliverunger/logic/math/linear-algebra";
 import {
   _0,
@@ -197,19 +195,19 @@ describe('hadamardProduct', () => {
   });
 });
 
-describe('multiplyColVectorRowVector', () => {
+describe('inner', () => {
   it('', () => {
-    const v0 = [_1, _2, _1];
-    const v1 = [_2, _6, _1];
-    expect(multiplyColVectorRowVector(v0, v1)).toEqual(_15);
+    const rowVector = [_1, _2, _1];
+    const colVector = [_2, _6, _1];
+    expect(inner(rowVector, colVector)).toEqual(_15);
   });
 });
 
-describe('multiplyRowVectorColVector', () => {
+describe('outer', () => {
   it('', () => {
-    const v0 = [_1, _0, _2];
-    const v1 = [_2, _1, _1, _3];
-    expect(multiplyRowVectorColVector(v0, v1)).toEqual([
+    const colVector = [_1, _0, _2];
+    const rowVector = [_2, _1, _1, _3];
+    expect(outer(colVector, rowVector)).toEqual([
       [_2, _1, _1, _3],
       [_0, _0, _0, _0],
       [_4, _2, _2, _6]

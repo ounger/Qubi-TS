@@ -13,6 +13,8 @@ import {
 } from "../../model/math/complex";
 import {expOfiTimesAngleDegrees} from "../math/util";
 
+// TODO Controlled Gates but c shall be 0
+
 export const IDENTITY_MATRIX: Complex[][] = [
     [_1, _0],
     [_0, _1]
