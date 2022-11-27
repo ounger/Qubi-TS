@@ -46,7 +46,7 @@ export function multiplyMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] 
 
 /**
  * Dot product <br>
- * |a> dot |b> = a1 * b1 + a2 * b2 + ... + an * bn
+ * ket(a) dot ket(b) = a1 * b1 + a2 * b2 + ... + an * bn
  */
 export function dot(v0: Complex[], v1: Complex[]): Complex {
   if (v0.length !== v1.length) {
@@ -66,8 +66,8 @@ export function magnitude(v: QubitState): [plusSolution: Complex, minusSolution:
 
 /**
  * Tensor/Kronecker product of two vectors
- * |ab> = |a> tensor |b> = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)]
- * |abc> = |a> tensor |b> tensor |c> = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
+ * ket(ab) = ket(a) tensor ket(b) = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)]
+ * ket(abc) = ket(a) tensor ket(b) tensor ket(c) = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
  */
 export function tensorVectors(...v: QubitState[]): Complex[] {
   const lengthTensor = Math.pow(2, v.length);
