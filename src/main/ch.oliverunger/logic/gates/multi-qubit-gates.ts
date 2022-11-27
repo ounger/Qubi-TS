@@ -5,8 +5,8 @@ import {Complex} from "../../model/math/complex";
 
 // TODO Controlled Gates but c shall be 0
 
-export function x(reg: QubitsRegister, targetQubit: number) {
-    mct(reg, [], targetQubit);
+export function x(reg: QubitsRegister, q: number) {
+    mct(reg, [], q);
 }
 
 /**
@@ -44,9 +44,9 @@ export function mct(reg: QubitsRegister, controlQubits: number[], targetQubit: n
 }
 
 function swapStates(reg: QubitsRegister, oneStateIndex: number, anotherStateIndex: number) {
-    let iState = reg.states[oneStateIndex];
+    let temp = reg.states[oneStateIndex];
     reg.states[oneStateIndex] = reg.states[anotherStateIndex];
-    reg.states[anotherStateIndex] = iState;
+    reg.states[anotherStateIndex] = temp;
 }
 
 export function swap(reg: QubitsRegister, q0: number, q1: number) {
