@@ -10,8 +10,8 @@ export function expStatesToBeCloseTo(statesReg0: Complex[], statesReg1: Complex[
 }
 
 export function expQubitsToBeCloseTo(q0: Qubit, q1: Qubit): void {
-    expect(q0.stateZeroAmplitude.re).toBeCloseTo(q1.stateZeroAmplitude.re, 2);
-    expect(q0.stateZeroAmplitude.im).toBeCloseTo(q1.stateZeroAmplitude.im, 2);
-    expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 2);
-    expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 2);
+    expect(q0.basisStateZero.re).toBeCloseTo(q1.basisStateZero.re, 2);
+    expect(q0.basisStateZero.im).toBeCloseTo(q1.basisStateZero.im, 2);
+    expect(q0.basisStateOne.re).toBeCloseTo(q1.basisStateOne.re, 2);
+    expect(q0.basisStateOne.re).toBeCloseTo(q1.basisStateOne.re, 2);
 }

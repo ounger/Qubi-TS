@@ -13,12 +13,12 @@ import {
 } from '../../../../main/ch.oliverunger/logic/gates/single-qubit-gates';
 import {
   Qubit,
-  STATE_L_QUBIT,
-  STATE_MINUS_QUBIT,
-  STATE_ONE_QUBIT,
-  STATE_PLUS_QUBIT,
-  STATE_R_QUBIT,
-  STATE_ZERO_QUBIT
+  QUBIT_STATE_L,
+  QUBIT_STATE_MINUS,
+  QUBIT_STATE_ONE,
+  QUBIT_STATE_PLUS,
+  QUBIT_STATE_R,
+  QUBIT_STATE_ZERO
 } from "../../../../main/ch.oliverunger/model/qubit";
 import {
   _0,
@@ -35,133 +35,134 @@ import {
 } from "../../../../main/ch.oliverunger/model/complex";
 import {round} from "../../../../main/ch.oliverunger/logic/math/util";
 import {expQubitsToBeCloseTo} from "../../util/TestUtil";
+import {STATE_MINUS_ONE, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
 
 describe('Identity Tests', () => {
 
-  test('Identity on |0>', () => {
-    expect(identity(STATE_ZERO_QUBIT).vector()).toEqual([_1, _0]);
+  test('I|0> = |0>', () => {
+    expect(identity(QUBIT_STATE_ZERO).state()).toEqual(STATE_ZERO);
   });
 
-  test('Identity on |1>', () => {
-    expect(identity(STATE_ONE_QUBIT).vector()).toEqual([_0, _1]);
+  test('I|1> = |1>', () => {
+    expect(identity(QUBIT_STATE_ONE).state()).toEqual(STATE_ONE);
   });
 
 });
 
 describe('Pauli-X Tests', () => {
 
-  test('Pauli-Y on |0>', () => {
-    expect(y(STATE_ZERO_QUBIT).vector()).toEqual([_0, i]);
+  test('X|0> = |1>', () => {
+    expect(x(QUBIT_STATE_ZERO).state()).toEqual(STATE_ONE);
   });
 
-  test('Pauli-Y on |1>', () => {
-    expect(y(STATE_ONE_QUBIT).vector()).toEqual([MINUS_i, _0]);
-  });
-
-});
-
-describe('Pauli-Y Tests', () => {
-
-  test('Pauli-Y on |0>', () => {
-    expect(y(STATE_ZERO_QUBIT).vector()).toEqual([_0, i]);
-  });
-
-  test('Pauli-Y on |1>', () => {
-    expect(y(STATE_ONE_QUBIT).vector()).toEqual([MINUS_i, _0]);
+  test('X|1> = |0>', () => {
+    expect(x(QUBIT_STATE_ONE).state()).toEqual(STATE_ZERO);
   });
 
 });
 
 describe('Pauli-Y Tests', () => {
 
-  test('Pauli-Z on |0>', () => {
-    expect(z(STATE_ZERO_QUBIT).vector()).toEqual([_1, _0]);
+  test('Y|0> = i|1>', () => {
+    expect(y(QUBIT_STATE_ZERO).state()).toEqual([_0, i]);
   });
 
-  test('Pauli-Z on |1>', () => {
-    expect(z(STATE_ONE_QUBIT).vector()).toEqual([_0, MINUS_1]);
+  test('Y|1> = -i|0>', () => {
+    expect(y(QUBIT_STATE_ONE).state()).toEqual([MINUS_i, _0]);
+  });
+
+});
+
+describe('Pauli-Z Tests', () => {
+
+  test('Z|0> = |0>', () => {
+    expect(z(QUBIT_STATE_ZERO).state()).toEqual(STATE_ZERO);
+  });
+
+  test('Z|1> = -|1>', () => {
+    expect(z(QUBIT_STATE_ONE).state()).toEqual(STATE_MINUS_ONE);
   });
 
 });
 
 describe('Hadamard Tests', () => {
 
-  test('Hadamard on |0>', () => {
-    expect(had(STATE_ZERO_QUBIT)).toEqual(STATE_PLUS_QUBIT);
+  test('H|0> = |+>', () => {
+    expect(had(QUBIT_STATE_ZERO)).toEqual(QUBIT_STATE_PLUS);
   });
 
-  test('Hadamard on |1>', () => {
-    expect(had(STATE_ONE_QUBIT)).toEqual(STATE_MINUS_QUBIT);
+  test('H|1> = |->', () => {
+    expect(had(QUBIT_STATE_ONE)).toEqual(QUBIT_STATE_MINUS);
   });
 
-  test('Hadamard on |+>', () => {
-    expQubitsToBeCloseTo(had(STATE_PLUS_QUBIT), STATE_ZERO_QUBIT);
+  test('H|+> = |0>', () => {
+    expQubitsToBeCloseTo(had(QUBIT_STATE_PLUS), QUBIT_STATE_ZERO);
   });
 
-  test('Hadamard on |->', () => {
-    expQubitsToBeCloseTo(had(STATE_MINUS_QUBIT), STATE_ONE_QUBIT);
+  test('H|-> = |1>', () => {
+    expQubitsToBeCloseTo(had(QUBIT_STATE_MINUS), QUBIT_STATE_ONE);
   });
 
 });
 
 describe('Combined Tests', () => {
 
-  test('Pauli-X on Hadamard on |0>', () => {
-    expect(x(had(STATE_ZERO_QUBIT)).vector()).toEqual([ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
+  test('XH|0> -> |+>', () => {
+    expect(x(had(QUBIT_STATE_ZERO)).state()).toEqual(STATE_PLUS);
   });
 
-  test('Pauli-X on Hadamard on |1>', () => {
-    expect(x(had(STATE_ONE_QUBIT)).vector()).toEqual([MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
+  test('XH|1>', () => {
+    expect(x(had(QUBIT_STATE_ONE)).state()).toEqual([MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
   });
 
 });
 
 describe('Probabilities', () => {
 
-  test('Hadamard on |0>', () => {
-    let result: number[] = had(STATE_ZERO_QUBIT).probabilities();
+  test('H|0>', () => {
+    let result: number[] = had(QUBIT_STATE_ZERO).probabilities();
     expect(round(result[0], 1)).toEqual(0.5);
     expect(round(result[1], 1)).toEqual(0.5);
   });
 
-  test('Hadamard on |1>', () => {
-    let result: number[] = had(STATE_ONE_QUBIT).probabilities();
+  test('H|1>', () => {
+    let result: number[] = had(QUBIT_STATE_ONE).probabilities();
     expect(round(result[0], 1)).toEqual(0.5);
     expect(round(result[1], 1)).toEqual(0.5);
   });
 
-  test(' Pauli-X on |0>', () => {
-    let result: number[] = x(STATE_ZERO_QUBIT).probabilities();
+  test('X|0>', () => {
+    let result: number[] = x(QUBIT_STATE_ZERO).probabilities();
     expect(round(result[0], 1)).toEqual(0);
     expect(round(result[1], 1)).toEqual(1);
   });
 
-  test('Pauli-X on |1>', () => {
-    let result: number[] = x(STATE_ONE_QUBIT).probabilities();
+  test('X|1>', () => {
+    let result: number[] = x(QUBIT_STATE_ONE).probabilities();
     expect(round(result[0], 1)).toEqual(1);
     expect(round(result[1], 1)).toEqual(0);
   });
 
-  test('Pauli-Y on |0>', () => {
-    let result: number[] = y(STATE_ZERO_QUBIT).probabilities();
+  test('Y|0>', () => {
+    let result: number[] = y(QUBIT_STATE_ZERO).probabilities();
     expect(round(result[0], 1)).toEqual(0);
     expect(round(result[1], 1)).toEqual(1);
   });
 
-  test('Pauli-Y on |1>', () => {
-    let result: number[] = y(STATE_ONE_QUBIT).probabilities();
+  test('Y|1>', () => {
+    let result: number[] = y(QUBIT_STATE_ONE).probabilities();
     expect(round(result[0], 1)).toEqual(1);
     expect(round(result[1], 1)).toEqual(0);
   });
 
-  test('Pauli-Z on |0>', () => {
-    let result: number[] = z(STATE_ZERO_QUBIT).probabilities();
+  test('Z|0>', () => {
+    let result: number[] = z(QUBIT_STATE_ZERO).probabilities();
     expect(round(result[0], 1)).toEqual(1);
     expect(round(result[1], 1)).toEqual(0);
   });
 
-  test('Pauli-Z on |1>', () => {
-    let result: number[] = z(STATE_ONE_QUBIT).probabilities();
+  test('Z|1>', () => {
+    let result: number[] = z(QUBIT_STATE_ONE).probabilities();
     expect(round(result[0], 1)).toEqual(0);
     expect(round(result[1], 1)).toEqual(1);
   });
@@ -170,20 +171,20 @@ describe('Probabilities', () => {
 
 describe('Measure', () => {
 
-  test('|0>', () => {
-    expect(new Qubit(_1, _0).measure()).toEqual(0);
+  test('Measure(|0>) -> 0', () => {
+    expect(QUBIT_STATE_ZERO.measure()).toEqual(0);
   });
 
-  test('|1>', () => {
-    expect(new Qubit(_0, _1).measure()).toEqual(1);
+  test('Measure(|1>) -> 1', () => {
+    expect(QUBIT_STATE_ONE.measure()).toEqual(1);
   });
 
 });
 
 describe('Measuring multiple times always returns the same result', () => {
 
-  test('', () => {
-    const qubit = new Qubit(_1, _0);
+  test('Measire H|0> multiple times', () => {
+    const qubit = QUBIT_STATE_ZERO;
     had(qubit);
     const result = qubit.measure();
     for (let i = 0; i < 10; i++) {
@@ -196,27 +197,27 @@ describe('Measuring multiple times always returns the same result', () => {
 describe('Phase-T', () => {
 
   test('Phase-T on |0>', () => {
-    expect(phaseT(STATE_ZERO_QUBIT)).toEqual(STATE_ZERO_QUBIT);
+    expect(phaseT(QUBIT_STATE_ZERO).state()).toEqual(STATE_ZERO);
   });
 
   test('Phase-T on |1>', () => {
-    expect(phaseT(STATE_ONE_QUBIT)).toEqual(Qubit.of(_0, HALF_SQRT_TWO_HALF_i_SQRT_TWO));
+    expect(phaseT(QUBIT_STATE_ONE)).toEqual(Qubit.of(_0, HALF_SQRT_TWO_HALF_i_SQRT_TWO));
   });
 
   test('Phase-T on |+>', () => {
-    expect(phaseT(STATE_PLUS_QUBIT)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(0.5, 0.5)));
+    expect(phaseT(QUBIT_STATE_PLUS)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(0.5, 0.5)));
   });
 
   test('Phase-T on |->', () => {
-    expect(phaseT(STATE_MINUS_QUBIT)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(-0.5, -0.5)));
+    expect(phaseT(QUBIT_STATE_MINUS)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(-0.5, -0.5)));
   });
 
   test('Phase-T on |R>', () => {
-    expect(phaseT(STATE_R_QUBIT)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(-0.5, 0.5)));
+    expect(phaseT(QUBIT_STATE_R)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(-0.5, 0.5)));
   });
 
   test('Phase-T on |L>', () => {
-    expect(phaseT(STATE_L_QUBIT)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(0.5, -0.5)));
+    expect(phaseT(QUBIT_STATE_L)).toEqual(Qubit.of(ONE_OF_SQRT_TWO, new Complex(0.5, -0.5)));
   });
 
 });
@@ -224,27 +225,27 @@ describe('Phase-T', () => {
 describe('Phase-S', () => {
 
   test('Phase-S on |0>', () => {
-    expect(phaseS(STATE_ZERO_QUBIT)).toEqual(STATE_ZERO_QUBIT);
+    expect(phaseS(QUBIT_STATE_ZERO).state()).toEqual(STATE_ZERO);
   });
 
   test('Phase-S on |1>', () => {
-    expect(phaseS(STATE_ONE_QUBIT)).toEqual(Qubit.of(_0, i));
+    expect(phaseS(QUBIT_STATE_ONE)).toEqual(Qubit.of(_0, i));
   });
 
   test('Phase-S on |+>', () => {
-    expect(phaseS(STATE_PLUS_QUBIT)).toEqual(STATE_R_QUBIT);
+    expect(phaseS(QUBIT_STATE_PLUS)).toEqual(QUBIT_STATE_R);
   });
 
   test('Phase-S on |->', () => {
-    expect(phaseS(STATE_MINUS_QUBIT)).toEqual(STATE_L_QUBIT);
+    expect(phaseS(QUBIT_STATE_MINUS)).toEqual(QUBIT_STATE_L);
   });
 
   test('Phase-S on |R>', () => {
-    expect(phaseS(STATE_R_QUBIT)).toEqual(STATE_MINUS_QUBIT);
+    expect(phaseS(QUBIT_STATE_R)).toEqual(QUBIT_STATE_MINUS);
   });
 
   test('Phase-S on |L>', () => {
-    expect(phaseS(STATE_L_QUBIT)).toEqual(STATE_PLUS_QUBIT);
+    expect(phaseS(QUBIT_STATE_L)).toEqual(QUBIT_STATE_PLUS);
   });
 
 });
@@ -252,65 +253,65 @@ describe('Phase-S', () => {
 describe('Phase-Z', () => {
 
   test('Phase-Z on |0>', () => {
-    expect(phaseZ(STATE_ZERO_QUBIT)).toEqual(z(STATE_ZERO_QUBIT));
+    expect(phaseZ(QUBIT_STATE_ZERO)).toEqual(z(QUBIT_STATE_ZERO));
   });
 
   test('Phase-Z on |1>', () => {
-    expect(phaseZ(STATE_ONE_QUBIT)).toEqual(z(STATE_ONE_QUBIT));
+    expect(phaseZ(QUBIT_STATE_ONE)).toEqual(z(QUBIT_STATE_ONE));
   });
 
   test('Phase-Z on |+>', () => {
-    expect(phaseZ(STATE_PLUS_QUBIT)).toEqual(z(STATE_PLUS_QUBIT));
+    expect(phaseZ(QUBIT_STATE_PLUS)).toEqual(z(QUBIT_STATE_PLUS));
   });
 
   test('Phase-Z on |->', () => {
-    expect(phaseZ(STATE_MINUS_QUBIT)).toEqual(z(STATE_MINUS_QUBIT));
+    expect(phaseZ(QUBIT_STATE_MINUS)).toEqual(z(QUBIT_STATE_MINUS));
   });
 
   test('Phase-Z on |R>', () => {
-    expect(phaseZ(STATE_R_QUBIT)).toEqual(z(STATE_R_QUBIT));
+    expect(phaseZ(QUBIT_STATE_R)).toEqual(z(QUBIT_STATE_R));
   });
 
   test('Phase-Z on |L>', () => {
-    expect(phaseZ(STATE_L_QUBIT)).toEqual(z(STATE_L_QUBIT));
+    expect(phaseZ(QUBIT_STATE_L)).toEqual(z(QUBIT_STATE_L));
   });
 
 });
 
 describe('Phase', () => {
 
-  test('', () => {
+  test('Tests against other phase methods', () => {
     // Tests gegen phaseT()
-    expQubitsToBeCloseTo(phase(STATE_ZERO_QUBIT, 45), phaseT(STATE_ZERO_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_ONE_QUBIT, 45), phaseT(STATE_ONE_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_PLUS_QUBIT, 45), phaseT(STATE_PLUS_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_MINUS_QUBIT, 45), phaseT(STATE_MINUS_QUBIT))
-    expQubitsToBeCloseTo(phase(STATE_R_QUBIT, 45), phaseT(STATE_R_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_L_QUBIT, 45), phaseT(STATE_L_QUBIT));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ZERO, 45), phaseT(QUBIT_STATE_ZERO));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ONE, 45), phaseT(QUBIT_STATE_ONE));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_PLUS, 45), phaseT(QUBIT_STATE_PLUS));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_MINUS, 45), phaseT(QUBIT_STATE_MINUS))
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_R, 45), phaseT(QUBIT_STATE_R));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_L, 45), phaseT(QUBIT_STATE_L));
 
     // Tests gegen phaseS()
-    expQubitsToBeCloseTo(phase(STATE_ZERO_QUBIT, 90), phaseS(STATE_ZERO_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_ONE_QUBIT, 90), phaseS(STATE_ONE_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_PLUS_QUBIT, 90), phaseS(STATE_PLUS_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_MINUS_QUBIT, 90), phaseS(STATE_MINUS_QUBIT))
-    expQubitsToBeCloseTo(phase(STATE_R_QUBIT, 90), phaseS(STATE_R_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_L_QUBIT, 90), phaseS(STATE_L_QUBIT));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ZERO, 90), phaseS(QUBIT_STATE_ZERO));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ONE, 90), phaseS(QUBIT_STATE_ONE));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_PLUS, 90), phaseS(QUBIT_STATE_PLUS));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_MINUS, 90), phaseS(QUBIT_STATE_MINUS))
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_R, 90), phaseS(QUBIT_STATE_R));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_L, 90), phaseS(QUBIT_STATE_L));
 
     // Tests gegen phaseZ()
-    expQubitsToBeCloseTo(phase(STATE_ZERO_QUBIT, 180), phaseZ(STATE_ZERO_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_ONE_QUBIT, 180), phaseZ(STATE_ONE_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_PLUS_QUBIT, 180), phaseZ(STATE_PLUS_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_MINUS_QUBIT, 180), phaseZ(STATE_MINUS_QUBIT))
-    expQubitsToBeCloseTo(phase(STATE_R_QUBIT, 180), phaseZ(STATE_R_QUBIT));
-    expQubitsToBeCloseTo(phase(STATE_L_QUBIT, 180), phaseZ(STATE_L_QUBIT));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ZERO, 180), phaseZ(QUBIT_STATE_ZERO));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ONE, 180), phaseZ(QUBIT_STATE_ONE));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_PLUS, 180), phaseZ(QUBIT_STATE_PLUS));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_MINUS, 180), phaseZ(QUBIT_STATE_MINUS))
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_R, 180), phaseZ(QUBIT_STATE_R));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_L, 180), phaseZ(QUBIT_STATE_L));
 
     // Eigene Tests
-    expQubitsToBeCloseTo(phase(STATE_ZERO_QUBIT, 270), STATE_ZERO_QUBIT);
-    expQubitsToBeCloseTo(phase(STATE_ONE_QUBIT, 270), Qubit.of(_0, MINUS_i));
-    expQubitsToBeCloseTo(phase(STATE_PLUS_QUBIT, 270), Qubit.of(ONE_OF_SQRT_TWO, MINUS_i_OF_SQRT_TWO));
-    expQubitsToBeCloseTo(phase(STATE_MINUS_QUBIT, 270), Qubit.of(ONE_OF_SQRT_TWO, i_OF_SQRT_TWO))
-    expQubitsToBeCloseTo(phase(STATE_R_QUBIT, 270), Qubit.of(ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO));
-    expQubitsToBeCloseTo(phase(STATE_L_QUBIT, 270), Qubit.of(ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ZERO, 270), QUBIT_STATE_ZERO);
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_ONE, 270), Qubit.of(_0, MINUS_i));
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_PLUS, 270), QUBIT_STATE_L);
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_MINUS, 270), QUBIT_STATE_R)
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_R, 270), QUBIT_STATE_PLUS);
+    expQubitsToBeCloseTo(phase(QUBIT_STATE_L, 270), QUBIT_STATE_MINUS);
   });
 
 });

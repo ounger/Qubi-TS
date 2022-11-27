@@ -11,7 +11,7 @@ export class QubitRegister {
 
     static ofQubits(...qubits: Qubit[]): QubitRegister {
         let reg = new QubitRegister(qubits.length);
-        reg._states = tensorVectors(...qubits.map(q => q.vector()));
+        reg._states = tensorVectors(...qubits.map(q => q.state()));
         return reg;
     }
 

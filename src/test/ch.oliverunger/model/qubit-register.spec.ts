@@ -1,23 +1,23 @@
 import {QubitRegister} from '../../../main/ch.oliverunger/model/qubit-register';
 import {
     Qubit,
-    STATE_MINUS_QUBIT,
-    STATE_ONE_QUBIT,
-    STATE_PLUS_QUBIT,
-    STATE_ZERO_QUBIT
+    QUBIT_STATE_MINUS,
+    QUBIT_STATE_ONE,
+    QUBIT_STATE_PLUS,
+    QUBIT_STATE_ZERO
 } from "../../../main/ch.oliverunger/model/qubit";
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../main/ch.oliverunger/model/complex";
 import {expStatesToBeCloseTo} from "../util/TestUtil";
 
 describe('probabilityOfState', () => {
     it('', () => {
-        let reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         let probs = reg.probabilities();
         for (let i = 0; i < reg.states.length; i++) {
             expect(reg.probabilityOfState(i)).toEqual(probs[i]);
         }
 
-        reg = QubitRegister.ofQubits(STATE_ONE_QUBIT, STATE_PLUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_PLUS);
         probs = reg.probabilities();
         for (let i = 0; i < reg.states.length; i++) {
             expect(reg.probabilityOfState(i)).toEqual(probs[i]);
@@ -27,7 +27,7 @@ describe('probabilityOfState', () => {
 
 describe('probabilityOfQubit', () => {
     it('', () => {
-        let reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         expect(reg.probabilityOfQubit(0)).toBeCloseTo(0.5, 2);
         expect(reg.probabilityOfQubit(1)).toBeCloseTo(0.5, 2);
 
@@ -51,28 +51,28 @@ describe('probabilityOfQubit', () => {
 
 describe('Probabilities', () => {
     it('', () => {
-        let reg = QubitRegister.ofQubits(STATE_ZERO_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO);
         expect(reg.probabilities()).toEqual([1, 0]);
 
-        reg = QubitRegister.ofQubits(STATE_ONE_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ONE);
         expect(reg.probabilities()).toEqual([0, 1]);
 
-        reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.5, 0.5]);
 
-        reg = QubitRegister.ofQubits(STATE_MINUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.5, 0.5]);
 
-        reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.25, 0.25, 0.25, 0.25]);
 
-        reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_MINUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_MINUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.25, 0.25, 0.25, 0.25]);
 
-        reg = QubitRegister.ofQubits(STATE_MINUS_QUBIT, STATE_PLUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_PLUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.25, 0.25, 0.25, 0.25]);
 
-        reg = QubitRegister.ofQubits(STATE_MINUS_QUBIT, STATE_MINUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_MINUS);
         expProbabilitiesToBeCloseTo(reg.probabilities(), [0.25, 0.25, 0.25, 0.25]);
 
         let states: Complex[] = [Complex.ofRe(-4 / 10), Complex.ofRe(-4 * Math.sqrt(3) / 10), Complex.ofRe(3 / 10), Complex.ofRe(3 * Math.sqrt(3) / 10)];
@@ -83,7 +83,7 @@ describe('Probabilities', () => {
 
 describe('Measuring multiple times always returns the same result', () => {
     it('', () => {
-        let reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         const result = reg.measure();
         for (let i = 0; i < 10; i++) {
             expect(reg.measure()).toEqual(result);
@@ -93,22 +93,22 @@ describe('Measuring multiple times always returns the same result', () => {
 
 describe('Measure', () => {
     it('', () => {
-        let reg = QubitRegister.ofQubits(STATE_ZERO_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO);
         expect(reg.measure()).toEqual(0);
 
-        reg = QubitRegister.ofQubits(STATE_ONE_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ONE);
         expect(reg.measure()).toEqual(1);
 
-        reg = QubitRegister.ofQubits(STATE_ZERO_QUBIT, STATE_ZERO_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         expect(reg.measure()).toEqual(0);
 
-        reg = QubitRegister.ofQubits(STATE_ZERO_QUBIT, STATE_ONE_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
         expect(reg.measure()).toEqual(1);
 
-        reg = QubitRegister.ofQubits(STATE_ONE_QUBIT, STATE_ZERO_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
         expect(reg.measure()).toEqual(2);
 
-        reg = QubitRegister.ofQubits(STATE_ONE_QUBIT, STATE_ONE_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
         expect(reg.measure()).toEqual(3);
 
         let hasZero = false;
@@ -119,7 +119,7 @@ describe('Measure', () => {
         while ((!hasZero || !hasOne || !hasTwo || !hasThree) && counter < 100) {
             // We need a new register every time because measuring multiple times the same register
             // reveals the same value.
-            reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+            reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
             counter++;
             const measuredValue = reg.measure();
             if (measuredValue === 0) {
@@ -141,18 +141,18 @@ describe('Measure', () => {
 describe('measureSingleQubit', () => {
     it('', () => {
         for (let i = 0; i < 10; i++) {
-            let reg = QubitRegister.ofQubits(STATE_ZERO_QUBIT);
+            let reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO);
             let measuredValue = reg.measureSingleQubit(0);
             expect(measuredValue).toEqual(0);
             expProbabilitiesToBeCloseTo(reg.probabilities(), [1, 0]);
 
-            reg = QubitRegister.ofQubits(STATE_ONE_QUBIT);
+            reg = QubitRegister.ofQubits(QUBIT_STATE_ONE);
             measuredValue = reg.measureSingleQubit(0);
             expect(measuredValue).toEqual(1);
             expProbabilitiesToBeCloseTo(reg.probabilities(), [0, 1]);
         }
 
-        let reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         let measuredValue = reg.measureSingleQubit(0);
         if (measuredValue === 1) {
             expProbabilitiesToBeCloseTo(reg.probabilities(), [0, 0, 0.5, 0.5]);
@@ -160,7 +160,7 @@ describe('measureSingleQubit', () => {
             expProbabilitiesToBeCloseTo(reg.probabilities(), [0.5, 0.5, 0, 0]);
         }
 
-        reg = QubitRegister.ofQubits(STATE_PLUS_QUBIT, STATE_PLUS_QUBIT);
+        reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_PLUS);
         measuredValue = reg.measureSingleQubit(1);
         if (measuredValue === 1) {
             expProbabilitiesToBeCloseTo(reg.probabilities(), [0, 0.5, 0, 0.5]);

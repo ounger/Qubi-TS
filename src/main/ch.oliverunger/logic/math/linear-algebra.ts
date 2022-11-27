@@ -1,8 +1,8 @@
 import {_0, Complex} from "../../model/complex";
-import {Vector2c} from "../../model/vector2c";
+import {QubitState} from "../../model/qubit-state";
 import {getTruthtableValueAt} from "./truth-table";
 
-export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
+export function multiplyMatrixVector2c(matrix: Complex[][], vector: QubitState): QubitState {
   // @ts-ignore
   return multiplyMatrixVector(matrix, vector);
 }
@@ -21,7 +21,7 @@ export function multiplyMatrixVector(matrix: Complex[][], vector: Complex[]): Co
   return vectorResult;
 }
 
-export function cross(v0: Vector2c, v1: Vector2c): Complex {
+export function cross(v0: QubitState, v1: QubitState): Complex {
   if (v0.length !== 2 || v1.length !== 2) {
     throw new Error("Vectors need a length of 2");
   }
@@ -60,7 +60,7 @@ export function dot(v0: Complex[], v1: Complex[]): Complex {
 /**
  * The length of a vector v is also called its magnitude |v|.
  */
-export function magnitude(v: Vector2c): [plusSolution: Complex, minusSolution: Complex] {
+export function magnitude(v: QubitState): [plusSolution: Complex, minusSolution: Complex] {
   return v[0].mul(v[0]).add(v[1].mul(v[1])).sqrt();
 }
 
@@ -69,7 +69,7 @@ export function magnitude(v: Vector2c): [plusSolution: Complex, minusSolution: C
  * |ab> = |a> tensor |b> = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)]
  * |abc> = |a> tensor |b> tensor |c> = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
  */
-export function tensorVectors(...v: Vector2c[]): Complex[] {
+export function tensorVectors(...v: QubitState[]): Complex[] {
   const lengthTensor = Math.pow(2, v.length);
   let result: Complex[] = new Array<Complex>(lengthTensor);
   for (let indexTensor = 0; indexTensor < lengthTensor; indexTensor++) {
