@@ -4,7 +4,7 @@ import {tensorVectors} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
 import {round} from "../logic/math/util";
 
-export class QubitsRegister {
+export class QubitsRegister { // TODO Rename QubitRegister
 
     private measuredValue: number | null = null;
     private measuredValuesQubits: (bit | null)[];
