@@ -1,8 +1,8 @@
 import {_0, Complex} from "../../model/math/complex";
-import {QubitState} from "../../model/qubit-state";
 import {getTruthtableValueAt} from "./truth-table";
+import {Vector2c} from "../../model/math/Vector2c";
 
-export function multiplyMatrixVector2c(matrix: Complex[][], vector: [c0: Complex, c1: Complex]): [c0: Complex, c1: Complex] {
+export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
     return multiplyMatrixVector(matrix, vector);
 }
@@ -21,7 +21,7 @@ export function multiplyMatrixVector(matrix: Complex[][], vector: Complex[]): Co
     return vectorResult;
 }
 
-export function cross(v0: QubitState, v1: QubitState): Complex {
+export function cross(v0: Vector2c, v1: Vector2c): Complex {
     if (v0.length !== 2 || v1.length !== 2) {
         throw new Error("Vectors need a length of 2");
     }
@@ -60,7 +60,7 @@ export function dot(v0: Complex[], v1: Complex[]): Complex {
 /**
  * The length of a vector v is also called its magnitude |v|.
  */
-export function magnitude(v: QubitState): [plusSolution: Complex, minusSolution: Complex] {
+export function magnitude(v: Vector2c): [plusSolution: Complex, minusSolution: Complex] {
     return v[0].mul(v[0]).add(v[1].mul(v[1])).sqrt();
 }
 
@@ -69,13 +69,13 @@ export function magnitude(v: QubitState): [plusSolution: Complex, minusSolution:
  * ket(ab) = ket(a) tensor ket(b) = [a(0)*b(0), a(0)*b(1), a(1)*b(0), a(1)*b(1)] <br>
  * ket(abc) = ket(a) tensor ket(b) tensor ket(c) = [a(0)*b(0)*c(0), a(0)*b(0)*c(1), a(0)*b(1)*c(0), a(0)*b(1)*c(1), a(1)*b(0)*c(0), a(1)*b(0)*c(1), a(1)*b(1)*c(0), a(1)*b(1)*c(1)]
  */
-export function tensorVectors(...v: QubitState[]): Complex[] {
-    const lengthTensor = Math.pow(2, v.length);
+export function tensorVectors(...vectors: Vector2c[]): Complex[] {
+    const lengthTensor = Math.pow(2, vectors.length);
     let result: Complex[] = new Array<Complex>(lengthTensor);
     for (let indexTensor = 0; indexTensor < lengthTensor; indexTensor++) {
         result[indexTensor] = new Complex(1, 0);
-        for (let indexVector = 0; indexVector < v.length; indexVector++) {
-            result[indexTensor] = result[indexTensor].mul(v[indexVector][getTruthtableValueAt(v.length, indexTensor, indexVector)]);
+        for (let indexVector = 0; indexVector < vectors.length; indexVector++) {
+            result[indexTensor] = result[indexTensor].mul(vectors[indexVector][getTruthtableValueAt(vectors.length, indexTensor, indexVector)]);
         }
     }
     return result;
