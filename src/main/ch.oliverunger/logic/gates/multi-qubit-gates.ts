@@ -143,9 +143,19 @@ export function cswap() {
     // TODO
 }
 
-export function hadamard(reg: QubitRegister, q: number) {
+export function hadSingle(reg: QubitRegister, q: number) {
     // TODO
 }
+
+export function hadMulti(reg: QubitRegister, qubits: number[]) {
+    // TODO
+}
+
+export function hadAll(reg: QubitRegister) {
+    // TODO
+}
+
+
 
 
 
