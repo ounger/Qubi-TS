@@ -1,6 +1,6 @@
 import {_0, Complex} from "../../model/math/complex";
 import {getTruthtableValueAt} from "./truth-table";
-import {Vector2c} from "../../model/math/Vector2c";
+import {Vector2c} from "../../model/math/vector2c";
 
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
