@@ -1,4 +1,5 @@
 import {
+    Qubit,
     QUBIT_STATE_MINUS,
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
@@ -8,7 +9,7 @@ import {
     ccx,
     cphase, cs,
     ct,
-    cx, cz,
+    cx, cz, hadSingle,
     phase,
     phaseS,
     phaseT,
@@ -29,7 +30,9 @@ import {
     QubitRegister
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/util";
-import {expStatesToBeCloseTo} from "../../util/TestUtil";
+import {expQubitsToBeCloseTo, expStatesToBeCloseTo} from "../../util/TestUtil";
+import {STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
+import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -580,6 +583,88 @@ describe('CZ Tests', () => {
         cphase(cphase180Reg, 0, 1, 180);
         expect(czReg.states).toEqual(cphase180Reg.states);
     });
+});
+
+describe('hadSingle Tests', () => {
+
+    test('hadSingle on first qubit of |0+> -> |++> ', () => {
+        // Hadamard on the register
+        let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
+        hadSingle(reg0, 0);
+
+        // should be equal to applying hadamard on the qubit first and then
+        // building the register
+        let q0 = QUBIT_STATE_ZERO;
+        let q1 = QUBIT_STATE_PLUS;
+        q0 = had(q0);
+        let reg1 = QubitRegister.ofQubits(q0, q1);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+    });
+
+    test('hadSingle on second qubit of |0+> -> |00> ', () => {
+        // Hadamard on the register
+        let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
+        hadSingle(reg0, 1);
+
+        // should be equal to applying hadamard on the qubit first and then
+        // building the register
+        let q0 = QUBIT_STATE_ZERO;
+        let q1 = QUBIT_STATE_PLUS;
+        q1 = had(q1);
+        let reg1 = QubitRegister.ofQubits(q0, q1);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+    });
+
+    test('hadSingle on first qubit of |0+1> -> |++1> ', () => {
+        // Hadamard on the register
+        let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
+        hadSingle(reg0, 0);
+
+        // should be equal to applying hadamard on the qubit first and then
+        // building the register
+        let q0 = QUBIT_STATE_ZERO;
+        let q1 = QUBIT_STATE_PLUS;
+        let q2 = QUBIT_STATE_ONE;
+        q0 = had(q0);
+        let reg1 = QubitRegister.ofQubits(q0, q1, q2);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+    });
+
+    test('hadSingle on second qubit of |0+1> -> |+01> ', () => {
+        // Hadamard on the register
+        let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
+        hadSingle(reg0, 1);
+
+        // should be equal to applying hadamard on the qubit first and then
+        // building the register
+        let q0 = QUBIT_STATE_ZERO;
+        let q1 = QUBIT_STATE_PLUS;
+        let q2 = QUBIT_STATE_ONE;
+        q1 = had(q1);
+        let reg1 = QubitRegister.ofQubits(q0, q1, q2);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+    });
+
+    test('hadSingle on third qubit of |0+1> -> |+0-> ', () => {
+        // Hadamard on the register
+        let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
+        hadSingle(reg0, 2);
+
+        // should be equal to applying hadamard on the qubit first and then
+        // building the register
+        let q0 = QUBIT_STATE_ZERO;
+        let q1 = QUBIT_STATE_PLUS;
+        let q2 = QUBIT_STATE_ONE;
+        q2 = had(q2);
+        let reg1 = QubitRegister.ofQubits(q0, q1, q2);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+    });
+
 });
 
 /* Example Register of 2 Qubits State x */

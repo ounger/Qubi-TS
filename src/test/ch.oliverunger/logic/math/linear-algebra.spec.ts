@@ -307,34 +307,6 @@ describe('Tensor product of two matrices', () => {
             [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0],
             [_0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO]
         ]);
-        let result = multiplyMatrixVector(
-            [
-                [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0],
-                [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO],
-                [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0],
-                [_0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO]
-            ],
-            [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0]
-        );
-    });
-
-    test('I tensor HAD', () => {
-        expMatricesToBeCloseTo(tensorMatrices(IDENTITY_MATRIX, HADAMARD_MATRIX), [
-            [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0],
-            [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0],
-            [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
-            [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
-        ]);
-
-        let result = multiplyMatrixVector(
-            [
-                [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0],
-                [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0],
-                [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
-                [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
-            ],
-            [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0]
-        );
     });
 
 });

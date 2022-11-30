@@ -2,6 +2,8 @@ import {QubitRegister} from "../../model/qubit-register";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
 import {Complex, MINUS_1} from "../../model/math/complex";
+import {HADAMARD_MATRIX, IDENTITY_MATRIX} from "./single-qubit-gates";
+import {multiplyMatrixVector, tensorMatrices} from "../math/linear-algebra";
 
 // TODO Controlled Gates but c shall be 0
 
@@ -144,7 +146,14 @@ export function cswap() {
 }
 
 export function hadSingle(reg: QubitRegister, q: number) {
-    // TODO
+    let matrix: Complex[][] = q === 0 ? HADAMARD_MATRIX : IDENTITY_MATRIX;
+    for(let i = 1; i < reg.numQubits; i ++) {
+        matrix = tensorMatrices(matrix, q === i ? HADAMARD_MATRIX : IDENTITY_MATRIX);
+    }
+    let resultStates = multiplyMatrixVector(matrix, reg.states);
+    for(let state = 0; state < resultStates.length; state++) {
+        reg.states[state] = resultStates[state];
+    }
 }
 
 export function hadMulti(reg: QubitRegister, qubits: number[]) {
