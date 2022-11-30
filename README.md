@@ -1,4 +1,4 @@
-# TSQuantumSimLib
+# Qubi-TS
 A lightweight Quantum Computing Simulation Library written in TypeScript
 
 You can create qubits and qubit registers and apply gates to them to simulate a quantum computer.
