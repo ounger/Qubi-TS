@@ -1,9 +1,9 @@
 import {QubitRegister} from "../../model/qubit-register";
 import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
-import {Complex, MINUS_1} from "../../model/math/complex";
-import {HADAMARD_MATRIX, IDENTITY_MATRIX} from "./single-qubit-gates";
+import {Complex} from "../../model/math/complex";
 import {multiplyMatrixVector, tensorMatrices} from "../math/linear-algebra";
+import {HADAMARD_GATE, IDENTITY_GATE} from "./single-qubit-gates";
 
 // TODO Controlled Gates but c shall be 0
 
@@ -134,8 +134,8 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
     const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
     const ttColQ0 = getTruthtableCol(reg.numQubits, q0);
     const ttColQ1 = getTruthtableCol(reg.numQubits, q1);
-    for(let state = 0; state < reg.states.length; state++) {
-        if(ttColQ0[state] === 1 && ttColQ1[state] === 1) {
+    for (let state = 0; state < reg.states.length; state++) {
+        if (ttColQ0[state] === 1 && ttColQ1[state] === 1) {
             reg.states[state] = reg.states[state].mul(expOfiTimesAngle);
         }
     }
@@ -145,13 +145,14 @@ export function cswap() {
     // TODO
 }
 
+// TODO Kann man das mit Wahrheitstabellen abbilden?
 export function hadSingle(reg: QubitRegister, q: number) {
-    let matrix: Complex[][] = q === 0 ? HADAMARD_MATRIX : IDENTITY_MATRIX;
-    for(let i = 1; i < reg.numQubits; i ++) {
-        matrix = tensorMatrices(matrix, q === i ? HADAMARD_MATRIX : IDENTITY_MATRIX);
+    let matrix: Complex[][] = q === 0 ? HADAMARD_GATE : IDENTITY_GATE;
+    for (let i = 1; i < reg.numQubits; i++) {
+        matrix = tensorMatrices(matrix, q === i ? HADAMARD_GATE : IDENTITY_GATE);
     }
     let resultStates = multiplyMatrixVector(matrix, reg.states);
-    for(let state = 0; state < resultStates.length; state++) {
+    for (let state = 0; state < resultStates.length; state++) {
         reg.states[state] = resultStates[state];
     }
 }
