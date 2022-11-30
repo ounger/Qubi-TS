@@ -13,9 +13,7 @@ import {
 } from "../../model/math/complex";
 import {expOfiTimesAngleDegrees} from "../math/util";
 
-// TODO Controlled Gates but c shall be 0
-
-export const IDENTITY_MATRIX: Complex[][] = [
+export const IDENTITY_GATE: Complex[][] = [
     [_1, _0],
     [_0, _1]
 ];
@@ -26,10 +24,10 @@ export const IDENTITY_MATRIX: Complex[][] = [
  * NOTE: Only use it for tests.
  */
 export function identity(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(IDENTITY_MATRIX, qubit.state()));
+    return Qubit.ofState(multiplyMatrixVector2c(IDENTITY_GATE, qubit.state()));
 }
 
-export const PAULI_X_MATRIX: Complex[][] = [
+export const PAULI_X_GATE: Complex[][] = [
     [_0, _1],
     [_1, _0]
 ];
@@ -39,10 +37,10 @@ export const PAULI_X_MATRIX: Complex[][] = [
  * for classical computers.
  */
 export function x(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_X_MATRIX, qubit.state()));
+    return Qubit.ofState(multiplyMatrixVector2c(PAULI_X_GATE, qubit.state()));
 }
 
-export const PAULI_Y_MATRIX: Complex[][] = [
+export const PAULI_Y_GATE: Complex[][] = [
     [_0, MINUS_i],
     [i, _0]
 ];
@@ -51,10 +49,10 @@ export const PAULI_Y_MATRIX: Complex[][] = [
  * The Pauli-Y gate is a single-qubit operation.
  */
 export function y(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Y_MATRIX, qubit.state()));
+    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Y_GATE, qubit.state()));
 }
 
-export const PAULI_Z_MATRIX: Complex[][] = [
+export const PAULI_Z_GATE: Complex[][] = [
     [_1, _0],
     [_0, MINUS_1]
 ];
@@ -63,10 +61,10 @@ export const PAULI_Z_MATRIX: Complex[][] = [
  * The Pauli-Z gate is a single-qubit operation.
  */
 export function z(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Z_MATRIX, qubit.state()));
+    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Z_GATE, qubit.state()));
 }
 
-export const HADAMARD_MATRIX: Complex[][] = [
+export const HADAMARD_GATE: Complex[][] = [
     [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
     [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
 ];
@@ -76,7 +74,7 @@ export const HADAMARD_MATRIX: Complex[][] = [
  * an equal superposition of the two basis states.
  */
 export function had(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(HADAMARD_MATRIX, qubit.state()));
+    return Qubit.ofState(multiplyMatrixVector2c(HADAMARD_GATE, qubit.state()));
 }
 
 export const T_GATE: Complex[][] = [

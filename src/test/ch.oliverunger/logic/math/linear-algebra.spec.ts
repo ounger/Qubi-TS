@@ -41,14 +41,14 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../../../main/ch.oliverunger/model/math/complex";
-import {
-    HADAMARD_MATRIX,
-    IDENTITY_MATRIX,
-    PAULI_X_MATRIX,
-    PAULI_Y_MATRIX,
-    PAULI_Z_MATRIX
-} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 import {expMatricesToBeCloseTo} from "../../util/TestUtil";
+import {
+    HADAMARD_GATE,
+    IDENTITY_GATE,
+    PAULI_X_GATE,
+    PAULI_Y_GATE,
+    PAULI_Z_GATE
+} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 
 const matrix = [
     [_3, _2, _1],
@@ -58,7 +58,7 @@ const matrix = [
 const vector = [_1, _0, _4];
 
 describe('Count matrix rows', () => {
-    it('Should have 2 rows', () => {
+    test('Should have 2 rows', () => {
         expect(countRows(matrix)).toBe(2);
     });
 });
@@ -141,33 +141,33 @@ describe('Multiply matrices', () => {
 
 describe('Identity matrix is a involutory matrix (own inverse)', () => {
     test('', () => {
-        expect(multiplyMatrices(IDENTITY_MATRIX, IDENTITY_MATRIX)).toEqual(IDENTITY_MATRIX);
+        expect(multiplyMatrices(IDENTITY_GATE, IDENTITY_GATE)).toEqual(IDENTITY_GATE);
     });
 });
 
 describe('Pauli-X is a involutory matrix (own inverse)', () => {
     test('', () => {
-        expect(multiplyMatrices(PAULI_X_MATRIX, PAULI_X_MATRIX)).toEqual(IDENTITY_MATRIX);
+        expect(multiplyMatrices(PAULI_X_GATE, PAULI_X_GATE)).toEqual(IDENTITY_GATE);
     });
 });
 
 describe('Pauli-Y is a involutory matrix (own inverse)', () => {
     test('', () => {
-        expect(multiplyMatrices(PAULI_Y_MATRIX, PAULI_Y_MATRIX)).toEqual(IDENTITY_MATRIX);
+        expect(multiplyMatrices(PAULI_Y_GATE, PAULI_Y_GATE)).toEqual(IDENTITY_GATE);
     });
 });
 
 describe('Pauli-Z is a involutory matrix (own inverse)', () => {
     test('', () => {
-        expect(multiplyMatrices(PAULI_Z_MATRIX, PAULI_Z_MATRIX)).toEqual(IDENTITY_MATRIX);
+        expect(multiplyMatrices(PAULI_Z_GATE, PAULI_Z_GATE)).toEqual(IDENTITY_GATE);
     });
 });
 
 describe('-iXYZ = I', () => {
     test('', () => {
         expect(
-            multiplyMatrixScalar(multiplyMatrices(multiplyMatrices(PAULI_X_MATRIX, PAULI_Y_MATRIX), PAULI_Z_MATRIX), MINUS_i)
-        ).toEqual(IDENTITY_MATRIX);
+            multiplyMatrixScalar(multiplyMatrices(multiplyMatrices(PAULI_X_GATE, PAULI_Y_GATE), PAULI_Z_GATE), MINUS_i)
+        ).toEqual(IDENTITY_GATE);
     });
 });
 
@@ -282,7 +282,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('Y tensor X', () => {
-        expect(tensorMatrices(PAULI_Y_MATRIX, PAULI_X_MATRIX)).toEqual([
+        expect(tensorMatrices(PAULI_Y_GATE, PAULI_X_GATE)).toEqual([
             [_0, _0, _0, MINUS_i],
             [_0, _0, MINUS_i, _0],
             [_0, i, _0, _0],
@@ -291,7 +291,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('HAD tensor HAD', () => {
-        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_MATRIX, HADAMARD_MATRIX),
+        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, HADAMARD_GATE),
             [
                 [Complex.ofRe(1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(1 / 2)],
                 [Complex.ofRe(1 / 2), Complex.ofRe(-1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(-1 / 2)],
@@ -301,7 +301,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('HAD tensor I', () => {
-        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_MATRIX, IDENTITY_MATRIX), [
+        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), [
             [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0],
             [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO],
             [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0],
