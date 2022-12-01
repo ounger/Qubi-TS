@@ -309,6 +309,56 @@ describe('Tensor product of two matrices', () => {
         ]);
     });
 
+    test('I tensor Had', () => {
+        expMatricesToBeCloseTo(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), [
+            [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0],
+            [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0],
+            [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
+            [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
+        ]);
+    });
+
+    // -----------------------------------------------
+
+    test('HAD tensor I tensor I', () => {
+        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), IDENTITY_GATE), [
+            [ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0, _0, _0],
+            [_0, ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0, _0],
+            [_0, _0, ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0],
+            [_0, _0, _0, ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO],
+            [ONE_OF_SQRT_TWO, _0, _0, _0, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0],
+            [_0, ONE_OF_SQRT_TWO, _0, _0, _0, MINUS_ONE_OF_SQRT_TWO, _0, _0],
+            [_0, _0, ONE_OF_SQRT_TWO, _0, _0, _0, MINUS_ONE_OF_SQRT_TWO, _0],
+            [_0, _0, _0, ONE_OF_SQRT_TWO, _0, _0, _0, MINUS_ONE_OF_SQRT_TWO],
+        ]);
+    });
+
+    test('I tensor HAD tensor I', () => {
+        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), IDENTITY_GATE), [
+            [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0],
+            [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0, _0, _0, _0],
+            [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0],
+            [_0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0],
+            [_0, _0, _0, _0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0],
+            [_0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO],
+            [_0, _0, _0, _0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0],
+            [_0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO],
+        ]);
+    });
+
+    test('I tensor I tensor HAD', () => {
+        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, IDENTITY_GATE), HADAMARD_GATE), [
+            [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0, _0],
+            [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0, _0],
+            [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0, _0, _0],
+            [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0],
+            [_0, _0, _0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0],
+            [_0, _0, _0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0],
+            [_0, _0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
+            [_0, _0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
+        ]);
+    });
+
 });
 
 

@@ -1,5 +1,5 @@
 import {_0, Complex} from "../../model/math/complex";
-import {getTruthtableValueAt} from "./truth-table";
+import {getTTBitAt} from "./truth-table";
 import {Vector2c} from "../../model/math/vector2c";
 
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
@@ -75,7 +75,7 @@ export function tensorVectors(...vectors: Vector2c[]): Complex[] {
     for (let indexTensor = 0; indexTensor < lengthTensor; indexTensor++) {
         result[indexTensor] = new Complex(1, 0);
         for (let indexVector = 0; indexVector < vectors.length; indexVector++) {
-            result[indexTensor] = result[indexTensor].mul(vectors[indexVector][getTruthtableValueAt(vectors.length, indexTensor, indexVector)]);
+            result[indexTensor] = result[indexTensor].mul(vectors[indexVector][getTTBitAt(vectors.length, indexTensor, indexVector)]);
         }
     }
     return result;

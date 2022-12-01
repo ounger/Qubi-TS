@@ -1,7 +1,7 @@
 import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./math/complex";
 import {Qubit} from "./qubit";
 import {tensorVectors} from "../logic/math/linear-algebra";
-import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../logic/math/truth-table";
+import {bit, getAllRowsWith1InCol, getTTCol} from "../logic/math/truth-table";
 import {round} from "../logic/math/util";
 
 export class QubitRegister {
@@ -46,6 +46,8 @@ export class QubitRegister {
         return this._states;
     }
 
+    // TODO states setter?
+
     public get numQubits(): number {
         return this._numQubits!;
     }
@@ -86,7 +88,7 @@ export class QubitRegister {
             const probOutcome = measuredValue === 1 ? probOfQ : 1 - probOfQ;
 
             // Calculate the effect on all states
-            let ttCol = getTruthtableCol(this.numQubits, q);
+            let ttCol = getTTCol(this.numQubits, q);
             for (let state = 0; state < ttCol.length; state++) {
                 if (ttCol[state] === measuredValue) {
                     // A remaining state must be renormalized (division by the squareroot of the outcome probability)

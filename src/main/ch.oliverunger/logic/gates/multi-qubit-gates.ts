@@ -1,11 +1,14 @@
 import {QubitRegister} from "../../model/qubit-register";
-import {bit, getAllRowsWith1InCol, getTruthtableCol} from "../math/truth-table";
+import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from "../math/truth-table";
 import {degsToRads} from "../math/util";
 import {Complex} from "../../model/math/complex";
-import {multiplyMatrixVector, tensorMatrices} from "../math/linear-algebra";
-import {HADAMARD_GATE, IDENTITY_GATE} from "./single-qubit-gates";
+import {HADAMARD_GATE} from "./single-qubit-gates";
 
 // TODO Controlled Gates but c shall be 0
+
+// TODO Die Wurzel kuerzen! SQRT = getSqrt(digitFractions)
+
+// TODO Sparse Matrices?
 
 export function x(reg: QubitRegister, q: number) {
     mct(reg, [], q);
@@ -33,7 +36,7 @@ export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: nu
     const numQubits = reg.numQubits;
     const numStates = reg.states.length;
     let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).fill([]).map((_, index) => {
-        return getTruthtableCol(numQubits, controlQubits[index]);
+        return getTTCol(numQubits, controlQubits[index]);
     });
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let state = 0; state < numStates; state++) {
@@ -58,8 +61,8 @@ export function swap(reg: QubitRegister, q0: number, q1: number) {
     q1 = Math.max(temp, q1);
 
     const numQubits = reg.numQubits;
-    let ttColQ0 = getTruthtableCol(numQubits, q0);
-    let ttColQ1 = getTruthtableCol(numQubits, q1);
+    let ttColQ0 = getTTCol(numQubits, q0);
+    let ttColQ1 = getTTCol(numQubits, q1);
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let i = 0; i < reg.states.length; i++) {
         if (ttColQ0[i] !== ttColQ1[i] && !changedSwapPartnerStatesIndices.includes(i)) {
@@ -132,8 +135,8 @@ export function cz(reg: QubitRegister, q0: number, q1: number) {
 export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees: number) {
     const phi = degsToRads(angleDegrees);
     const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
-    const ttColQ0 = getTruthtableCol(reg.numQubits, q0);
-    const ttColQ1 = getTruthtableCol(reg.numQubits, q1);
+    const ttColQ0 = getTTCol(reg.numQubits, q0);
+    const ttColQ1 = getTTCol(reg.numQubits, q1);
     for (let state = 0; state < reg.states.length; state++) {
         if (ttColQ0[state] === 1 && ttColQ1[state] === 1) {
             reg.states[state] = reg.states[state].mul(expOfiTimesAngle);
@@ -145,16 +148,36 @@ export function cswap() {
     // TODO
 }
 
-// TODO Kann man das mit Wahrheitstabellen abbilden?
+// TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
 export function hadSingle(reg: QubitRegister, q: number) {
-    let matrix: Complex[][] = q === 0 ? HADAMARD_GATE : IDENTITY_GATE;
-    for (let i = 1; i < reg.numQubits; i++) {
-        matrix = tensorMatrices(matrix, q === i ? HADAMARD_GATE : IDENTITY_GATE);
+    let states = reg.states.length;
+    let regStatesNew = new Array<Complex>(states);
+    let relevantStatesIndices = calcRelevantStatesIndices(reg.numQubits, q);
+    for (let state = 0; state < states; state++) {
+        const hadRowToApply = HADAMARD_GATE[getTTBitAt(reg.numQubits, state, q)];
+        regStatesNew[state] = hadRowToApply[0].mul(reg.states[relevantStatesIndices[state][0]]).add(hadRowToApply[1].mul(reg.states[relevantStatesIndices[state][1]]));
     }
-    let resultStates = multiplyMatrixVector(matrix, reg.states);
-    for (let state = 0; state < resultStates.length; state++) {
-        reg.states[state] = resultStates[state];
+    for (let state = 0; state < states; state++) {
+        reg.states[state] = regStatesNew[state];
     }
+}
+
+// TODO Remove export
+/**
+ *
+ */
+export function calcRelevantStatesIndices(numQubits: number, col: number): [state0Index: number, state1Index: number][] {
+    const states = Math.pow(2, numQubits);
+    let relevantStatesIndicesPerState = new Array<[state0Index: number, state1Index: number]>(states);
+    const twoPowQubitsMinusCol = Math.pow(2, numQubits - col);
+    const twoPowQubitsMinusColHalf = twoPowQubitsMinusCol / 2;
+    const twoPowQubitsMinus1MinusCol = Math.pow(2, numQubits - 1 - col);
+    for (let state = 0; state < states; state++) {
+        let state0Index = Math.floor(state / twoPowQubitsMinusCol) * twoPowQubitsMinusCol + state % twoPowQubitsMinusColHalf;
+        let state1Index = state0Index + twoPowQubitsMinus1MinusCol;
+        relevantStatesIndicesPerState[state] = [state0Index, state1Index];
+    }
+    return relevantStatesIndicesPerState;
 }
 
 export function hadMulti(reg: QubitRegister, qubits: number[]) {
@@ -165,7 +188,7 @@ export function hadAll(reg: QubitRegister) {
     // TODO
 }
 
-
+// TODO Was ist mit den ROTX, ROTY etc. Funktionen
 
 
 

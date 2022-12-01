@@ -17,7 +17,7 @@ export function getAllRowsWith1InCol(numCols: number, col: number): number[] {
     let result = new Array<number>(numRows / 2);
     let counter = 0;
     for(let row = 0; row < numRows; row++) {
-        if(getTruthtableValueAt(numCols, row, col) === 1) {
+        if (getTTBitAt(numCols, row, col) === 1) {
             result[counter] = row;
             counter++;
         }
@@ -25,24 +25,20 @@ export function getAllRowsWith1InCol(numCols: number, col: number): number[] {
     return result;
 }
 
-export function getTruthtableCol(numCols: number, col: number): bit[] {
-    return [...Array(Math.pow(2, numCols)).keys()].map(index => getTruthtableValueAt(numCols, index, col));
+export function getTTCol(numCols: number, col: number): bit[] {
+    return [...Array(Math.pow(2, numCols)).keys()].map(index => getTTBitAt(numCols, index, col));
 }
 
-export function getTruthtableValueAt(numCols: number, row: number, col: number): bit {
-    return getNumberAsBitArray(row, numCols)[col];
+export function getTTBitAt(numCols: number, row: number, col: number): bit {
+    return (row & (1 << numCols - 1 - col)) != 0 ? 1 : 0;
 }
 
-export function getTruthtable1sCol(n: number): bit[] {
-    return [...Array(Math.pow(2, n)).keys()].map(_ => 1);
-}
-
-export function getTruthtable(numCols: number): bit[][] {
+export function getTT(numCols: number): bit[][] {
     const numRows = countRows(numCols);
     let tt: bit[][] = new Array<bit[]>(numRows).fill([]).map(_ => new Array<bit>().fill(0));
     for (let row = 0; row < numRows; row++) {
         let rowAsBitArray = getNumberAsBitArray(row, numCols);
-        for(let col = 0; col < numCols; col++) {
+        for (let col = 0; col < numCols; col++) {
             tt[row][col] = rowAsBitArray[col];
         }
     }
