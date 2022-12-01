@@ -168,13 +168,12 @@ export function hadSingle(reg: QubitRegister, q: number) {
  */
 export function calcRelevantStatesIndices(numQubits: number, col: number): [state0Index: number, state1Index: number][] {
     const states = Math.pow(2, numQubits);
-    let relevantStatesIndicesPerState = new Array<[state0Index: number, state1Index: number]>(states);
+    const relevantStatesIndicesPerState = new Array<[state0Index: number, state1Index: number]>(states);
     const twoPowQubitsMinusCol = Math.pow(2, numQubits - col);
     const twoPowQubitsMinusColHalf = twoPowQubitsMinusCol / 2;
-    const twoPowQubitsMinus1MinusCol = Math.pow(2, numQubits - 1 - col);
     for (let state = 0; state < states; state++) {
-        let state0Index = Math.floor(state / twoPowQubitsMinusCol) * twoPowQubitsMinusCol + state % twoPowQubitsMinusColHalf;
-        let state1Index = state0Index + twoPowQubitsMinus1MinusCol;
+        const state0Index = Math.floor(state / twoPowQubitsMinusCol) * twoPowQubitsMinusCol + state % twoPowQubitsMinusColHalf;
+        const state1Index = state0Index + twoPowQubitsMinusColHalf;
         relevantStatesIndicesPerState[state] = [state0Index, state1Index];
     }
     return relevantStatesIndicesPerState;
