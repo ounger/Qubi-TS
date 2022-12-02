@@ -150,33 +150,19 @@ export function cswap() {
 
 // TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
 export function hadSingle(reg: QubitRegister, q: number) {
-    let states = reg.states.length;
+    const states = reg.states.length;
+    const numQubits = reg.numQubits;
     let regStatesNew = new Array<Complex>(states);
-    let relevantStatesIndices = calcRelevantStatesIndices(reg.numQubits, q);
+    const twoPowQubitsMinusColMinus1 = Math.pow(2, numQubits - q - 1);
     for (let state = 0; state < states; state++) {
-        const hadRowToApply = HADAMARD_GATE[getTTBitAt(reg.numQubits, state, q)];
-        regStatesNew[state] = hadRowToApply[0].mul(reg.states[relevantStatesIndices[state][0]]).add(hadRowToApply[1].mul(reg.states[relevantStatesIndices[state][1]]));
+        const appliedHadRow = HADAMARD_GATE[getTTBitAt(numQubits, state, q)];
+        const appliedState0 = state - getTTBitAt(numQubits, state, q) * twoPowQubitsMinusColMinus1;
+        const appliedState1 = appliedState0 + twoPowQubitsMinusColMinus1;
+        regStatesNew[state] = appliedHadRow[0].mul(reg.states[appliedState0]).add(appliedHadRow[1].mul(reg.states[appliedState1]));
     }
     for (let state = 0; state < states; state++) {
         reg.states[state] = regStatesNew[state];
     }
-}
-
-// TODO Remove export
-/**
- *
- */
-export function calcRelevantStatesIndices(numQubits: number, col: number): [state0Index: number, state1Index: number][] {
-    const states = Math.pow(2, numQubits);
-    const relevantStatesIndicesPerState = new Array<[state0Index: number, state1Index: number]>(states);
-    const twoPowQubitsMinusCol = Math.pow(2, numQubits - col);
-    const twoPowQubitsMinusColHalf = twoPowQubitsMinusCol / 2;
-    for (let state = 0; state < states; state++) {
-        const state0Index = Math.floor(state / twoPowQubitsMinusCol) * twoPowQubitsMinusCol + state % twoPowQubitsMinusColHalf;
-        const state1Index = state0Index + twoPowQubitsMinusColHalf;
-        relevantStatesIndicesPerState[state] = [state0Index, state1Index];
-    }
-    return relevantStatesIndicesPerState;
 }
 
 export function hadMulti(reg: QubitRegister, qubits: number[]) {

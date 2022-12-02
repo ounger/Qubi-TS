@@ -5,7 +5,6 @@ import {
     QUBIT_STATE_ZERO
 } from "../../../../main/ch.oliverunger/model/qubit";
 import {
-    calcRelevantStatesIndices,
     ccx,
     cphase,
     cs,
@@ -685,136 +684,6 @@ describe('hadSingle Tests', () => {
 
 });
 
-describe('getIndicesRelevantStates', () => {
-
-    test('1 Qubit', () => {
-        let relevantStatesIndicesCol0 = calcRelevantStatesIndices(1, 0);
-        expect(relevantStatesIndicesCol0[0]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol0[1]).toEqual([0, 1]);
-    });
-
-    test('2 Qubits', () => {
-        let relevantStatesIndicesCol0 = calcRelevantStatesIndices(2, 0);
-        expect(relevantStatesIndicesCol0[0]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol0[1]).toEqual([1, 3]);
-        expect(relevantStatesIndicesCol0[2]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol0[3]).toEqual([1, 3]);
-
-        let relevantStatesIndicesCol1 = calcRelevantStatesIndices(2, 1);
-        expect(relevantStatesIndicesCol1[0]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol1[1]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol1[2]).toEqual([2, 3]);
-        expect(relevantStatesIndicesCol1[3]).toEqual([2, 3]);
-    });
-
-    test('3 Qubits', () => {
-        let relevantStatesIndicesCol0 = calcRelevantStatesIndices(3, 0);
-        expect(relevantStatesIndicesCol0[0]).toEqual([0, 4]);
-        expect(relevantStatesIndicesCol0[1]).toEqual([1, 5]);
-        expect(relevantStatesIndicesCol0[2]).toEqual([2, 6]);
-        expect(relevantStatesIndicesCol0[3]).toEqual([3, 7]);
-        expect(relevantStatesIndicesCol0[4]).toEqual([0, 4]);
-        expect(relevantStatesIndicesCol0[5]).toEqual([1, 5]);
-        expect(relevantStatesIndicesCol0[6]).toEqual([2, 6]);
-        expect(relevantStatesIndicesCol0[7]).toEqual([3, 7]);
-
-        let relevantStatesIndicesCol1 = calcRelevantStatesIndices(3, 1);
-        expect(relevantStatesIndicesCol1[0]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol1[1]).toEqual([1, 3]);
-        expect(relevantStatesIndicesCol1[2]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol1[3]).toEqual([1, 3]);
-        expect(relevantStatesIndicesCol1[4]).toEqual([4, 6]);
-        expect(relevantStatesIndicesCol1[5]).toEqual([5, 7]);
-        expect(relevantStatesIndicesCol1[6]).toEqual([4, 6]);
-        expect(relevantStatesIndicesCol1[7]).toEqual([5, 7]);
-
-        let relevantStatesIndicesCol2 = calcRelevantStatesIndices(3, 2);
-        expect(relevantStatesIndicesCol2[0]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol2[1]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol2[2]).toEqual([2, 3]);
-        expect(relevantStatesIndicesCol2[3]).toEqual([2, 3]);
-        expect(relevantStatesIndicesCol2[4]).toEqual([4, 5]);
-        expect(relevantStatesIndicesCol2[5]).toEqual([4, 5]);
-        expect(relevantStatesIndicesCol2[6]).toEqual([6, 7]);
-        expect(relevantStatesIndicesCol2[7]).toEqual([6, 7]);
-    });
-
-    test('4 Qubits', () => {
-        let relevantStatesIndicesCol0 = calcRelevantStatesIndices(4, 0);
-        expect(relevantStatesIndicesCol0[0]).toEqual([0, 8]);
-        expect(relevantStatesIndicesCol0[1]).toEqual([1, 9]);
-        expect(relevantStatesIndicesCol0[2]).toEqual([2, 10]);
-        expect(relevantStatesIndicesCol0[3]).toEqual([3, 11]);
-        expect(relevantStatesIndicesCol0[4]).toEqual([4, 12]);
-        expect(relevantStatesIndicesCol0[5]).toEqual([5, 13]);
-        expect(relevantStatesIndicesCol0[6]).toEqual([6, 14]);
-        expect(relevantStatesIndicesCol0[7]).toEqual([7, 15]);
-        expect(relevantStatesIndicesCol0[8]).toEqual([0, 8])
-        expect(relevantStatesIndicesCol0[9]).toEqual([1, 9])
-        expect(relevantStatesIndicesCol0[10]).toEqual([2, 10]);
-        expect(relevantStatesIndicesCol0[11]).toEqual([3, 11]);
-        expect(relevantStatesIndicesCol0[12]).toEqual([4, 12]);
-        expect(relevantStatesIndicesCol0[13]).toEqual([5, 13]);
-        expect(relevantStatesIndicesCol0[14]).toEqual([6, 14]);
-        expect(relevantStatesIndicesCol0[15]).toEqual([7, 15]);
-
-        let relevantStatesIndicesCol1 = calcRelevantStatesIndices(4, 1);
-        expect(relevantStatesIndicesCol1[0]).toEqual([0, 4]);
-        expect(relevantStatesIndicesCol1[1]).toEqual([1, 5]);
-        expect(relevantStatesIndicesCol1[2]).toEqual([2, 6]);
-        expect(relevantStatesIndicesCol1[3]).toEqual([3, 7]);
-        expect(relevantStatesIndicesCol1[4]).toEqual([0, 4]);
-        expect(relevantStatesIndicesCol1[5]).toEqual([1, 5]);
-        expect(relevantStatesIndicesCol1[6]).toEqual([2, 6]);
-        expect(relevantStatesIndicesCol1[7]).toEqual([3, 7]);
-        expect(relevantStatesIndicesCol1[8]).toEqual([8, 12])
-        expect(relevantStatesIndicesCol1[9]).toEqual([9, 13])
-        expect(relevantStatesIndicesCol1[10]).toEqual([10, 14]);
-        expect(relevantStatesIndicesCol1[11]).toEqual([11, 15]);
-        expect(relevantStatesIndicesCol1[12]).toEqual([8, 12]);
-        expect(relevantStatesIndicesCol1[13]).toEqual([9, 13]);
-        expect(relevantStatesIndicesCol1[14]).toEqual([10, 14]);
-        expect(relevantStatesIndicesCol1[15]).toEqual([11, 15]);
-
-        let relevantStatesIndicesCol2 = calcRelevantStatesIndices(4, 2);
-        expect(relevantStatesIndicesCol2[0]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol2[1]).toEqual([1, 3]);
-        expect(relevantStatesIndicesCol2[2]).toEqual([0, 2]);
-        expect(relevantStatesIndicesCol2[3]).toEqual([1, 3]);
-        expect(relevantStatesIndicesCol2[4]).toEqual([4, 6]);
-        expect(relevantStatesIndicesCol2[5]).toEqual([5, 7]);
-        expect(relevantStatesIndicesCol2[6]).toEqual([4, 6]);
-        expect(relevantStatesIndicesCol2[7]).toEqual([5, 7]);
-        expect(relevantStatesIndicesCol2[8]).toEqual([8, 10])
-        expect(relevantStatesIndicesCol2[9]).toEqual([9, 11])
-        expect(relevantStatesIndicesCol2[10]).toEqual([8, 10]);
-        expect(relevantStatesIndicesCol2[11]).toEqual([9, 11]);
-        expect(relevantStatesIndicesCol2[12]).toEqual([12, 14]);
-        expect(relevantStatesIndicesCol2[13]).toEqual([13, 15]);
-        expect(relevantStatesIndicesCol2[14]).toEqual([12, 14]);
-        expect(relevantStatesIndicesCol2[15]).toEqual([13, 15]);
-
-        let relevantStatesIndicesCol3 = calcRelevantStatesIndices(4, 3);
-        expect(relevantStatesIndicesCol3[0]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol3[1]).toEqual([0, 1]);
-        expect(relevantStatesIndicesCol3[2]).toEqual([2, 3]);
-        expect(relevantStatesIndicesCol3[3]).toEqual([2, 3]);
-        expect(relevantStatesIndicesCol3[4]).toEqual([4, 5]);
-        expect(relevantStatesIndicesCol3[5]).toEqual([4, 5]);
-        expect(relevantStatesIndicesCol3[6]).toEqual([6, 7]);
-        expect(relevantStatesIndicesCol3[7]).toEqual([6, 7]);
-        expect(relevantStatesIndicesCol3[8]).toEqual([8, 9])
-        expect(relevantStatesIndicesCol3[9]).toEqual([8, 9])
-        expect(relevantStatesIndicesCol3[10]).toEqual([10, 11]);
-        expect(relevantStatesIndicesCol3[11]).toEqual([10, 11]);
-        expect(relevantStatesIndicesCol3[12]).toEqual([12, 13]);
-        expect(relevantStatesIndicesCol3[13]).toEqual([12, 13]);
-        expect(relevantStatesIndicesCol3[14]).toEqual([14, 15]);
-        expect(relevantStatesIndicesCol3[15]).toEqual([14, 15]);
-    });
-
-});
-
 describe('Test Uebereinstimmung bei 4 Qubits', () => {
 
     test('Hadamard on first and third qubit', () => {
@@ -858,33 +727,35 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
 
 });
 
-// describe('Test Performance', () => {
-//
-//     test('Performance', () => {
-//         let reg0 = QubitRegister.ofQubits(
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-//         hadSingle(reg0, 0);
-//         console.log(reg0.states);
-//
-//         let q0 = QUBIT_STATE_ZERO;
-//         q0 = had(q0);
-//         let reg1 = QubitRegister.ofQubits(
-//             q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-//         console.log(reg1.states);
-//
-//         expStatesToBeCloseTo(reg0.states, reg1.states);
-//
-//     });
-//
-// });
+describe('Test Performance', () => {
+
+    test('Performance', () => {
+        let reg0 = QubitRegister.ofQubits(
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        hadSingle(reg0, 0);
+        console.log(reg0.states);
+
+        let q0 = QUBIT_STATE_ZERO;
+        q0 = had(q0);
+        let reg1 = QubitRegister.ofQubits(
+            q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        console.log(reg1.states);
+
+        // expStatesToBeCloseTo(reg0.states, reg1.states);
+
+    });
+
+});
 
 
 /* Example Register of 2 Qubits State x */
