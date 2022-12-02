@@ -1,4 +1,4 @@
-import {decrement, increment, qrng} from '../../../../main/ch.oliverunger/logic/circuits/circuits';
+import {add, decrement, increment, qrng, sub} from '../../../../main/ch.oliverunger/logic/circuits/circuits';
 import {bit} from "../../../../main/ch.oliverunger/logic/math/truth-table";
 import {QubitRegister} from "../../../../main/ch.oliverunger/model/qubit-register";
 import {_0, _1} from "../../../../main/ch.oliverunger/model/math/complex";
@@ -98,5 +98,88 @@ describe('More increment and decrement tests', () => {
         decrement(reg);
         expProbabilitiesToBeCloseTo(reg.probabilities(),
             [0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        increment(reg);
+        expProbabilitiesToBeCloseTo(reg.probabilities(),
+            [0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     });
+});
+
+describe('Addition Tests', () => {
+
+    test('Add 1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, 1);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Add 2', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, 2);
+        expect(reg.states).toEqual([_0, _0, _1, _0]);
+    });
+
+    test('Add 3', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, 3);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Add 4', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, 4);
+        expect(reg.states).toEqual([_1, _0, _0, _0]);
+    });
+
+    test('Add 5', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, 5);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Add -1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        add(reg, -1);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+});
+
+describe('Subtraction Tests', () => {
+
+    test('Sub 1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, 1);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Sub 2', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, 2);
+        expect(reg.states).toEqual([_0, _0, _1, _0]);
+    });
+
+    test('Sub 3', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, 3);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Sub 4', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, 4);
+        expect(reg.states).toEqual([_1, _0, _0, _0]);
+    });
+
+    test('Sub 5', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, 5);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Sub -1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        sub(reg, -1);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
 });
