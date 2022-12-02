@@ -690,7 +690,7 @@ describe('Test Uebereinstimmung bei 4 Qubits', () => {
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO, QUBIT_STATE_MINUS, QUBIT_STATE_ONE);
         hadSingle(reg0, 0);
         hadSingle(reg0, 2);
-        console.log(reg0.states);
+        // console.log(reg0.states);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         let q0 = QUBIT_STATE_PLUS;
@@ -700,7 +700,7 @@ describe('Test Uebereinstimmung bei 4 Qubits', () => {
         q0 = had(q0);
         q2 = had(q2);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2, q3);
-        console.log(reg1.states);
+        // console.log(reg1.states);
         expect(reg1.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -713,13 +713,13 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
     test('', () => {
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg0, 0);
-        console.log(reg0.states);
+        // console.log(reg0.states);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         let q0 = QUBIT_STATE_ZERO;
         q0 = had(q0);
         let reg1 = QubitRegister.ofQubits(q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        console.log(reg1.states);
+        // console.log(reg1.states);
         expect(reg1.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
