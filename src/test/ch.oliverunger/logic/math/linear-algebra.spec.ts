@@ -41,7 +41,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../../../main/ch.oliverunger/model/math/complex";
-import {expMatricesToBeCloseTo} from "../../util/TestUtil";
+import {expMatricesToBeCloseTo} from "../../util/test-util";
 import {
     HADAMARD_GATE,
     IDENTITY_GATE,

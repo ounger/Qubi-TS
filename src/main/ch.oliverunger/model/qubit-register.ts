@@ -2,7 +2,7 @@ import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "./math/co
 import {Qubit} from "./qubit";
 import {tensorVectors} from "../logic/math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTTCol} from "../logic/math/truth-table";
-import {round} from "../logic/math/util";
+import {round} from "../logic/math/math-util";
 
 export class QubitRegister {
 

@@ -11,7 +11,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../model/math/complex";
-import {expOfiTimesAngleDegrees} from "../math/util";
+import {expOfiTimesAngleDegrees} from "../math/math-util";
 
 export const IDENTITY_GATE: Complex[][] = [
     [_1, _0],

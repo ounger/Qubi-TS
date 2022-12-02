@@ -1,6 +1,6 @@
 import {QubitRegister} from "../../model/qubit-register";
 import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from "../math/truth-table";
-import {degsToRads} from "../math/util";
+import {degsToRads} from "../math/math-util";
 import {Complex} from "../../model/math/complex";
 import {HADAMARD_GATE} from "./single-qubit-gates";
 

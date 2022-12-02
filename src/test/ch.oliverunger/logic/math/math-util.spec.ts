@@ -1,4 +1,4 @@
-import {degsToRads, getNumberAsBitArray, radsToDegs, round} from '../../../../main/ch.oliverunger/logic/math/util';
+import {degsToRads, getNumberAsBitArray, radsToDegs, round} from '../../../../main/ch.oliverunger/logic/math/math-util';
 
 describe('Rounding', () => {
     test('', () => {

@@ -31,3 +31,10 @@ export function expMatricesToBeCloseTo(m0: Complex[][], m1: Complex[][]) {
         }
     }
 }
+
+export function expProbabilitiesToBeCloseTo(actual: number[], expected: number[]) {
+    expect(actual.length).toEqual(expected.length);
+    for (let i = 0; i < actual.length; i++) {
+        expect(actual[i]).toBeCloseTo(expected[i], 5);
+    }
+}

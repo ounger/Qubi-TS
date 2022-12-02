@@ -31,8 +31,8 @@ import {
     BELL_STATE_PSI_PLUS,
     QubitRegister
 } from "../../../../main/ch.oliverunger/model/qubit-register";
-import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/util";
-import {expStatesToBeCloseTo} from "../../util/TestUtil";
+import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
+import {expStatesToBeCloseTo} from "../../util/test-util";
 import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
@@ -727,35 +727,35 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
 
 });
 
-describe('Test Performance', () => {
-
-    test('Performance', () => {
-        let reg0 = QubitRegister.ofQubits(
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        hadSingle(reg0, 0);
-        console.log(reg0.states);
-
-        let q0 = QUBIT_STATE_ZERO;
-        q0 = had(q0);
-        let reg1 = QubitRegister.ofQubits(
-            q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
-            QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        console.log(reg1.states);
-
-        // expStatesToBeCloseTo(reg0.states, reg1.states);
-
-    });
-
-});
+// describe('Test Performance', () => {
+//
+//     test('Performance', () => {
+//         let reg0 = QubitRegister.ofQubits(
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+//         hadSingle(reg0, 0);
+//         console.log(reg0.states);
+//
+//         let q0 = QUBIT_STATE_ZERO;
+//         q0 = had(q0);
+//         let reg1 = QubitRegister.ofQubits(
+//             q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
+//             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+//         console.log(reg1.states);
+//
+//         // expStatesToBeCloseTo(reg0.states, reg1.states);
+//
+//     });
+//
+// });
 
 
 /* Example Register of 2 Qubits State x */
