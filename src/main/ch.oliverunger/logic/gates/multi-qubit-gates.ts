@@ -149,6 +149,9 @@ export function cswap() {
 }
 
 // TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
+/**
+ * Applies a hadamard gate to a single qubit in a register.
+ */
 export function hadSingle(reg: QubitRegister, q: number) {
     const states = reg.states.length;
     const numQubits = reg.numQubits;
