@@ -3,10 +3,15 @@ import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_
 import {bit} from "../logic/math/truth-table";
 import {inner} from "../logic/math/linear-algebra";
 
-// TODO Qubit und Single Qubit Gates Methoden sollen auf dem Qubit arbeiten und nicht mehr
-// neue Qubits zurueckgeben
-
 export class Qubit {
+
+    static of(stateZeroAmplitude: Complex, stateOneAmplitude: Complex) {
+        return new Qubit(stateZeroAmplitude, stateOneAmplitude);
+    }
+
+    static ofState(state: QubitState) {
+        return new Qubit(state[0], state[1]);
+    }
 
     private measuredValue: bit | null = null;
 
@@ -14,9 +19,7 @@ export class Qubit {
      * Creates a qubit with the given amplitudes for the computational basis states.
      */
     constructor(private _stateZeroAmplitude: Complex, private _stateOneAmplitude: Complex) {
-        if (!this.isValid()) {
-            throw new Error("Invalid qubit state initialization. Probabilities of states have to sum up to 1.");
-        }
+        this.checkValidity();
     }
 
     get stateZeroAmplitude(): Complex {
@@ -27,12 +30,10 @@ export class Qubit {
         return this._stateOneAmplitude;
     }
 
-    static of(stateZeroAmplitude: Complex, stateOneAmplitude: Complex) {
-        return new Qubit(stateZeroAmplitude, stateOneAmplitude);
-    }
-
-    static ofState(state: QubitState) {
-        return new Qubit(state[0], state[1]);
+    setAmplitudesOfState(newStateZeroAmplitude: Complex, newStateOneAmplitude: Complex) {
+        this._stateZeroAmplitude = newStateZeroAmplitude;
+        this._stateOneAmplitude = newStateOneAmplitude;
+        this.checkValidity();
     }
 
     state(): QubitState {
@@ -65,7 +66,7 @@ export class Qubit {
      * Simulating a measurement
      */
     measure(): bit {
-        if (!this.measuredValue) {
+        if (this.measuredValue == null) {
             const probabilities = this.probabilities(); // Sums to 1
             const rand = Math.random();
             this.measuredValue = rand <= probabilities[0] ? 0 : 1;
@@ -78,8 +79,15 @@ export class Qubit {
             && this.stateOneAmplitude.equals(that.stateOneAmplitude);
     }
 
+    private checkValidity() {
+        if (!this.isValid()) {
+            throw new Error("Invalid qubit state. Probabilities for each state don't to sum up to 1.");
+        }
+    }
+
     private isValid(): boolean {
-        let probsSum = this.probabilities()[0] + this.probabilities()[1];
+        const probs = this.probabilities();
+        const probsSum = probs[0] + probs[1];
         return probsSum > 0.99 && probsSum < 1.01;
     }
 

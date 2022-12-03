@@ -1,14 +1,17 @@
-import {QUBIT_STATE_ZERO} from "../../model/qubit";
+import {Qubit, QUBIT_STATE_ZERO} from "../../model/qubit";
 import {had} from "../gates/single-qubit-gates";
 import {bit} from "../math/truth-table";
 import {QubitRegister} from "../../model/qubit-register";
 import {rotateArray} from "../../util";
+import {STATE_ZERO} from "../../model/qubit-state";
 
 /**
  * Quantum Random Number Generator (QRNG)
  */
 export function qrng(): bit {
-    return had(QUBIT_STATE_ZERO).measure();
+    const qubit = Qubit.ofState(STATE_ZERO);
+    had(qubit);
+    return qubit.measure();
 }
 
 export function increment(reg: QubitRegister) {

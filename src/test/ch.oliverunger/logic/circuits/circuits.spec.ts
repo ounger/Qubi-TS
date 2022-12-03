@@ -84,7 +84,8 @@ describe('Decrement', () => {
 
 });
 
-describe('More increment and decrement tests', () => {
+describe('More Circuits Tests', () => {
+
     test('OReilly Example for increment and decrement', () => {
         let reg = QubitRegister.ofQubits(
             QUBIT_STATE_ZERO,
@@ -102,6 +103,7 @@ describe('More increment and decrement tests', () => {
         expProbabilitiesToBeCloseTo(reg.probabilities(),
             [0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     });
+
 });
 
 describe('Addition Tests', () => {

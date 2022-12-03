@@ -1,4 +1,5 @@
 import {
+    Qubit,
     QUBIT_STATE_MINUS,
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
@@ -33,7 +34,8 @@ import {
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
 import {expStatesToBeCloseTo} from "../../util/test-util";
-import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
+import {x as singleX, had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
+import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -595,9 +597,9 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_PLUS;
-        q0 = had(q0);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_PLUS);
+        had(q0);
         let reg1 = QubitRegister.ofQubits(q0, q1);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -610,9 +612,9 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_PLUS;
-        q1 = had(q1);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_PLUS);
+        had(q1);
         let reg1 = QubitRegister.ofQubits(q0, q1);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -625,10 +627,10 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_PLUS;
-        let q2 = QUBIT_STATE_ONE;
-        q0 = had(q0);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_PLUS);
+        let q2 = Qubit.ofState(STATE_ONE);
+        had(q0);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -641,10 +643,10 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_PLUS;
-        let q2 = QUBIT_STATE_ONE;
-        q1 = had(q1);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_PLUS);
+        let q2 = Qubit.ofState(STATE_ONE);
+        had(q1);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -657,10 +659,10 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_PLUS;
-        let q2 = QUBIT_STATE_ONE;
-        q2 = had(q2);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_PLUS);
+        let q2 = Qubit.ofState(STATE_ONE);
+        had(q2);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -673,10 +675,10 @@ describe('hadSingle Tests', () => {
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
-        let q0 = QUBIT_STATE_ZERO;
-        let q1 = QUBIT_STATE_ZERO;
-        let q2 = QUBIT_STATE_ZERO;
-        q0 = had(q0);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_ZERO);
+        let q2 = Qubit.ofState(STATE_ZERO);
+        had(q0);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -693,12 +695,12 @@ describe('Test Uebereinstimmung bei 4 Qubits', () => {
         // console.log(reg0.states);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
-        let q0 = QUBIT_STATE_PLUS;
-        let q1 = QUBIT_STATE_ZERO;
-        let q2 = QUBIT_STATE_MINUS;
-        let q3 = QUBIT_STATE_ONE;
-        q0 = had(q0);
-        q2 = had(q2);
+        let q0 = Qubit.ofState(STATE_PLUS);
+        let q1 = Qubit.ofState(STATE_ZERO);
+        let q2 = Qubit.ofState(STATE_MINUS);
+        let q3 = Qubit.ofState(STATE_ONE);
+        had(q0);
+        had(q2);
         let reg1 = QubitRegister.ofQubits(q0, q1, q2, q3);
         // console.log(reg1.states);
         expect(reg1.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
@@ -716,8 +718,8 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
         // console.log(reg0.states);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
-        let q0 = QUBIT_STATE_ZERO;
-        q0 = had(q0);
+        let q0 = Qubit.ofState(STATE_ZERO);
+        had(q0);
         let reg1 = QubitRegister.ofQubits(q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         // console.log(reg1.states);
         expect(reg1.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
@@ -756,6 +758,39 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
 //     });
 //
 // });
+
+describe('Qiskit Examples', () => {
+
+    test('CNOT ket(++) -> ket(++)', () => {
+        let reg = new QubitRegister(2);
+        hadSingle(reg, 0);
+        hadSingle(reg, 1);
+        cx(reg, 1, 0);
+        expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5)]);
+    });
+
+    test('CNOT ket(-+) -> ket(--)', () => {
+        // TODO
+        let reg = new QubitRegister(2);
+        hadSingle(reg, 0);
+        x(reg, 1);
+        hadSingle(reg, 1);
+        // cx(reg, 0, 1);
+        console.log(reg.states);
+
+        let q0 = Qubit.ofState(STATE_ZERO);
+        let q1 = Qubit.ofState(STATE_ZERO);
+        had(q0);
+        singleX(q1)
+        had(q1);
+        let reg1 = QubitRegister.ofQubits(q0, q1);
+        console.log(reg1.states);
+
+
+        // expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5)]);
+    })
+
+});
 
 
 /* Example Register of 2 Qubits State x */

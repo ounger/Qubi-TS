@@ -23,8 +23,8 @@ export const IDENTITY_GATE: Complex[][] = [
  * with the identity matrix. It does not modify the quantum state.
  * NOTE: Only use it for tests.
  */
-export function identity(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(IDENTITY_GATE, qubit.state()));
+export function identity(qubit: Qubit) {
+    applyGate(qubit, IDENTITY_GATE);
 }
 
 export const PAULI_X_GATE: Complex[][] = [
@@ -36,8 +36,8 @@ export const PAULI_X_GATE: Complex[][] = [
  * The Pauli-X gate is a single-qubit operation that is the equivalent of the NOT gate
  * for classical computers.
  */
-export function x(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_X_GATE, qubit.state()));
+export function x(qubit: Qubit) {
+    applyGate(qubit, PAULI_X_GATE);
 }
 
 export const PAULI_Y_GATE: Complex[][] = [
@@ -48,8 +48,8 @@ export const PAULI_Y_GATE: Complex[][] = [
 /**
  * The Pauli-Y gate is a single-qubit operation.
  */
-export function y(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Y_GATE, qubit.state()));
+export function y(qubit: Qubit) {
+    applyGate(qubit, PAULI_Y_GATE);
 }
 
 export const PAULI_Z_GATE: Complex[][] = [
@@ -60,8 +60,8 @@ export const PAULI_Z_GATE: Complex[][] = [
 /**
  * The Pauli-Z gate is a single-qubit operation.
  */
-export function z(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(PAULI_Z_GATE, qubit.state()));
+export function z(qubit: Qubit) {
+    applyGate(qubit, PAULI_Z_GATE);
 }
 
 export const HADAMARD_GATE: Complex[][] = [
@@ -73,11 +73,11 @@ export const HADAMARD_GATE: Complex[][] = [
  * The Hadamard gate is a single-qubit operation that creates
  * an equal superposition of the two basis states.
  */
-export function had(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(HADAMARD_GATE, qubit.state()));
+export function had(qubit: Qubit){
+    applyGate(qubit, HADAMARD_GATE);
 }
 
-export const T_GATE: Complex[][] = [
+export const PHASE_T_GATE: Complex[][] = [
     [_1, _0],
     [_0, HALF_SQRT_TWO_HALF_i_SQRT_TWO]
 ];
@@ -85,11 +85,11 @@ export const T_GATE: Complex[][] = [
 /**
  * Phase shift by Math.PI / 4 (45°)
  */
-export function phaseT(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(T_GATE, qubit.state()));
+export function phaseT(qubit: Qubit) {
+    applyGate(qubit, PHASE_T_GATE);
 }
 
-export const S_GATE: Complex[][] = [
+export const PHASE_S_GATE: Complex[][] = [
     [_1, _0],
     [_0, i]
 ];
@@ -97,15 +97,15 @@ export const S_GATE: Complex[][] = [
 /**
  * Phase shift by Math.PI / 2 (90°)
  */
-export function phaseS(qubit: Qubit): Qubit {
-    return Qubit.ofState(multiplyMatrixVector2c(S_GATE, qubit.state()));
+export function phaseS(qubit: Qubit) {
+    applyGate(qubit, PHASE_S_GATE);
 }
 
 /**
  * Phase shift by Math.PI (180°)
  */
-export function phaseZ(qubit: Qubit): Qubit {
-    return z(qubit);
+export function phaseZ(qubit: Qubit) {
+    z(qubit);
 }
 
 /**
@@ -122,17 +122,10 @@ export function phase(qubit: Qubit, angleDegrees: number) {
         [_1, _0],
         [_0, expOfiTimesAngleDegrees(angleDegrees)]
     ];
-    return Qubit.ofState(multiplyMatrixVector2c(phaseGate, qubit.state()));
+    applyGate(qubit, phaseGate);
 }
 
-
-
-
-
-
-
-
-
-
-
-
+function applyGate(qubit: Qubit, gate: Complex[][]) {
+    let amplitudesOfNewState = multiplyMatrixVector2c(gate, qubit.state());
+    qubit.setAmplitudesOfState(amplitudesOfNewState[0], amplitudesOfNewState[1]);
+}
