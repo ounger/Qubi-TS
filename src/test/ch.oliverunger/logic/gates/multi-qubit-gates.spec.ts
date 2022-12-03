@@ -34,7 +34,7 @@ import {
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
 import {expStatesToBeCloseTo} from "../../util/test-util";
-import {x as singleX, had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
+import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
@@ -761,33 +761,29 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
 
 describe('Qiskit Examples', () => {
 
-    test('CNOT ket(++) -> ket(++)', () => {
-        let reg = new QubitRegister(2);
+    test('CNOT on |0+> with first qubit as target and second as control', () => {
+        const reg = new QubitRegister(2);
+        hadSingle(reg, 1);
+        cx(reg, 1, 0);
+        expStatesToBeCloseTo(reg.states, [ONE_OF_SQRT_TWO, _0, _0, ONE_OF_SQRT_TWO]);
+    });
+
+    test('CNOT on |++> with first qubit as target and second as control', () => {
+        const reg = new QubitRegister(2);
         hadSingle(reg, 0);
         hadSingle(reg, 1);
         cx(reg, 1, 0);
         expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5)]);
     });
 
-    test('CNOT ket(-+) -> ket(--)', () => {
-        // TODO
-        let reg = new QubitRegister(2);
-        hadSingle(reg, 0);
-        x(reg, 1);
+    test('CNOT on |-+> with first qubit as target and second as control', () => {
+        const reg = new QubitRegister(2);
         hadSingle(reg, 1);
-        // cx(reg, 0, 1);
+        x(reg, 0);
+        hadSingle(reg, 0);
+        cx(reg, 1, 0);
         console.log(reg.states);
-
-        let q0 = Qubit.ofState(STATE_ZERO);
-        let q1 = Qubit.ofState(STATE_ZERO);
-        had(q0);
-        singleX(q1)
-        had(q1);
-        let reg1 = QubitRegister.ofQubits(q0, q1);
-        console.log(reg1.states);
-
-
-        // expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5)]);
+        expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
     })
 
 });
