@@ -6,6 +6,8 @@ import {round} from "../logic/math/math-util";
 
 export class QubitRegister {
 
+    // TODO Remove _variables
+
     private measuredValue: number | null = null;
     private measuredValuesQubits: (bit | null)[];
     private _states: Complex[];

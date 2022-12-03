@@ -710,18 +710,16 @@ describe('Test Uebereinstimmung bei 4 Qubits', () => {
 
 });
 
-describe('Test Uebereinstimmung bei vielen Qubits', () => {
+describe('Uebereinstimmung bei vielen Qubits Test', () => {
 
     test('', () => {
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg0, 0);
-        // console.log(reg0.states);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         let q0 = Qubit.ofState(STATE_ZERO);
         had(q0);
         let reg1 = QubitRegister.ofQubits(q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        // console.log(reg1.states);
         expect(reg1.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         expStatesToBeCloseTo(reg0.states, reg1.states);
@@ -761,14 +759,14 @@ describe('Test Uebereinstimmung bei vielen Qubits', () => {
 
 describe('Qiskit Examples', () => {
 
-    test('CNOT on |0+> with first qubit as target and second as control', () => {
+    test('CNOT(1, 0) on |0+> -> BELL_STATE_PHI_PLUS', () => {
         const reg = new QubitRegister(2);
         hadSingle(reg, 1);
         cx(reg, 1, 0);
         expStatesToBeCloseTo(reg.states, [ONE_OF_SQRT_TWO, _0, _0, ONE_OF_SQRT_TWO]);
     });
 
-    test('CNOT on |++> with first qubit as target and second as control', () => {
+    test('CNOT(1, 0) on |++> -> |++>', () => {
         const reg = new QubitRegister(2);
         hadSingle(reg, 0);
         hadSingle(reg, 1);
@@ -776,7 +774,7 @@ describe('Qiskit Examples', () => {
         expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5)]);
     });
 
-    test('CNOT on |-+> with first qubit as target and second as control', () => {
+    test('CNOT(1, 0) on |-+> -> ket(--)', () => {
         const reg = new QubitRegister(2);
         hadSingle(reg, 1);
         x(reg, 0);
@@ -784,7 +782,28 @@ describe('Qiskit Examples', () => {
         cx(reg, 1, 0);
         console.log(reg.states);
         expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
-    })
+    });
+
+    test('Constructing a CNOT(0, 1) from Hadamard gates and a single CNOT(1, 0)', () => {
+        const reg0 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        hadSingle(reg0, 0);
+        hadSingle(reg0, 1);
+        cx(reg0, 1, 0);
+        hadSingle(reg0, 0);
+        hadSingle(reg0, 1);
+
+        const reg1 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        cx(reg1, 0, 1);
+
+        expStatesToBeCloseTo(reg0.states, reg1.states);
+        expStatesToBeCloseTo(reg0.states, [_0, _0, _0, _1]);
+    });
+
+    test('Phase Kickback: CNOT(1, 0) on ket(-+) -> ket(--)', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_PLUS);
+        cx(reg, 1, 0);
+        expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
+    });
 
 });
 
