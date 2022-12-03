@@ -3,29 +3,32 @@ import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_
 import {bit} from "../logic/math/truth-table";
 import {inner} from "../logic/math/linear-algebra";
 
+// TODO Qubit und Single Qubit Gates Methoden sollen auf dem Qubit arbeiten und nicht mehr
+// neue Qubits zurueckgeben
+
 export class Qubit {
 
     private measuredValue: bit | null = null;
 
     /**
-     * Creates a Qubit with the given computational basis states.
+     * Creates a qubit with the given amplitudes for the computational basis states.
      */
-    constructor(private _basisStateZero: Complex, private _basisStateOne: Complex) {
+    constructor(private _stateZeroAmplitude: Complex, private _stateOneAmplitude: Complex) {
         if (!this.isValid()) {
-            throw new Error("Invalid qubit state initalization. Probabilities of states have to sum up to 1.");
+            throw new Error("Invalid qubit state initialization. Probabilities of states have to sum up to 1.");
         }
     }
 
-    get basisStateZero(): Complex {
-        return this._basisStateZero;
+    get stateZeroAmplitude(): Complex {
+        return this._stateZeroAmplitude;
     }
 
-    get basisStateOne(): Complex {
-        return this._basisStateOne;
+    get stateOneAmplitude(): Complex {
+        return this._stateOneAmplitude;
     }
 
-    static of(stateZero: Complex, stateOne: Complex) {
-        return new Qubit(stateZero, stateOne);
+    static of(stateZeroAmplitude: Complex, stateOneAmplitude: Complex) {
+        return new Qubit(stateZeroAmplitude, stateOneAmplitude);
     }
 
     static ofState(state: QubitState) {
@@ -33,14 +36,14 @@ export class Qubit {
     }
 
     state(): QubitState {
-        return [this.basisStateZero, this.basisStateOne];
+        return [this.stateZeroAmplitude, this.stateOneAmplitude];
     }
 
     probabilities(): [stateZeroProbability: number, stateOneProbability: number] {
         // |z|^2 (Modulus of z squared)
         return [
-            this.basisStateZero.re * this.basisStateZero.re + this.basisStateZero.im * this.basisStateZero.im,
-            this.basisStateOne.re * this.basisStateOne.re + this.basisStateOne.im * this.basisStateOne.im
+            this.stateZeroAmplitude.re * this.stateZeroAmplitude.re + this.stateZeroAmplitude.im * this.stateZeroAmplitude.im,
+            this.stateOneAmplitude.re * this.stateOneAmplitude.re + this.stateOneAmplitude.im * this.stateOneAmplitude.im
         ];
     }
 
@@ -71,8 +74,8 @@ export class Qubit {
     }
 
     equals(that: Qubit) {
-        return this.basisStateZero.equals(that.basisStateZero)
-            && this.basisStateOne.equals(that.basisStateOne);
+        return this.stateZeroAmplitude.equals(that.stateZeroAmplitude)
+            && this.stateOneAmplitude.equals(that.stateOneAmplitude);
     }
 
     private isValid(): boolean {

@@ -9,7 +9,7 @@ import {
     ONE_OF_SQRT_TWO
 } from "./math/complex";
 
-export type QubitState = [basisStateZero: Complex, basisStateOne: Complex];
+export type QubitState = [stateZeroAmplitude: Complex, stateOneAmplitude: Complex];
 
 // The two orthogonal z-basis states (also called computational basis states)
 export const STATE_ZERO: QubitState = [_1, _0];
