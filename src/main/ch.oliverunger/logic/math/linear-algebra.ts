@@ -174,6 +174,27 @@ function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => C
     });
 }
 
+/**
+ * Checks if the given matrix is hermitian. <br>
+ * A square matrix is called hermitian if it is self-adjoint.
+ * This means that the matrix is equal to its conjugate transpose.
+ * This is equivalent to the condition that aij = complex_conjugate(aji). <br>
+ * {@link https://mathworld.wolfram.com/HermitianMatrix.html}
+ */
+export function isHermitian(matrix: Complex[][]): boolean {
+    if(countRows(matrix) !== countCols(matrix)) {
+        return false;
+    }
+    for(let row = 0; row < matrix.length; row++) {
+        for(let col = 0; col <= row; col++) {
+            if(!matrix[row][col].equals(matrix[col][row].conjugate())) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 export function countRows(matrix: Complex[][]) {
     return matrix.length;
 }

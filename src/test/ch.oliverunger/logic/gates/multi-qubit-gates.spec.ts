@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
+
 import {
-    Qubit,
+    Qubit, QUBIT_STATE_L,
     QUBIT_STATE_MINUS,
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
@@ -33,9 +35,17 @@ import {
     QubitRegister
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
-import {expStatesToBeCloseTo} from "../../util/test-util";
-import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
-import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
+import {expQubitsToBeCloseTo, expStatesToBeCloseTo} from "../../util/test-util";
+import {had, z} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
+import {
+    QubitState,
+    STATE_L,
+    STATE_MINUS,
+    STATE_ONE,
+    STATE_PLUS,
+    STATE_R,
+    STATE_ZERO
+} from "../../../../main/ch.oliverunger/model/qubit-state";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -780,9 +790,18 @@ describe('Qiskit Examples', () => {
         x(reg, 0);
         hadSingle(reg, 0);
         cx(reg, 1, 0);
-        console.log(reg.states);
         expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
     });
+
+    test('Phase Kickback: CNOT(1, 0) on ket(-+) -> ket(--)', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_PLUS);
+        cx(reg, 1, 0);
+        expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
+    });
+
+});
+
+describe('Reconstructing gates from other gates', () => {
 
     test('Constructing a CNOT(0, 1) from Hadamard gates and a single CNOT(1, 0)', () => {
         const reg0 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
@@ -799,14 +818,66 @@ describe('Qiskit Examples', () => {
         expStatesToBeCloseTo(reg0.states, [_0, _0, _0, _1]);
     });
 
-    test('Phase Kickback: CNOT(1, 0) on ket(-+) -> ket(--)', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_PLUS);
-        cx(reg, 1, 0);
-        expStatesToBeCloseTo(reg.states, [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
+    test('Reconstructing: CZ from Hadamards and CNOT', () => {
+        function applyTest(qubit0: Qubit, qubit1: Qubit) {
+            const conReg = QubitRegister.ofQubits(qubit0, qubit1);
+            hadSingle(conReg, 1);
+            cx(conReg, 0, 1);
+            hadSingle(conReg, 1);
+
+            const czReg = QubitRegister.ofQubits(qubit0, qubit1);
+            cz(czReg, 0, 1);
+
+            expStatesToBeCloseTo(conReg.states, czReg.states);
+        }
+
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
+        applyTest(QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_MINUS);
+        applyTest(QUBIT_STATE_L, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_L, QUBIT_STATE_PLUS);
+    });
+
+    test('Reconstructing: CH from RotY(PI/4) and CNOT', () => {
+        // TODO see https://qiskit.org/textbook/ch-gates/more-circuit-identities.html
+    });
+
+    test('Reconstructing: SWAP = CNOT(1, 0) CNOT(0, 1) CNOT(1, 0)', () => {
+        // This would work also if we changed the order of the CNOT gates
+        function applyTest(qubit0: Qubit, qubit1: Qubit) {
+            const conReg = QubitRegister.ofQubits(qubit0, qubit1);
+            cx(conReg, 1, 0);
+            cx(conReg, 0, 1);
+            cx(conReg, 1, 0);
+
+            const swap01Reg = QubitRegister.ofQubits(qubit0, qubit1);
+            swap(swap01Reg, 0, 1);
+
+            const swap10Reg = QubitRegister.ofQubits(qubit0, qubit1);
+            swap(swap10Reg, 1, 0);
+
+            expStatesToBeCloseTo(conReg.states, swap01Reg.states);
+            expStatesToBeCloseTo(conReg.states, swap10Reg.states);
+        }
+
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
+        applyTest(QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_MINUS);
+        applyTest(QUBIT_STATE_L, QUBIT_STATE_ONE);
+        applyTest(QUBIT_STATE_L, QUBIT_STATE_PLUS);
     });
 
 });
-
 
 /* Example Register of 2 Qubits State x */
 const EX_REG_2Q_S0: Complex = Complex.ofRe(Math.sqrt(0.1));

@@ -10,6 +10,8 @@ import {HADAMARD_GATE} from "./single-qubit-gates";
 
 // TODO Sparse Matrices?
 
+// TODO ROTX, Y, Z ...
+
 export function x(reg: QubitRegister, q: number) {
     mct(reg, [], q);
 }
@@ -176,7 +178,29 @@ export function hadAll(reg: QubitRegister) {
     // TODO
 }
 
-// TODO Was ist mit den ROTX, ROTY etc. Funktionen
+export function chadSingle(reg: QubitRegister, controlQubit: number, targetQubit: number) {
+    // TODO
+}
+
+export function chadMulti(reg: QubitRegister, controlQubit: number, targetQubits: number[]) {
+    // TODO
+}
+
+export function chadAll(reg: QubitRegister, controlQubit: number) {
+    // TODO
+}
+
+export function mchadSingle(reg: QubitRegister, controlQubits: number[], targetQubit: number) {
+    // TODO
+}
+
+export function mchadMulti(reg: QubitRegister, controlQubits: number[], targetQubits: number[]) {
+    // TODO
+}
+
+export function mchadAll(reg: QubitRegister, controlQubits: number[]) {
+    // TODO
+}
 
 
 

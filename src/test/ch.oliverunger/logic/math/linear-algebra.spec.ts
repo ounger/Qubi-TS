@@ -6,6 +6,7 @@ import {
     dot,
     hadamardProductVectors,
     inner,
+    isHermitian,
     multiplyMatrices,
     multiplyMatrixScalar,
     multiplyMatrixVector,
@@ -357,6 +358,42 @@ describe('Tensor product of two matrices', () => {
             [_0, _0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
             [_0, _0, _0, _0, _0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]
         ]);
+    });
+
+});
+
+describe('isHermitian', () => {
+
+    test('X, Y, Z and H are hermitian', () => {
+        expect(isHermitian(PAULI_X_GATE)).toBeTruthy();
+        expect(isHermitian(PAULI_Y_GATE)).toBeTruthy();
+        expect(isHermitian(PAULI_Z_GATE)).toBeTruthy();
+        expect(isHermitian(HADAMARD_GATE)).toBeTruthy();
+    });
+
+    test('3x2 is not hermitian', () => {
+        const m = [
+            [_0, _0],
+            [_0, _0],
+            [_0, _0]
+        ];
+        expect(isHermitian(m)).toBeFalsy();
+    });
+
+    test('These 3x3 matrices are hermitian', () => {
+        const m0 = [
+            [MINUS_1, new Complex(1, -2), _0],
+            [new Complex(1, 2), _0, MINUS_i],
+            [_0, i, _1]
+        ];
+        expect(isHermitian(m0)).toBeTruthy();
+
+        const m1 = [
+            [_1, new Complex(1, 1), Complex.ofIm(2)],
+            [new Complex(1, -1), _5, Complex.ofRe(-3)],
+            [Complex.ofIm(-2), Complex.ofRe(-3), _0]
+        ];
+        expect(isHermitian(m1)).toBeTruthy();
     });
 
 });

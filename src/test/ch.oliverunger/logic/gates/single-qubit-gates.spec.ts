@@ -460,7 +460,52 @@ describe('Phase', () => {
         applyTest(Qubit.ofState(STATE_MINUS), 270, QUBIT_STATE_R);
         applyTest(Qubit.ofState(STATE_R), 270, QUBIT_STATE_PLUS);
         applyTest(Qubit.ofState(STATE_L), 270, QUBIT_STATE_MINUS);
+    });
 
+});
+
+describe('Reconstructing gates from other gates', () => {
+
+    test('Reconstructing: Z = HXH', () => {
+        function applyTest(state: QubitState) {
+            const conQubit = Qubit.ofState(state);
+            had(conQubit);
+            x(conQubit);
+            had(conQubit);
+
+            const zQubit = Qubit.ofState(state);
+            z(zQubit);
+
+            expQubitsToBeCloseTo(conQubit, zQubit);
+        }
+
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_R);
+        applyTest(STATE_L);
+    });
+
+    test('Reconstructing: X = HZH', () => {
+        function applyTest(state: QubitState) {
+            const conQubit = Qubit.ofState(state);
+            had(conQubit);
+            z(conQubit);
+            had(conQubit);
+
+            const xQubit = Qubit.ofState(state);
+            x(xQubit);
+
+            expQubitsToBeCloseTo(conQubit, xQubit);
+        }
+
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_R);
+        applyTest(STATE_L);
     });
 
 });
