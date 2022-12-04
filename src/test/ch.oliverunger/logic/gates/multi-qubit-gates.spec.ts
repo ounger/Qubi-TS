@@ -1,7 +1,8 @@
 // noinspection DuplicatedCode
 
 import {
-    Qubit, QUBIT_STATE_L,
+    Qubit,
+    QUBIT_STATE_L,
     QUBIT_STATE_MINUS,
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
@@ -35,17 +36,9 @@ import {
     QubitRegister
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
-import {expQubitsToBeCloseTo, expStatesToBeCloseTo} from "../../util/test-util";
-import {had, z} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
-import {
-    QubitState,
-    STATE_L,
-    STATE_MINUS,
-    STATE_ONE,
-    STATE_PLUS,
-    STATE_R,
-    STATE_ZERO
-} from "../../../../main/ch.oliverunger/model/qubit-state";
+import {expStatesToBeCloseTo} from "../../util/test-util";
+import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
+import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -875,6 +868,26 @@ describe('Reconstructing gates from other gates', () => {
         applyTest(QUBIT_STATE_ZERO, QUBIT_STATE_MINUS);
         applyTest(QUBIT_STATE_L, QUBIT_STATE_ONE);
         applyTest(QUBIT_STATE_L, QUBIT_STATE_PLUS);
+    });
+
+});
+
+describe('hadMulti', () => {
+
+    test('H tensor H on ket(00) -> ket(++)', () => {
+        // TODO
+    });
+
+    test('H tensor H on ket(01) -> ket(+-)', () => {
+        // TODO
+    });
+
+    test('H tensor H on ket(10) -> ket(-+)', () => {
+        // TODO
+    });
+
+    test('H tensor H on ket(11) -> ket(--)', () => {
+        // TODO
     });
 
 });
