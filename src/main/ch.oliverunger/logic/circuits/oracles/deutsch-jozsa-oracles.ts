@@ -1,9 +1,9 @@
 import {cx, x} from "../../gates/multi-qubit-gates";
 import {QubitRegister} from "../../../model/qubit-register";
 import {Circuit} from "../../../model/circuit";
-import {randomIntFromInterval} from "../../../util";
 import {getNumberAsBitArray} from "../../math/math-util";
 import {qrng} from "../misc-circuits";
+import {randomIntFromInterval} from "../../../util";
 
 export function createConstantDeutschJozsaOracle(reg: QubitRegister): Circuit {
     const numQubits = reg.numQubits;

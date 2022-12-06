@@ -11,6 +11,6 @@ export const rotateArray = (array: any[], n: number) => {
     }
 }
 
-export function randomIntFromInterval(min: number, maxExclusive: number) {
-    return Math.floor(Math.random() * (maxExclusive - min) + min)
+export function randomIntFromInterval(min: number, maxExclusive: number): number {
+    return Math.floor(Math.random() * (maxExclusive - min) + min);
 }
