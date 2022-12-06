@@ -1,28 +1,9 @@
-import {add, decrement, increment, qrng, sub} from '../../../../main/ch.oliverunger/logic/circuits/circuits';
-import {bit} from "../../../../main/ch.oliverunger/logic/math/truth-table";
 import {QubitRegister} from "../../../../main/ch.oliverunger/model/qubit-register";
 import {_0, _1} from "../../../../main/ch.oliverunger/model/math/complex";
 import {QUBIT_STATE_ONE, QUBIT_STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit";
 import {hadSingle, phaseT} from "../../../../main/ch.oliverunger/logic/gates/multi-qubit-gates";
 import {expProbabilitiesToBeCloseTo} from "../../util/test-util";
-
-describe('QRNG should generate 0s and 1s', () => {
-    test('', () => {
-        let hasZero = false;
-        let hasOne = false;
-        let counter = 0;
-        while ((!hasZero || !hasOne) && counter < 100) {
-            counter++;
-            const rand: bit = qrng();
-            if (rand === 0 && !hasZero) {
-                hasZero = true;
-            } else if (rand === 1 && !hasOne) {
-                hasOne = true;
-            }
-        }
-        expect(hasZero && hasOne).toBeTruthy();
-    });
-});
+import {add, decrement, increment, sub} from "../../../../main/ch.oliverunger/logic/circuits/arithmetic-circuits";
 
 describe('Increment', () => {
 
