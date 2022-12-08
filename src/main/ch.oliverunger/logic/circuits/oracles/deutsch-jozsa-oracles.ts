@@ -5,27 +5,33 @@ import {getNumberAsBitArray} from "../../math/math-util";
 import {qrng} from "../misc-circuits";
 import {randomIntFromInterval} from "../../../util";
 
+/**
+ * Returns a constant function f: {0, 1}^n -> {0, 1} as an oracle circuit.
+ */
 export function createConstantDeutschJozsaOracle(reg: QubitRegister): Circuit {
-    const numQubits = reg.numQubits;
+    // Decide what the fixed output of the oracle will be by randomly applying an X-Gate
+    // to the (output) qubit with the lowest value 2^0 = 1 (that's the last one).
+    const lowestValueQubitIndex = reg.numQubits - 1; // Output qubit
     const circuit = new Circuit();
-    // Decide what the fixed output of the oracle will be.
-    // So we create a function that always returns 0 or always returns 1 for all inputs.
     const output = qrng();
     if (output === 1) {
-        circuit.addGate(() => x(reg, numQubits - 1));
+        circuit.addGate(() => x(reg, lowestValueQubitIndex));
     }
     return circuit;
 }
 
+/**
+ * Returns a balanced function f: {0, 1}^n -> {0, 1} as an oracle circuit.
+ */
 export function createBalancedDeutschJozsaOracle(reg: QubitRegister): Circuit {
+    // To vary the balanced function, we add X-Gates randomly.
+    // If we apply them again at the same qubits at the end, we still have a balanced function.
     const numQubits = reg.numQubits;
     const circuit = new Circuit();
-    // To vary the balanced function, we add x gates randomly.
-    // If we apply them again at the same qubit at the end, we still have a balanced function.
     const rnd = randomIntFromInterval(0, Math.pow(2, numQubits - 1));
     const rndIntAsBitarray = getNumberAsBitArray(rnd, numQubits - 1);
 
-    // Apply X-Gates for variation
+    // Apply X-Gates for variation to the input qubits
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {
         if (rndIntAsBitarray[qubit] === 1) {
             circuit.addGate(() => x(reg, qubit));

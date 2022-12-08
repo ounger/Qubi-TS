@@ -27,5 +27,3 @@ export function executeDeutschJozsaAlgorithm(reg: QubitRegister, djOracle: Circu
     }
     return result;
 }
-
-// TODO Einfacher Deutsch Algorithmus
