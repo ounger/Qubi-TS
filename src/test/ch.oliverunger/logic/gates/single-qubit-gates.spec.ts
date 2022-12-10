@@ -7,6 +7,9 @@ import {
     phaseS,
     phaseT,
     phaseZ,
+    rnot,
+    rnotInverse,
+    rotz,
     x,
     y,
     z
@@ -506,6 +509,119 @@ describe('Reconstructing gates from other gates', () => {
         applyTest(STATE_MINUS);
         applyTest(STATE_R);
         applyTest(STATE_L);
+    });
+
+});
+
+describe('rotx', () => {
+    test('', () => {
+        // TODO
+    });
+});
+
+describe('roty', () => {
+    test('', () => {
+        // TODO
+    });
+});
+
+describe('rotz', () => {
+    test('', () => {
+        // TODO
+    });
+});
+
+describe('RNOT = HAD Phase 90 Degrees HAD', () => {
+
+    function applyTest(state: QubitState) {
+        const rnotQubit = Qubit.ofState(state);
+        rnot(rnotQubit);
+
+        const otherQubit = Qubit.ofState(state);
+        had(otherQubit);
+        phaseS(otherQubit);
+        had(otherQubit);
+
+        expQubitsToBeCloseTo(rnotQubit, otherQubit);
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_L);
+        applyTest(STATE_R);
+    });
+
+
+});
+
+describe('RNOT RNOT = NOT', () => {
+
+    function applyTest(state: QubitState) {
+        const rnotQubit = Qubit.ofState(state);
+        rnot(rnotQubit);
+        rnot(rnotQubit);
+
+        const otherQubit = Qubit.ofState(state);
+        x(otherQubit);
+
+        expQubitsToBeCloseTo(rnotQubit, otherQubit);
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_L);
+        applyTest(STATE_R);
+    });
+
+});
+
+describe('RNOT Inverse = HAD Phase -90 Degrees HAD', () => {
+
+    function applyTest(state: QubitState) {
+        const rnotQubit = Qubit.ofState(state);
+        rnotInverse(rnotQubit);
+
+        const otherQubit = Qubit.ofState(state);
+        had(otherQubit);
+        phase(otherQubit, -90);
+        had(otherQubit);
+
+        expQubitsToBeCloseTo(rnotQubit, otherQubit);
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_L);
+        applyTest(STATE_R);
+    });
+
+});
+
+describe('RNOT RNOT Inverse = I', () => {
+
+    function applyTest(state: QubitState) {
+        const rnotQubit = Qubit.ofState(state);
+        rnot(rnotQubit);
+        rnotInverse(rnotQubit);
+        expQubitsToBeCloseTo(rnotQubit, Qubit.ofState(state));
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_L);
+        applyTest(STATE_R);
     });
 
 });

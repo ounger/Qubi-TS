@@ -125,6 +125,74 @@ export function phase(qubit: Qubit, angleDegrees: number) {
     applyGate(qubit, phaseGate);
 }
 
+/**
+ * Rotation around the x-axis <br>
+ * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
+ */
+export function rotx(qubit: Qubit, angleDegrees: number) {
+    const angleDegreesHalf = angleDegrees / 2;
+    const sinAngleDegreesHalf = Math.sin(angleDegreesHalf);
+    const cosAngleDegreesHalf = Math.cos(angleDegreesHalf);
+    const rxGate = [
+        [Complex.ofRe(cosAngleDegreesHalf), Complex.ofIm(-sinAngleDegreesHalf)],
+        [Complex.ofIm(-sinAngleDegreesHalf), Complex.ofRe(cosAngleDegreesHalf)]
+    ];
+    applyGate(qubit, rxGate);
+}
+
+/**
+ * Rotation around the y-axis <br>
+ * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
+ */
+export function roty(qubit: Qubit, angleDegrees: number) {
+    const angleDegreesHalf = angleDegrees / 2;
+    const sinAngleDegreesHalf = Math.sin(angleDegreesHalf);
+    const cosAngleDegreesHalf = Math.cos(angleDegreesHalf);
+    const ryGate = [
+        [Complex.ofRe(cosAngleDegreesHalf), Complex.ofRe(-sinAngleDegreesHalf)],
+        [Complex.ofRe(sinAngleDegreesHalf), Complex.ofRe(cosAngleDegreesHalf)]
+    ];
+    applyGate(qubit, ryGate);
+}
+
+/**
+ * Rotation around the z-axis <br>
+ * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
+ */
+export function rotz(qubit: Qubit, angleDegrees: number) {
+    const angleDegreesHalf = angleDegrees / 2;
+    const rzGate = [
+        [expOfiTimesAngleDegrees(-angleDegreesHalf), _0],
+        [_0, expOfiTimesAngleDegrees(angleDegreesHalf)]
+    ];
+    applyGate(qubit, rzGate);
+}
+
+export const RNOT_GATE = [
+    [new Complex(0.5, 0.5), new Complex(0.5, -0.5)],
+    [new Complex(0.5, -0.5), new Complex(0.5, 0.5)]
+];
+
+/**
+ * ROOT-of-NOT
+ */
+export function rnot(qubit: Qubit) {
+    applyGate(qubit, RNOT_GATE);
+}
+
+export const RNOT_INVERSE_GATE = [
+    [new Complex(0.5, -0.5), new Complex(0.5, 0.5)],
+    [new Complex(0.5, 0.5), new Complex(0.5, -0.5)]
+];
+
+/**
+ * ROOT-of-NOT Inverse
+ */
+export function rnotInverse(qubit: Qubit) {
+    applyGate(qubit, RNOT_INVERSE_GATE);
+}
+
+
 function applyGate(qubit: Qubit, gate: Complex[][]) {
     let amplitudesOfNewState = multiplyMatrixVector2c(gate, qubit.state());
     qubit.setAmplitudesOfState(amplitudesOfNewState[0], amplitudesOfNewState[1]);
