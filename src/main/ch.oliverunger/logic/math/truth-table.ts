@@ -1,4 +1,4 @@
-import {getNumberAsBitArray} from "./math-util";
+import {getNumberAsBitArray} from "../../util";
 
 export type bit = 0 | 1;
 

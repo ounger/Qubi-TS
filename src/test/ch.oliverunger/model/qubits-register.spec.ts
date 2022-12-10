@@ -7,7 +7,7 @@ import {
     QUBIT_STATE_ZERO
 } from "../../../main/ch.oliverunger/model/qubit";
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../main/ch.oliverunger/model/math/complex";
-import {expProbabilitiesToBeCloseTo, expStatesToBeCloseTo} from "../util/test-util";
+import {expProbabilitiesToBeCloseTo, expStatesToBeCloseTo} from "../test-utils/test-util";
 
 describe('probabilityOfState', () => {
     test('', () => {

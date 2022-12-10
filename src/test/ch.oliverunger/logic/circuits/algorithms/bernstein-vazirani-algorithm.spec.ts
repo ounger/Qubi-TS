@@ -4,9 +4,8 @@ import {
 import {QubitRegister} from "../../../../../main/ch.oliverunger/model/qubit-register";
 import {
     createBernsteinVaziraniOracle
-} from "../../../../../main/ch.oliverunger/logic/circuits/oracles/bernstein-vazirani-oriacle";
-import {randomIntFromInterval} from "../../../../../main/ch.oliverunger/util";
-import {getNumberAsBitArray} from "../../../../../main/ch.oliverunger/logic/math/math-util";
+} from "../../../../../main/ch.oliverunger/logic/circuits/oracles/bernstein-vazirani-oracle";
+import {getNumberAsBitArray, randomIntFromInterval} from "../../../../../main/ch.oliverunger/util";
 
 describe('Execute Bernstein-Vazirani Algorithm', () => {
 
@@ -15,28 +14,24 @@ describe('Execute Bernstein-Vazirani Algorithm', () => {
         return getNumberAsBitArray(rnd, length);
     }
 
-    test('2 qubits', () => {
-        const reg = new QubitRegister(2);
-        const s = getRandomBitArray(reg.numQubits - 1);
+    function applyTest(numQubits: number) {
+        const reg = new QubitRegister(numQubits);
+        const s = getRandomBitArray(numQubits - 1);
         const bvOracle = createBernsteinVaziraniOracle(reg, s);
         const result = executeBernsteinVaziraniAlgorithm(reg, bvOracle);
         expect(result).toEqual(s);
+    }
+
+    test('2 qubits', () => {
+        applyTest(2)
     });
 
     test('3 qubits', () => {
-        const reg = new QubitRegister(3);
-        const s = getRandomBitArray(reg.numQubits - 1);
-        const bvOracle = createBernsteinVaziraniOracle(reg, s);
-        const result = executeBernsteinVaziraniAlgorithm(reg, bvOracle);
-        expect(result).toEqual(s);
+        applyTest(3);
     });
 
     test('4 qubits', () => {
-        const reg = new QubitRegister(4);
-        const s = getRandomBitArray(reg.numQubits - 1);
-        const bvOracle = createBernsteinVaziraniOracle(reg, s);
-        const result = executeBernsteinVaziraniAlgorithm(reg, bvOracle);
-        expect(result).toEqual(s);
+        applyTest(4);
     });
 
 });

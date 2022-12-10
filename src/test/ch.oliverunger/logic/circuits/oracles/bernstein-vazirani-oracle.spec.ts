@@ -1,7 +1,7 @@
 import {bit} from "../../../../../main/ch.oliverunger/logic/math/truth-table";
 import {
     createBernsteinVaziraniOracle
-} from "../../../../../main/ch.oliverunger/logic/circuits/oracles/bernstein-vazirani-oriacle";
+} from "../../../../../main/ch.oliverunger/logic/circuits/oracles/bernstein-vazirani-oracle";
 import {QubitRegister} from "../../../../../main/ch.oliverunger/model/qubit-register";
 import {QUBIT_STATE_ONE, QUBIT_STATE_ZERO} from "../../../../../main/ch.oliverunger/model/qubit";
 

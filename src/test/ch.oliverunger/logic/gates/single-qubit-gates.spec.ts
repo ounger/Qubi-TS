@@ -30,7 +30,7 @@ import {
     ONE_OF_SQRT_TWO
 } from "../../../../main/ch.oliverunger/model/math/complex";
 import {round} from "../../../../main/ch.oliverunger/logic/math/math-util";
-import {expQubitsToBeCloseTo} from "../../util/test-util";
+import {expQubitsToBeCloseTo} from "../../test-utils/test-util";
 import {
     QubitState,
     STATE_L,

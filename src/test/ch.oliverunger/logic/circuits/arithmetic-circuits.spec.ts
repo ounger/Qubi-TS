@@ -2,7 +2,7 @@ import {QubitRegister} from "../../../../main/ch.oliverunger/model/qubit-registe
 import {_0, _1} from "../../../../main/ch.oliverunger/model/math/complex";
 import {QUBIT_STATE_ONE, QUBIT_STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit";
 import {hadSingle, phaseT} from "../../../../main/ch.oliverunger/logic/gates/multi-qubit-gates";
-import {expProbabilitiesToBeCloseTo} from "../../util/test-util";
+import {expProbabilitiesToBeCloseTo} from "../../test-utils/test-util";
 import {add, decrement, increment, sub} from "../../../../main/ch.oliverunger/logic/circuits/arithmetic-circuits";
 
 describe('Increment', () => {

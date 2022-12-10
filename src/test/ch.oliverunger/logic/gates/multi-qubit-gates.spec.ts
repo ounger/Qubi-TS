@@ -36,7 +36,7 @@ import {
     QubitRegister
 } from "../../../../main/ch.oliverunger/model/qubit-register";
 import {expOfiTimesAngleDegrees} from "../../../../main/ch.oliverunger/logic/math/math-util";
-import {expStatesToBeCloseTo} from "../../util/test-util";
+import {expStatesToBeCloseTo} from "../../test-utils/test-util";
 import {had} from "../../../../main/ch.oliverunger/logic/gates/single-qubit-gates";
 import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from "../../../../main/ch.oliverunger/model/qubit-state";
 
