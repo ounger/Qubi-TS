@@ -160,10 +160,10 @@ export function roty(qubit: Qubit, angleDegrees: number) {
  * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
  */
 export function rotz(qubit: Qubit, angleDegrees: number) {
-    const angleRadsHalf = degsToRads(angleDegrees) / 2;
+    const angleDegreesHalf = angleDegrees / 2;
     const rzGate = [
-        [expOfiTimesAngleDegrees(-angleRadsHalf), _0],
-        [_0, expOfiTimesAngleDegrees(angleRadsHalf)]
+        [expOfiTimesAngleDegrees(-angleDegreesHalf), _0],
+        [_0, expOfiTimesAngleDegrees(angleDegreesHalf)]
     ];
     applyGate(qubit, rzGate);
 }

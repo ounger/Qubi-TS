@@ -8,7 +8,10 @@ import {
     phaseT,
     phaseZ,
     rnot,
+    rnotInverse,
+    rotx,
     roty,
+    rotz,
     x,
     y,
     z
@@ -27,6 +30,7 @@ import {
     Complex,
     HALF_SQRT_TWO_HALF_i_SQRT_TWO,
     i,
+    MINUS_1,
     MINUS_i,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
@@ -512,24 +516,60 @@ describe('Reconstructing gates from other gates', () => {
 
 });
 
-describe('rotx', () => {
-    test('', () => {
-        // TODO
+/**
+ * See {@link https://quantumcomputinguk.org/tutorials/introduction-to-the-rx-gate-with-code}
+ */
+describe('ROT-X', () => {
+
+    function applyTest(state: QubitState, angleDegrees: number, expState: QubitState) {
+        const qubit = Qubit.ofState(state);
+        rotx(qubit, angleDegrees);
+        expQubitsToBeCloseTo(qubit, Qubit.ofState(expState));
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO, 180, [_0, MINUS_i]);
+        applyTest(STATE_ONE, 180, [MINUS_i, _0]);
     });
+
 });
 
+/**
+ * See {@link https://quantumcomputinguk.org/tutorials/introduction-to-the-ry-gate-with-code}
+ */
 describe('ROT-Y', () => {
-    test('Rotate state 0 qubit by PI', () => {
-        const qubit = Qubit.ofState(STATE_ZERO);
-        roty(qubit, 180);
-        expQubitsToBeCloseTo(qubit, QUBIT_STATE_ONE);
+
+    function applyTest(state: QubitState, angleDegrees: number, expState: QubitState) {
+        const qubit = Qubit.ofState(state);
+        roty(qubit, angleDegrees);
+        expQubitsToBeCloseTo(qubit, Qubit.ofState(expState));
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO, 180, STATE_ONE);
+        applyTest(STATE_ONE, 180, [MINUS_1, _0]);
+        applyTest(STATE_MINUS, 180, STATE_PLUS);
+        applyTest(STATE_PLUS, 180, [MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
     });
+
 });
 
-describe('rotz', () => {
-    test('', () => {
-        // TODO
+/**
+ * See {@link https://quantumcomputinguk.org/tutorials/introduction-to-the-rz-gate-with-code}
+ */
+describe('ROT-Z', () => {
+
+    function applyTest(state: QubitState, angleDegrees: number, expState: QubitState) {
+        const qubit = Qubit.ofState(state);
+        rotz(qubit, angleDegrees);
+        expQubitsToBeCloseTo(qubit, Qubit.ofState(expState));
+    }
+
+    test('Test Cases', () => {
+        applyTest(STATE_ZERO, 180, [MINUS_i, _0]);
+        applyTest(STATE_ONE, 180, [_0, i]);
     });
+
 });
 
 describe('RNOT = HAD Phase 90 Degrees HAD', () => {
