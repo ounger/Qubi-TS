@@ -24,7 +24,8 @@ export function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
 
 /**
  * Creates an oracle based on a two-to-one function for simons algorithm for a
- * register with n input qubits and n output qubits
+ * register with n input qubits and n output qubits. <br>
+ * See {@link https://quantumcomputing.stackexchange.com/questions/15567/in-simons-algorithm-is-there-a-general-method-to-define-an-oracle-given-a-cert}
  */
 export function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
     if (reg.numQubits % 2 === 1) {
