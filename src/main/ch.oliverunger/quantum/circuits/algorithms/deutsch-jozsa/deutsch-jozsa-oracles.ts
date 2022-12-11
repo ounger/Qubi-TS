@@ -1,8 +1,8 @@
-import {cx, x} from "../../multi-qubit/multi-qubit-gates";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {Circuit} from "../circuit";
-import {qrng} from "../misc-circuits";
-import {getNumberAsBitArray, randomIntFromInterval} from "../../../util";
+import {cx, x} from "../../../multi-qubit/multi-qubit-gates";
+import {QubitRegister} from "../../../multi-qubit/qubit-register";
+import {Circuit} from "../../circuit";
+import {qrng} from "../../misc-circuits";
+import {getNumberAsBitArray, randomIntFromInterval} from "../../../../util";
 
 /**
  * Returns a constant function f: {0, 1}^n -> {0, 1} as an oracle circuit.

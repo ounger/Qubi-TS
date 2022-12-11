@@ -1,8 +1,8 @@
-import {QubitRegister} from "../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
+import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {
     createBalancedDeutschJozsaOracle,
     createConstantDeutschJozsaOracle
-} from "../../../../../main/ch.oliverunger/quantum/circuits/oracles/deutsch-jozsa-oracles";
+} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
 
 describe('Create Deutsch-Jozsa Oracles', () => {
 

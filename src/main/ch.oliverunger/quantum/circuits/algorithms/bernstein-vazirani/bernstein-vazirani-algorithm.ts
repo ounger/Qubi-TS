@@ -1,7 +1,7 @@
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {Circuit} from "../circuit";
-import {bit} from "../../../math/truth-table";
-import {hadSingle, x} from "../../multi-qubit/multi-qubit-gates";
+import {QubitRegister} from "../../../multi-qubit/qubit-register";
+import {Circuit} from "../../circuit";
+import {bit} from "../../../../math/truth-table";
+import {hadSingle, x} from "../../../multi-qubit/multi-qubit-gates";
 
 export function executeBernsteinVaziraniAlgorithm(reg: QubitRegister, bvOracle: Circuit): bit[] {
     const circuit = new Circuit();

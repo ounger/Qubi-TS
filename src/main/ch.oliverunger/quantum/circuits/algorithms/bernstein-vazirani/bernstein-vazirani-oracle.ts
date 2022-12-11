@@ -1,7 +1,7 @@
-import {bit} from "../../../math/truth-table";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {Circuit} from "../circuit";
-import {cx} from "../../multi-qubit/multi-qubit-gates";
+import {bit} from "../../../../math/truth-table";
+import {QubitRegister} from "../../../multi-qubit/qubit-register";
+import {Circuit} from "../../circuit";
+import {cx} from "../../../multi-qubit/multi-qubit-gates";
 
 export function createBernsteinVaziraniOracle(reg: QubitRegister, s: bit[]): Circuit {
     const circuit = new Circuit();

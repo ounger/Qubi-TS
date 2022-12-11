@@ -1,11 +1,11 @@
 import {
     executeBernsteinVaziraniAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/circuits/algorithms/bernstein-vazirani-algorithm";
-import {QubitRegister} from "../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
+} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/bernstein-vazirani/bernstein-vazirani-algorithm";
+import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {
     createBernsteinVaziraniOracle
-} from "../../../../../main/ch.oliverunger/quantum/circuits/oracles/bernstein-vazirani-oracle";
-import {getNumberAsBitArray, randomIntFromInterval} from "../../../../../main/ch.oliverunger/util";
+} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/bernstein-vazirani/bernstein-vazirani-oracle";
+import {getNumberAsBitArray, randomIntFromInterval} from "../../../../../../main/ch.oliverunger/util";
 
 describe('Execute Bernstein-Vazirani Algorithm', () => {
 

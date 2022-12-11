@@ -1,8 +1,8 @@
-import {Circuit} from "../circuit";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cx} from "../../multi-qubit/multi-qubit-gates";
-import {getBitArrayAsNumber, getNumberAsBitArray, xor} from "../../../util";
-import {bit} from "../../../math/truth-table";
+import {Circuit} from "../../circuit";
+import {QubitRegister} from "../../../multi-qubit/qubit-register";
+import {cx} from "../../../multi-qubit/multi-qubit-gates";
+import {getBitArrayAsNumber, getNumberAsBitArray, xor} from "../../../../util";
+import {bit} from "../../../../math/truth-table";
 
 /**
  * Creates a Simon Oracle for a register with n input qubits and n output qubits.

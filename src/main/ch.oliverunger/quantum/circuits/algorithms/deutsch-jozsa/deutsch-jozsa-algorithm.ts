@@ -1,7 +1,7 @@
-import {Circuit} from "../circuit";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {hadSingle, x} from "../../multi-qubit/multi-qubit-gates";
-import {bit} from "../../../math/truth-table";
+import {Circuit} from "../../circuit";
+import {QubitRegister} from "../../../multi-qubit/qubit-register";
+import {hadSingle, x} from "../../../multi-qubit/multi-qubit-gates";
+import {bit} from "../../../../math/truth-table";
 
 export function executeDeutschJozsaAlgorithm(reg: QubitRegister, djOracle: Circuit): bit[] {
     const circuit = new Circuit();
