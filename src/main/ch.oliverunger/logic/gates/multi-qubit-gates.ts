@@ -12,6 +12,8 @@ import {HADAMARD_GATE} from "./single-qubit-gates";
 
 // TODO ROTX, Y, Z ...
 
+// TODO RNOT, RNOT-Inverse
+
 export function x(reg: QubitRegister, q: number) {
     mct(reg, [], q);
 }
