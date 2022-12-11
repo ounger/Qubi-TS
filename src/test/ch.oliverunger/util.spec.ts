@@ -1,5 +1,5 @@
 import {getBitArrayAsNumber, getNumberAsBitArray, randomIntFromInterval, xor} from "../../main/ch.oliverunger/util";
-import {bit} from "../../main/ch.oliverunger/logic/math/truth-table";
+import {bit} from "../../main/ch.oliverunger/math/truth-table";
 
 describe('Get a random', () => {
     test('', () => {

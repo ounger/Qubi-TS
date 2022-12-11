@@ -1,4 +1,4 @@
-import {bit} from "./logic/math/truth-table";
+import {bit} from "./math/truth-table";
 
 export const rotateArray = (array: any[], n: number) => {
     let len = array.length;
