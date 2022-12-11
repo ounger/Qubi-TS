@@ -11,7 +11,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../model/math/complex";
-import {expOfiTimesAngleDegrees} from "../math/math-util";
+import {degsToRads, expOfiTimesAngleDegrees} from "../math/math-util";
 
 export const IDENTITY_GATE: Complex[][] = [
     [_1, _0],
@@ -130,9 +130,9 @@ export function phase(qubit: Qubit, angleDegrees: number) {
  * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
  */
 export function rotx(qubit: Qubit, angleDegrees: number) {
-    const angleDegreesHalf = angleDegrees / 2;
-    const sinAngleDegreesHalf = Math.sin(angleDegreesHalf);
-    const cosAngleDegreesHalf = Math.cos(angleDegreesHalf);
+    const angleRadsHalf = degsToRads(angleDegrees) / 2;
+    const sinAngleDegreesHalf = Math.sin(angleRadsHalf);
+    const cosAngleDegreesHalf = Math.cos(angleRadsHalf);
     const rxGate = [
         [Complex.ofRe(cosAngleDegreesHalf), Complex.ofIm(-sinAngleDegreesHalf)],
         [Complex.ofIm(-sinAngleDegreesHalf), Complex.ofRe(cosAngleDegreesHalf)]
@@ -145,12 +145,12 @@ export function rotx(qubit: Qubit, angleDegrees: number) {
  * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
  */
 export function roty(qubit: Qubit, angleDegrees: number) {
-    const angleDegreesHalf = angleDegrees / 2;
-    const sinAngleDegreesHalf = Math.sin(angleDegreesHalf);
-    const cosAngleDegreesHalf = Math.cos(angleDegreesHalf);
+    const angleRadsHalf = degsToRads(angleDegrees) / 2;
+    const sinAngleRadsHalf = Math.sin(angleRadsHalf);
+    const cosAngleRadsHalf = Math.cos(angleRadsHalf);
     const ryGate = [
-        [Complex.ofRe(cosAngleDegreesHalf), Complex.ofRe(-sinAngleDegreesHalf)],
-        [Complex.ofRe(sinAngleDegreesHalf), Complex.ofRe(cosAngleDegreesHalf)]
+        [Complex.ofRe(cosAngleRadsHalf), Complex.ofRe(-sinAngleRadsHalf)],
+        [Complex.ofRe(sinAngleRadsHalf), Complex.ofRe(cosAngleRadsHalf)]
     ];
     applyGate(qubit, ryGate);
 }
@@ -160,10 +160,10 @@ export function roty(qubit: Qubit, angleDegrees: number) {
  * See {@link https://www.quantum-inspire.com/kbase/rotation-operators/}
  */
 export function rotz(qubit: Qubit, angleDegrees: number) {
-    const angleDegreesHalf = angleDegrees / 2;
+    const angleRadsHalf = degsToRads(angleDegrees) / 2;
     const rzGate = [
-        [expOfiTimesAngleDegrees(-angleDegreesHalf), _0],
-        [_0, expOfiTimesAngleDegrees(angleDegreesHalf)]
+        [expOfiTimesAngleDegrees(-angleRadsHalf), _0],
+        [_0, expOfiTimesAngleDegrees(angleRadsHalf)]
     ];
     applyGate(qubit, rzGate);
 }

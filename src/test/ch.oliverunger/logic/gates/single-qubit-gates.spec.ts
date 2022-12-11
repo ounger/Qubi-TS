@@ -8,8 +8,7 @@ import {
     phaseT,
     phaseZ,
     rnot,
-    rnotInverse,
-    rotz,
+    roty,
     x,
     y,
     z
@@ -519,9 +518,11 @@ describe('rotx', () => {
     });
 });
 
-describe('roty', () => {
-    test('', () => {
-        // TODO
+describe('ROT-Y', () => {
+    test('Rotate state 0 qubit by PI', () => {
+        const qubit = Qubit.ofState(STATE_ZERO);
+        roty(qubit, 180);
+        expQubitsToBeCloseTo(qubit, QUBIT_STATE_ONE);
     });
 });
 
