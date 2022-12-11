@@ -3,6 +3,7 @@ import {Qubit} from "../single-qubit/qubit";
 import {tensorVectors} from "../../math/linear-algebra";
 import {bit, getAllRowsWith1InCol, getTTCol} from "../../math/truth-table";
 import {round} from "../../math/math-util";
+import {rotateArray} from "../../util";
 
 export class QubitRegister {
 
@@ -132,6 +133,22 @@ export class QubitRegister {
             }
         }
         return this.measuredValue!;
+    }
+
+    increment() {
+        this.add(1);
+    }
+
+    decrement() {
+        this.sub(1);
+    }
+
+    add(summand: number) {
+        rotateArray(this.states, -summand);
+    }
+
+    sub(subtrahend: number) {
+        rotateArray(this.states, subtrahend);
     }
 
 }

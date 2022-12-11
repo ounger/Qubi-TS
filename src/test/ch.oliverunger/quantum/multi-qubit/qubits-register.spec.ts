@@ -8,6 +8,7 @@ import {
 } from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from "../../../../main/ch.oliverunger/math/complex";
 import {expProbabilitiesToBeCloseTo, expStatesToBeCloseTo} from "../../test-util";
+import {hadSingle, phaseT} from "../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates";
 
 describe('probabilityOfState', () => {
     test('', () => {
@@ -269,4 +270,166 @@ describe('ofStates', () => {
         states = [Complex.ofRe(0.5), _0, new Complex(0, -0.5), ONE_OF_SQRT_TWO];
         expect(QubitRegister.ofStates(states).states).toEqual(states);
     });
+});
+
+describe('Increment', () => {
+
+    test('1 Qubit, Start at state 0 and increment up to 2', () => {
+        let reg = new QubitRegister(1);
+        for (let i = 0; i < reg.states.length; i++) {
+            reg.increment();
+            expect(reg.probabilityOfStateAtIndex((i + 1) % reg.states.length)).toEqual(1);
+        }
+    });
+
+    test('2 Qubits, Start at state 0 and increment up to 4', () => {
+        let reg = new QubitRegister(2);
+        for (let i = 0; i < reg.states.length; i++) {
+            reg.increment();
+            expect(reg.probabilityOfStateAtIndex((i + 1) % reg.states.length)).toEqual(1);
+        }
+    });
+
+    test('3 Qubits, Start at state 0 and increment up to 8', () => {
+        let reg = new QubitRegister(3);
+        for (let i = 0; i < reg.states.length; i++) {
+            reg.increment();
+            expect(reg.probabilityOfStateAtIndex((i + 1) % reg.states.length)).toEqual(1);
+        }
+    });
+
+    test('4 Qubits, Start at state 0 and increment up to 16', () => {
+        let reg = new QubitRegister(4);
+        for (let i = 0; i < reg.states.length; i++) {
+            reg.increment();
+            expect(reg.probabilityOfStateAtIndex((i + 1) % reg.states.length)).toEqual(1);
+        }
+    });
+
+});
+
+describe('Decrement', () => {
+
+    test('1 Qubit, Start at state 1 and decrement down to -1', () => {
+        let reg = QubitRegister.ofStates([_0, _1])
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(0)).toEqual(1);
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(1)).toEqual(1);
+    });
+
+    test('2 Qubit, Start at state 3 and decrement down to 0', () => {
+        let reg = QubitRegister.ofStates([_0, _0, _0, _1])
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(2)).toEqual(1);
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(1)).toEqual(1);
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(0)).toEqual(1);
+        reg.decrement();
+        expect(reg.probabilityOfStateAtIndex(3)).toEqual(1);
+    });
+
+});
+
+describe('More Circuits Tests', () => {
+
+    test('OReilly Example for increment and decrement', () => {
+        let reg = QubitRegister.ofQubits(
+            QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO,
+            QUBIT_STATE_ZERO,
+            QUBIT_STATE_ONE
+        );
+        hadSingle(reg, 1);
+        phaseT(reg, 1);
+        reg.increment();
+        reg.decrement();
+        expProbabilitiesToBeCloseTo(reg.probabilities(),
+            [0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        reg.increment();
+        expProbabilitiesToBeCloseTo(reg.probabilities(),
+            [0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    });
+
+});
+
+describe('Addition Tests', () => {
+
+    test('Add 1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(1);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Add 2', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(2);
+        expect(reg.states).toEqual([_0, _0, _1, _0]);
+    });
+
+    test('Add 3', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(3);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Add 4', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(4);
+        expect(reg.states).toEqual([_1, _0, _0, _0]);
+    });
+
+    test('Add 5', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(5);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Add -1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.add(-1);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+});
+
+describe('Subtraction Tests', () => {
+
+    test('Sub 1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(1);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Sub 2', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(2);
+        expect(reg.states).toEqual([_0, _0, _1, _0]);
+    });
+
+    test('Sub 3', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(3);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
+    test('Sub 4', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(4);
+        expect(reg.states).toEqual([_1, _0, _0, _0]);
+    });
+
+    test('Sub 5', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(5);
+        expect(reg.states).toEqual([_0, _0, _0, _1]);
+    });
+
+    test('Sub -1', () => {
+        let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
+        reg.sub(-1);
+        expect(reg.states).toEqual([_0, _1, _0, _0]);
+    });
+
 });

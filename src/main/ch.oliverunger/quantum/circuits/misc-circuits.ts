@@ -10,3 +10,5 @@ export function qrng(): bit {
     qubit.had();
     return qubit.measure();
 }
+
+// TODO Return circuit
