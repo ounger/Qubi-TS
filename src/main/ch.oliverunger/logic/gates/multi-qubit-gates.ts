@@ -10,10 +10,6 @@ import {HADAMARD_GATE} from "./single-qubit-gates";
 
 // TODO Sparse Matrices?
 
-// TODO ROTX, Y, Z ...
-
-// TODO RNOT, RNOT-Inverse
-
 export function x(reg: QubitRegister, q: number) {
     mct(reg, [], q);
 }
@@ -157,17 +153,17 @@ export function cswap() {
  * Applies a hadamard gate to a single qubit in a register.
  */
 export function hadSingle(reg: QubitRegister, q: number) {
-    const states = reg.states.length;
+    const numStates = reg.states.length;
     const numQubits = reg.numQubits;
-    let regStatesNew = new Array<Complex>(states);
+    let regStatesNew = new Array<Complex>(numStates);
     const twoPowQubitsMinusColMinus1 = Math.pow(2, numQubits - q - 1);
-    for (let state = 0; state < states; state++) {
+    for (let state = 0; state < numStates; state++) {
         const appliedHadRow = HADAMARD_GATE[getTTBitAt(numQubits, state, q)];
         const appliedState0 = state - getTTBitAt(numQubits, state, q) * twoPowQubitsMinusColMinus1;
         const appliedState1 = appliedState0 + twoPowQubitsMinusColMinus1;
         regStatesNew[state] = appliedHadRow[0].mul(reg.states[appliedState0]).add(appliedHadRow[1].mul(reg.states[appliedState1]));
     }
-    for (let state = 0; state < states; state++) {
+    for (let state = 0; state < numStates; state++) {
         reg.states[state] = regStatesNew[state];
     }
 }
@@ -204,6 +200,24 @@ export function mchadAll(reg: QubitRegister, controlQubits: number[]) {
     // TODO
 }
 
+export function rotx(reg: QubitRegister, q: number, angleDegrees: number) {
+    // TODO
+}
 
+export function roty(reg: QubitRegister, q: number, angleDegrees: number) {
+    // TODO
+}
+
+export function rotz(reg: QubitRegister, q: number, angleDegrees: number) {
+    // TODO
+}
+
+export function rnot(reg: QubitRegister, q: number) {
+    // TODO
+}
+
+export function rnotInverse(reg: QubitRegister, q: number) {
+    // TODO
+}
 
 

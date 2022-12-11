@@ -91,6 +91,7 @@ export class Qubit {
         return probsSum > 0.99 && probsSum < 1.01;
     }
 
+
 }
 
 export const QUBIT_STATE_ZERO = Qubit.ofState(STATE_ZERO);
