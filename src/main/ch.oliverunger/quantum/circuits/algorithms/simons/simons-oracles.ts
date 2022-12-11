@@ -5,12 +5,13 @@ import {getNumberAsBitArray} from "../../../../util";
 import {bit} from "../../../../math/truth-table";
 
 /**
- * Creates a Simon Oracle for a register with n input qubits and n output qubits.
+ * Creates an oracle based on a one-to-one function for simons algorithm for a
+ * register with n input qubits and n output qubits.
  */
 export function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
-    // TODO Check the register
-    // TODO Permutation?
-    // TODO Write Tests
+    if (reg.numQubits % 2 === 1) {
+        throw new Error("The number of qubits must be divisible by 2.");
+    }
     // The hidden bitarray 'secret' is 00...0
     // We copy the content of the first register to the second register
     const circuit = new Circuit();
@@ -21,7 +22,14 @@ export function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
     return circuit;
 }
 
+/**
+ * Creates an oracle based on a two-to-one function for simons algorithm for a
+ * register with n input qubits and n output qubits
+ */
 export function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
+    if (reg.numQubits % 2 === 1) {
+        throw new Error("The number of qubits must be divisible by 2.");
+    }
     const numInputQubits = reg.numQubits / 2;
     const zeroAsBitArray = getNumberAsBitArray(0, numInputQubits);
     if (zeroAsBitArray === secret) {
@@ -41,14 +49,6 @@ export function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): C
             circuit.addGate(() => cx(reg, mostSignificant1BitInSecret, numInputQubits + qubit));
         }
     }
-
-    // TODO Permutation
-    //     # Apply a random permutation:
-    //     pos = [
-    //         0,
-    //         len(secret_string) - 1,
-    //     ]  # Swap some qubits to define oracle. We choose first and last:
-    //     yield cirq.SWAP(output_qubits[pos[0]], output_qubits[pos[1]])
 
     return circuit;
 }

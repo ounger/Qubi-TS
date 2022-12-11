@@ -5,11 +5,56 @@ import {_0, _1, Complex} from "../../../../../../main/ch.oliverunger/math/comple
 import {STATE_ONE, STATE_ZERO} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
 import {expStatesToBeCloseTo} from "../../../../test-util";
 import {
+    createOneToOneSimonsOracle,
     createTwoToOneSimonsOracle
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-oracles";
 
+describe('createOneToOneSimonsOracle with 2 input qubits', () => {
 
-describe('createSimonTwoToOneOracle with 2 input qubits', () => {
+    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, expStates: Complex[]) {
+        const firstOutputQubit = Qubit.ofState(STATE_ZERO);
+        const secondOutputQubit = Qubit.ofState(STATE_ZERO);
+        const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, firstOutputQubit, secondOutputQubit);
+        const oracle = createOneToOneSimonsOracle(reg);
+        oracle.execute();
+        expStatesToBeCloseTo(reg.states, expStates);
+    }
+
+    test('Test Cases for 2 qubits', () => {
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO), createStateArray(4, 0));
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE), createStateArray(4, 5));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO), createStateArray(4, 10));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE), createStateArray(4, 15));
+    });
+
+});
+
+describe('createOneToOneSimonsOracle with 3 input qubits', () => {
+
+    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, thirdInputQubit: Qubit, expStates: Complex[]) {
+        const firstOutputQubit = Qubit.ofState(STATE_ZERO);
+        const secondOutputQubit = Qubit.ofState(STATE_ZERO);
+        const thridOutputQubit = Qubit.ofState(STATE_ZERO);
+        const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, thirdInputQubit, firstOutputQubit, secondOutputQubit, thridOutputQubit);
+        const oracle = createOneToOneSimonsOracle(reg);
+        oracle.execute();
+        expStatesToBeCloseTo(reg.states, expStates);
+    }
+
+    test('Test Cases for 3 qubits', () => {
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO), createStateArray(6, 0));
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE), createStateArray(6, 9));
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO), createStateArray(6, 18));
+        applyTest(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE), createStateArray(6, 27));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO), createStateArray(6, 36));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE), createStateArray(6, 45));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO), createStateArray(6, 54));
+        applyTest(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE), createStateArray(6, 63));
+    });
+
+});
+
+describe('createTwoToOneSimonsOracle with 2 input qubits', () => {
 
     function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, secret: bit[], expStates: Complex[]) {
         const firstOutputQubit = Qubit.ofState(STATE_ZERO);
