@@ -38,3 +38,11 @@ export function expProbabilitiesToBeCloseTo(actual: number[], expected: number[]
         expect(actual[i]).toBeCloseTo(expected[i], 5);
     }
 }
+
+export function expComplexArraysToBeCloseTo(actual: Complex[], expected: Complex[]) {
+    expect(actual.length).toEqual(expected.length);
+    for (let i = 0; i < actual.length; i++) {
+        expect(actual[i].re).toBeCloseTo(expected[i].re, 5);
+        expect(actual[i].im).toBeCloseTo(expected[i].im, 5);
+    }
+}

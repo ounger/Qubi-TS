@@ -1,6 +1,7 @@
 import {_0, Complex} from "./complex";
 import {getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
+import {round} from "./math-util";
 
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
@@ -182,7 +183,7 @@ function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => C
  * {@link https://mathworld.wolfram.com/HermitianMatrix.html}
  */
 export function isHermitian(matrix: Complex[][]): boolean {
-    if(countRows(matrix) !== countCols(matrix)) {
+    if (countRows(matrix) !== countCols(matrix)) {
         return false;
     }
     for (let row = 0; row < matrix.length; row++) {
@@ -197,8 +198,9 @@ export function isHermitian(matrix: Complex[][]): boolean {
 
 /**
  * Solves a system linear equations by Gauss-Jordan elimination.
+ * The given matrix has to be in augmented form.
  */
-export function rowReduce(matrix: Complex[][]) { // TODO Return
+export function rowReduce(matrix: Complex[][]): Complex[] {
     // First step: Forward elimination
     // Reduces the system to (unreduced) row echelon form
     // (also called triangular form).
@@ -220,7 +222,7 @@ export function rowReduce(matrix: Complex[][]) { // TODO Return
                 max = value;
             }
         }
-        if (max < 0.00001 && max > -0.00001) {
+        if (round(max, 5) === 0) {
             // No pivot in this column, pass to next column.
             col++;
         } else {
@@ -241,14 +243,50 @@ export function rowReduce(matrix: Complex[][]) { // TODO Return
         }
     }
 
-    // TODO Beurteilen: Eine Loesung, mehrere oder keine?
-    // Weniger Gleichungen als Unbekannte -> unendlich viele Loesungen
-    // Gleich viele Gleichungen wie Unbekannte -> genau eine Loesung
-    // Mehr Gleichungen als Unbekannte -> keine Loesung
+    let allCoefficientsZero = true;
+    for (let i = 0; i < cols - 1; i++) {
+        const rndRe = round(matrix[rows - 1][i].re, 5);
+        const rndIm = round(matrix[rows - 1][i].im, 5);
+        if (rndRe !== 0 || rndIm !== 0) {
+            allCoefficientsZero = false;
+        }
+    }
+    if (allCoefficientsZero) {
+        const rhs = matrix[rows - 1][cols - 1];
+        const rhsZero = round(rhs.re, 5) === 0 && round(rhs.im, 5) === 0;
+        if (!rhsZero) {
+            // If in the last row all coefficients are zero but the RHS is not zero, the system
+            // is inconsistent and has no solution.
+            return [];
+        } else {
+            // If in the last row all coefficients are zero but the RHS is zero too, the system
+            // is dependent and has an infinite number of solutions.
+            return [];
+        }
+    }
 
     // Second step: Back substitution
     // Reduces the system to reduced row echelon form.
 
+    const solutions: Complex[] = new Array<Complex>(cols).fill(_0);
+
+    // Start at the bottom and go up
+    for (let i = rows - 1; i >= 0; i--) {
+        // start with the RHS of the equation
+        solutions[i] = matrix[i][cols - 1];
+
+        // Initialize j to i+1 since matrix is upper triangular
+        for (let j = i + 1; j < cols; j++) {
+            // Subtract all the lhs values except the coefficient of the variable whose value is being calculated
+            solutions[i] = solutions[i].sub(matrix[i][j].mul(solutions[j]));
+        }
+
+        // Divide the RHS by the coefficient of the unknown being calculated
+        solutions[i] = solutions[i].div(matrix[i][i]);
+    }
+    solutions.pop();
+
+    return solutions;
 }
 
 function swapRows(matrix: Complex[][], firstRow: number, secondRow: number) {
