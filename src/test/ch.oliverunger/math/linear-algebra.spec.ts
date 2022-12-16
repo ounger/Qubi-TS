@@ -11,6 +11,7 @@ import {
     multiplyMatrixScalar,
     multiplyMatrixVector,
     outer,
+    rowReduce,
     tensorMatrices,
     tensorVectors
 } from "../../../main/ch.oliverunger/math/linear-algebra";
@@ -397,5 +398,50 @@ describe('isHermitian', () => {
     });
 
 });
+
+describe('rowReduce', () => {
+
+    test('Example 1', () => {
+        const matrix = [
+            [_1, _3, _1, _9],
+            [_1, _1, MINUS_1, _1],
+            [_3, _11, _5, Complex.ofRe(35)]
+        ];
+        rowReduce(matrix);
+    });
+
+    test('Example 2', () => {
+        const matrix = [
+            [_2, _1, MINUS_1, _8],
+            [Complex.ofRe(-3), MINUS_1, _2, Complex.ofRe(-11)],
+            [Complex.ofRe(-2), _1, _2, Complex.ofRe(-3)]
+        ];
+        rowReduce(matrix);
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

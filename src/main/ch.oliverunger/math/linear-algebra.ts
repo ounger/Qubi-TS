@@ -185,14 +185,76 @@ export function isHermitian(matrix: Complex[][]): boolean {
     if(countRows(matrix) !== countCols(matrix)) {
         return false;
     }
-    for(let row = 0; row < matrix.length; row++) {
-        for(let col = 0; col <= row; col++) {
-            if(!matrix[row][col].equals(matrix[col][row].conjugate())) {
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col <= row; col++) {
+            if (!matrix[row][col].equals(matrix[col][row].conjugate())) {
                 return false;
             }
         }
     }
     return true;
+}
+
+/**
+ * Solves a system linear equations by Gauss-Jordan elimination.
+ */
+export function rowReduce(matrix: Complex[][]) { // TODO Return
+    // First step: Forward elimination
+    // Reduces the system to (unreduced) row echelon form
+    // (also called triangular form).
+
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+
+    let row = 0; // Initialization of the pivot row
+    let col = 0; // Initialization of the pivot column
+
+    while (row < rows && col < cols) {
+        // Find the column's pivot
+        let iMax = 0;
+        let max = 0;
+        for (let i = row; i < rows; i++) {
+            const value = matrix[i][col].abs();
+            if (value > max) {
+                iMax = i;
+                max = value;
+            }
+        }
+        if (max < 0.00001 && max > -0.00001) {
+            // No pivot in this column, pass to next column.
+            col++;
+        } else {
+            swapRows(matrix, row, iMax);
+            // Do for all rows below pivot
+            for (let i = row + 1; i < rows; i++) {
+                const f = matrix[i][col].div(matrix[row][col]);
+                // Fill with zeros the lower part of pivot column
+                matrix[i][col] = _0;
+                // Do for all remaining elements in current row
+                for (let j = col + 1; j < cols; j++) {
+                    matrix[i][j] = matrix[i][j].sub(matrix[row][j].mul(f));
+                }
+            }
+            // Increase pivot row and column
+            row++;
+            col++;
+        }
+    }
+
+    // TODO Beurteilen: Eine Loesung, mehrere oder keine?
+    // Weniger Gleichungen als Unbekannte -> unendlich viele Loesungen
+    // Gleich viele Gleichungen wie Unbekannte -> genau eine Loesung
+    // Mehr Gleichungen als Unbekannte -> keine Loesung
+
+    // Second step: Back substitution
+    // Reduces the system to reduced row echelon form.
+
+}
+
+function swapRows(matrix: Complex[][], firstRow: number, secondRow: number) {
+    const temp = matrix[firstRow];
+    matrix[firstRow] = matrix[secondRow];
+    matrix[secondRow] = temp;
 }
 
 export function countRows(matrix: Complex[][]) {
