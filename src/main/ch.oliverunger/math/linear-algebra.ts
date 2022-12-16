@@ -1,5 +1,5 @@
 import {_0, Complex} from "./complex";
-import {getTTBitAt} from "./truth-table";
+import {bit, getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
 import {round} from "./math-util";
 
@@ -289,17 +289,102 @@ export function rowReduce(matrix: Complex[][]): Complex[] {
     return solutions;
 }
 
-function swapRows(matrix: Complex[][], firstRow: number, secondRow: number) {
+export function rowReduceOverBinaryField(matrix: bit[][]) {
+    // First step: Forward elimination
+    // Reduces the system to (unreduced) row echelon form
+    // (also called triangular form).
+
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+
+    let row = 0; // Initialization of the pivot row
+    let col = 0; // Initialization of the pivot column
+
+    while (row < rows && col < cols) {
+        // Find the column's pivot
+        let iMax = 0;
+        let max = 0;
+        for (let i = row; i < rows; i++) {
+            const value = matrix[i][col];
+            if (value === 1) {
+                iMax = i;
+                max = value;
+            }
+        }
+        if (max === 0) {
+            // No pivot in this column, pass to next column.
+            col++;
+        } else {
+            swapRows(matrix, row, iMax);
+            // Do for all rows below pivot
+            for (let i = row + 1; i < rows; i++) {
+                // Fill with zeros the lower part of pivot column
+                matrix[i][col] = 0;
+                // Do for all remaining elements in current row
+                for (let j = col + 1; j < cols; j++) {
+                    matrix[i][j] = (matrix[i][j] ^ matrix[row][j]) as bit;
+                }
+            }
+            // Increase pivot row and column
+            row++;
+            col++;
+        }
+    }
+
+    let allCoefficientsZero = true;
+    for (let i = 0; i < cols - 1; i++) {
+        if (matrix[rows - 1][i] === 1) {
+            allCoefficientsZero = false;
+        }
+    }
+    if (allCoefficientsZero) {
+        const rhsZero = matrix[rows - 1][cols - 1] === 0;
+        if (!rhsZero) {
+            // If in the last row all coefficients are zero but the RHS is not zero, the system
+            // is inconsistent and has no solution.
+            return [];
+        } else {
+            // If in the last row all coefficients are zero but the RHS is zero too, the system
+            // is dependent and has an infinite number of solutions.
+            return [];
+        }
+    }
+
+    // Second step: Back substitution
+    // Reduces the system to reduced row echelon form.
+
+    const solutions: bit[] = new Array<bit>(cols).fill(0);
+
+    // Start at the bottom and go up
+    for (let i = rows - 1; i >= 0; i--) {
+        // start with the RHS of the equation
+        solutions[i] = matrix[i][cols - 1];
+
+        // Initialize j to i+1 since matrix is upper triangular
+        for (let j = i + 1; j < cols; j++) {
+            // Subtract all the lhs values except the coefficient of the variable whose value is being calculated
+            solutions[i] = (matrix[i][j] ^ solutions[j]) as bit;
+        }
+
+        // Divide the RHS by the coefficient of the unknown being calculated
+        // solutions[i] = (solutions[i] ^ matrix[i][i]) as bit;
+    }
+    solutions.pop();
+
+    return solutions;
+}
+
+function swapRows(matrix: any[][], firstRow: number, secondRow: number) {
     const temp = matrix[firstRow];
     matrix[firstRow] = matrix[secondRow];
     matrix[secondRow] = temp;
 }
 
-export function countRows(matrix: Complex[][]) {
+export function countRows(matrix: any[][]) {
     return matrix.length;
 }
 
-export function countCols(matrix: Complex[][]) {
+export function countCols(matrix: any[][]) {
     return matrix[0].length;
 }
 

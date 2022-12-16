@@ -12,6 +12,7 @@ import {
     multiplyMatrixVector,
     outer,
     rowReduce,
+    rowReduceOverBinaryField,
     tensorMatrices,
     tensorVectors
 } from "../../../main/ch.oliverunger/math/linear-algebra";
@@ -51,6 +52,7 @@ import {
     PAULI_Y_GATE,
     PAULI_Z_GATE
 } from "../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates";
+import {bit} from "../../../main/ch.oliverunger/math/truth-table";
 
 const matrix = [
     [_3, _2, _1],
@@ -490,7 +492,28 @@ describe('rowReduce with no solution', () => {
 
 });
 
+describe('rowReduceOverBinaryField', () => {
 
+    test('Example 1', () => {
+        const matrix: bit[][] = [
+            [1, 1, 0],
+            [0, 0, 0]
+        ];
+        expect(rowReduceOverBinaryField(matrix)).toEqual([1, 1]);
+    });
+
+    test('Example 2', () => {
+        // See https://stackoverflow.com/questions/11483925/how-to-implementing-gaussian-elimination-for-binary-equations
+        const matrix: bit[][] = [
+            [1, 1, 1, 0, 1],
+            [1, 1, 0, 1, 1],
+            [1, 0, 1, 1, 0],
+            [0, 1, 1, 1, 1]
+        ];
+        expect(rowReduceOverBinaryField(matrix)).toEqual([0, 1, 0, 0]);
+    });
+
+});
 
 
 
