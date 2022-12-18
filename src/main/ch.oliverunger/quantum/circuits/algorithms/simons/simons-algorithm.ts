@@ -51,12 +51,13 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
  * See {@link https://en.wikipedia.org/wiki/System_of_linear_equations#Homogeneous_systems} <br>
  * It is used here to solve the outcome of linear equations from the measurements of
  * Simon's algorithm.
+ * @throws {LinearlyDependentMeasurementsException}
  */
 export function solve(measurements: bit[][]): bit[] {
     // Implementation described here:
-    // See {@link https://quantumcomputing.stackexchange.com/a/29407/22394}
+    // See https://quantumcomputing.stackexchange.com/a/29407/22394
     validateMeasurements(measurements);
-    reduceToRef(measurements);
+    reduceToRef(measurements); // May throw a LinearlyDependentMeasurementsException
     transformRefToRref(measurements);
     // printMatrix(measurements);
 
@@ -95,15 +96,15 @@ function validateMeasurements(measurements: bit[][]) {
         But the number of the given measurements is ${rows}!`);
     }
     // None of the measurements may be the zero vector.
-    validateContainsZeroVector(measurements);
-}
-
-function validateContainsZeroVector(measurements: bit[][]) {
-    if (measurements.some(m => m.flat().every(b => b === 0))) {
-        throw new Error('Measurements contain the zero vector!');
+    if (measurementsContainZeroVector(measurements)) {
+        throw new Error('Measurements contain the zero vector! ' +
+            'You should remove it from the array of measurements before solving!');
     }
 }
 
+/**
+ * @throws {LinearlyDependentMeasurementsException}
+ */
 function reduceToRef(measurements: bit[][]) {
     const cols = measurements[0].length;
 
@@ -112,8 +113,18 @@ function reduceToRef(measurements: bit[][]) {
         const maskSum = reorderRowsBy1InCol(measurements, col);
         applyXORs(measurements, col, maskSum);
         // Check if the equations were linearly independent
-        validateContainsZeroVector(measurements); // TODO Really in the for loop?
+        if (measurementsContainZeroVector(measurements)) {
+            // We have a probability of at least 25 % that our n - 1 measurements are
+            // linearly independent. Here we were unlucky.
+            // See comments under https://quantumcomputing.stackexchange.com/a/29407/22394
+            // You should repeat the measurements and solve again.
+            throw new LinearlyDependentMeasurementsException("Try to rerun the measuring and solve again!");
+        }
     }
+}
+
+function measurementsContainZeroVector(measurements: bit[][]): boolean {
+    return measurements.some(m => m.flat().every(b => b === 0));
 }
 
 function reorderRowsBy1InCol(measurements: bit[][], col: number): number {
@@ -162,4 +173,11 @@ function findIndicesWithDiagZero(measurements: bit[][]): number[] {
         }
     }
     return indicesWithDiagZero;
+}
+
+export class LinearlyDependentMeasurementsException extends Error {
+    constructor(message: string) {
+        super(message);
+        Object.setPrototypeOf(this, LinearlyDependentMeasurementsException.prototype);
+    }
 }
