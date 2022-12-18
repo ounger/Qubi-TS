@@ -30,7 +30,7 @@ describe('Testing Simons Algorithm', () => {
         return contains;
     }
 
-    function applyTest(secret: bit[]) {
+    function applyTest(secret: bit[], expTypeOfFunction: 'OneToOne' | "TwoToOne") {
         const secretLength = secret.length;
         const measurements = new Array<bit[]>();
         while (measurements.length < secretLength - 1) { // We need at least secretLength - 1 measurements
@@ -64,45 +64,51 @@ describe('Testing Simons Algorithm', () => {
             }
         }
 
-        // TODO Verify
+        // It may happen that the solvedSecret and the secret are not the same.
+        // So checking for all i: secret[i] === solvedSecret[i] and lengths are identical
+        // will not be meaningful here. Especially if the secret is the null vector.
+        // But what we would like to announce here is whether the function is a One-To-One or Two-To-One.
+        let actualTypeOfFunction;
+        // TODO Check
+        expect(actualTypeOfFunction).toEqual(expTypeOfFunction);
     }
 
     test('Two-to-One Test Cases', () => {
-        applyTest([1, 1]);
-        applyTest([1, 0]);
-        applyTest([0, 1]);
+        applyTest([1, 1], "TwoToOne");
+        applyTest([1, 0], "TwoToOne");
+        applyTest([0, 1], "TwoToOne");
 
-        applyTest([0, 0, 1]);
-        applyTest([0, 1, 0]);
-        applyTest([0, 1, 1]);
-        applyTest([1, 0, 0]);
-        applyTest([1, 0, 1]);
-        applyTest([1, 1, 0]);
-        applyTest([1, 1, 1]);
+        applyTest([0, 0, 1], "TwoToOne");
+        applyTest([0, 1, 0], "TwoToOne");
+        applyTest([0, 1, 1], "TwoToOne");
+        applyTest([1, 0, 0], "TwoToOne");
+        applyTest([1, 0, 1], "TwoToOne");
+        applyTest([1, 1, 0], "TwoToOne");
+        applyTest([1, 1, 1], "TwoToOne");
 
-        applyTest([0, 0, 0, 1]);
-        applyTest([0, 0, 1, 0]);
-        applyTest([0, 0, 1, 1]);
-        applyTest([0, 1, 0, 0]);
-        applyTest([0, 1, 0, 1]);
-        applyTest([0, 1, 1, 0]);
-        applyTest([0, 1, 1, 1]);
-        applyTest([1, 0, 0, 1]);
-        applyTest([1, 0, 1, 0]);
-        applyTest([1, 0, 1, 1]);
-        applyTest([1, 1, 0, 0]);
-        applyTest([1, 1, 0, 1]);
-        applyTest([1, 1, 1, 0]);
-        applyTest([1, 1, 1, 1]);
+        applyTest([0, 0, 0, 1], "TwoToOne");
+        applyTest([0, 0, 1, 0], "TwoToOne");
+        applyTest([0, 0, 1, 1], "TwoToOne");
+        applyTest([0, 1, 0, 0], "TwoToOne");
+        applyTest([0, 1, 0, 1], "TwoToOne");
+        applyTest([0, 1, 1, 0], "TwoToOne");
+        applyTest([0, 1, 1, 1], "TwoToOne");
+        applyTest([1, 0, 0, 1], "TwoToOne");
+        applyTest([1, 0, 1, 0], "TwoToOne");
+        applyTest([1, 0, 1, 1], "TwoToOne");
+        applyTest([1, 1, 0, 0], "TwoToOne");
+        applyTest([1, 1, 0, 1], "TwoToOne");
+        applyTest([1, 1, 1, 0], "TwoToOne");
+        applyTest([1, 1, 1, 1], "TwoToOne");
 
-        applyTest([1, 0, 0, 1, 1]);
+        applyTest([1, 0, 0, 1, 1], "TwoToOne");
     });
 
     test('One-to-One Test Cases', () => {
-        applyTest([0, 0]);
-        applyTest([0, 0, 0]);
-        applyTest([0, 0, 0, 0]);
-        applyTest([0, 0, 0, 0, 0]);
+        applyTest([0, 0], "OneToOne");
+        applyTest([0, 0, 0], "OneToOne");
+        applyTest([0, 0, 0, 0], "OneToOne");
+        applyTest([0, 0, 0, 0, 0], "OneToOne");
     });
 
 
