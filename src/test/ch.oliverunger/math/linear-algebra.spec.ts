@@ -4,6 +4,7 @@ import {
     countRows,
     cross,
     dot,
+    gaussModTwo,
     hadamardProductVectors,
     inner,
     isHermitian,
@@ -496,10 +497,9 @@ describe('rowReduceOverBinaryField', () => {
 
     test('Example 1', () => {
         const matrix: bit[][] = [
-            [1, 1, 0],
-            [0, 0, 0]
+            [1, 1, 0]
         ];
-        expect(rowReduceOverBinaryField(matrix)).toEqual([1, 1]);
+        expect(gaussModTwo(matrix)).toEqual([]);
     });
 
     test('Example 2', () => {
@@ -511,6 +511,35 @@ describe('rowReduceOverBinaryField', () => {
             [0, 1, 1, 1, 1]
         ];
         expect(rowReduceOverBinaryField(matrix)).toEqual([0, 1, 0, 0]);
+    });
+
+    test('Example 3', () => {
+        const matrix: bit[][] = [
+            [1, 1, 1, 0, 1],
+            [1, 1, 0, 1, 1],
+            [1, 0, 1, 1, 0],
+            [0, 1, 1, 1, 1]
+        ];
+        expect(gaussModTwo(matrix)).toEqual([0, 1, 0, 0]);
+    });
+
+    test('Example 4', () => {
+        const matrix: bit[][] = [
+            [1, 1, 0, 0],
+            [0, 0, 1, 0],
+            [1, 1, 1, 0]
+        ];
+        expect(rowReduceOverBinaryField(matrix)).toEqual([1, 1, 0]);
+    });
+
+    test('Example 4', () => {
+        const matrix: bit[][] = [
+            [1, 0, 0, 1, 0],
+            [1, 1, 0, 1, 0],
+            [1, 0, 1, 1, 0],
+            [1, 0, 0, 0, 1]
+        ];
+        expect(gaussModTwo(matrix)).toEqual([1, 0, 0, 1, 1]);
     });
 
 });

@@ -2,6 +2,7 @@ import {_0, Complex} from "./complex";
 import {bit, getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
 import {round} from "./math-util";
+import {xor} from "../util";
 
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
@@ -374,6 +375,30 @@ export function rowReduceOverBinaryField(matrix: bit[][]) {
     return solutions;
 }
 
+/**
+ * See {@link https://codeforces.com/blog/entry/52270}
+ */
+export function gaussModTwo(matrix: bit[][]) {
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+    for (let i = 0; i < rows - 1; ++i) {
+        for (let j = i; j < rows - 1; ++j)
+            if (matrix[j][i]) {
+                swapRows(matrix, i, j);
+                break;
+            }
+        for (let j = 0; j < rows - 1; ++j)
+            if (j != i) {
+                matrix[j] = xor(matrix[j], matrix[i]);
+            }
+    }
+    let solutions = new Array<bit>(rows);
+    for (let i = 0; i < rows; i++) {
+        solutions[i] = matrix[i][cols - 1];
+    }
+    return solutions;
+}
+
 function swapRows(matrix: any[][], firstRow: number, secondRow: number) {
     const temp = matrix[firstRow];
     matrix[firstRow] = matrix[secondRow];
@@ -388,12 +413,13 @@ export function countCols(matrix: any[][]) {
     return matrix[0].length;
 }
 
-export function printMatrix(matrix: Complex[][]) {
+export function printMatrix(matrix: any[][]) {
+    let s = "";
     for (let row = 0; row < matrix.length; row++) {
-        let rowValues = '';
         for (let col = 0; col < matrix[0].length; col++) {
-            rowValues += matrix[row][col].toString() + ' ';
+            s += matrix[row][col].toString() + ' ';
         }
-        console.log(rowValues);
+        s += "\n";
     }
+    console.log(s);
 }
