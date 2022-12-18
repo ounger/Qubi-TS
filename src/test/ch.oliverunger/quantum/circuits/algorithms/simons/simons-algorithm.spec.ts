@@ -19,10 +19,10 @@ describe('Testing Simons Algorithm', () => {
         return (accum % 2);
     }
 
-    function contains(zResults: bit[][], result: bit[]) {
+    function contains(measurements: bit[][], measurement: bit[]) {
         let contains = false;
-        for (let i = 0; i < zResults.length; i++) {
-            if (getBitArrayAsNumber(zResults[i]) === getBitArrayAsNumber(result)) {
+        for (let i = 0; i < measurements.length; i++) {
+            if (getBitArrayAsNumber(measurements[i]) === getBitArrayAsNumber(measurement)) {
                 contains = true;
             }
         }
