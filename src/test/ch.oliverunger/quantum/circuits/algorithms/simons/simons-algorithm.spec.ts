@@ -1,6 +1,6 @@
 import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {
-    createTwoToOneSimonsOracle
+    createSimonsOracle
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-oracles";
 import {bit} from "../../../../../../main/ch.oliverunger/math/truth-table";
 import {
@@ -29,51 +29,63 @@ describe('Testing Simons Algorithm', () => {
         return contains;
     }
 
+    function applyTest(secret: bit[]) {
+        const secretLength = secret.length;
+        const measurements = new Array<bit[]>();
+        while (measurements.length < secretLength - 1) { // We need at least secretLength - 1 measurements
+            // We need secretLength input qubits and secretLength output qubits
+            const reg = new QubitRegister(secretLength * 2);
+            const oracle = createSimonsOracle(reg, secret);
+            const measurement = executeSimonsAlgorithm(reg, oracle);
 
-    test('2 input qubits, Two-to-One Simons oracle, Secret 11', () => {
-        const secret: bit[] = [1, 1]; // [1, 0, 0, 1, 1];
-        // TODO Das mehrmalige Durchfuehren ist eigentlich Teil des Algorithmus. Hier neues Konzept ueberlegen!
-        let zResults = new Array<bit[]>(); // TODO Aendern in ein Set
-        // TODO Eine gute Groesse finden: Qiskit empfiehlt Anzahl der Inputqubits
-        for (let i = 0; i < 10; i++) {
-            const reg = new QubitRegister(secret.length * 2);
+            // Secret dot measurement should be 0
+            expect(dot(secret, measurement)).toEqual(0);
 
-            const oracle = createTwoToOneSimonsOracle(reg, secret);
-            const result = executeSimonsAlgorithm(reg, oracle);
+            const zeroVector = measurement.every(b => b === 0);
 
-            // We should measure our input in either 00 or 11
-            // expect(result[0]).toEqual(result[1]);
-            // So secret dot result should be 0
-            expect(dot(secret, result)).toEqual(0);
-
-            if (!contains(zResults, result)) {
-                zResults.push(result);
+            if (!zeroVector && !contains(measurements, measurement)) {
+                measurements.push(measurement);
             }
         }
+        const solvedSecret = solve(measurements);
+        expect(solvedSecret).toEqual(secret);
 
-        // Remove zero vector
-        const indexZeroVector = zResults.findIndex(r => r.flat().every(v => v === 0));
-        if (indexZeroVector > -1) {
-            zResults.splice(indexZeroVector, 1);
-        }
+        // TODO Verify f(x) = f(x xor secret)
+    }
 
-        solve(zResults);
-
-        // TODO Check
+    test('Two-to-One Test Cases', () => {
+        // applyTest([1, 1]);
+        // applyTest([1, 0]);
+        // applyTest([0, 1]);
+        //
+        // applyTest([0, 0, 1]);
+        // applyTest([0, 1, 0]);
+        // applyTest([0, 1, 1]);
+        // applyTest([1, 0, 0]);
+        // applyTest([1, 0, 1]);
+        // applyTest([1, 1, 0]);
+        // applyTest([1, 1, 1]);
+        //
+        // applyTest([0, 0, 0, 1]);
+        // applyTest([0, 0, 1, 0]);
+        // applyTest([0, 0, 1, 1]);
+        // applyTest([0, 1, 0, 0]);
+        applyTest([0, 1, 0, 1]);
+        // applyTest([0, 1, 1, 0]);
+        // applyTest([0, 1, 1, 1]);
+        // applyTest([1, 0, 0, 1]);
+        // applyTest([1, 0, 1, 0]);
+        // applyTest([1, 0, 1, 1]);
+        // applyTest([1, 1, 0, 0]);
+        // applyTest([1, 1, 0, 1]);
+        // applyTest([1, 1, 1, 0]);
+        // applyTest([1, 1, 1, 1]);
+        //
+        // applyTest([1, 0, 0, 1, 1]);
     });
 
-    test('Test One-To-One', () => {
-        // TODO
-    });
-
-    test('solve', () => {
-        const measurements: bit[][] = [
-            [0, 0, 0, 1, 1],
-            [1, 1, 0, 1, 0],
-            [1, 0, 0, 0, 1],
-            [0, 1, 1, 0, 0]
-        ];
-        solve(measurements);
+    test('One-to-One Test Cases', () => {
+        applyTest([0, 0]);
     });
 
 

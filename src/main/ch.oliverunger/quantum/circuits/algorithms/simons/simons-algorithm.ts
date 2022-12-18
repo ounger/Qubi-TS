@@ -2,7 +2,6 @@ import {QubitRegister} from "../../../multi-qubit/qubit-register";
 import {Circuit} from "../../circuit";
 import {hadSingle} from "../../../multi-qubit/multi-qubit-gates";
 import {bit} from "../../../../math/truth-table";
-import {printMatrix} from "../../../../math/linear-algebra";
 import {xor} from "../../../../util";
 
 export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit): bit[] {
@@ -53,13 +52,13 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
  * It is used here to solve the outcome of linear equations from the measurements of
  * Simon's algorithm.
  */
-export function solve(measurements: bit[][]) {
+export function solve(measurements: bit[][]): bit[] {
     // Implementation described here:
-    // https://quantumcomputing.stackexchange.com/a/29407/22394
+    // See {@link https://quantumcomputing.stackexchange.com/a/29407/22394}
     validateMeasurements(measurements);
     reduceToRef(measurements);
     transformRefToRref(measurements);
-    printMatrix(measurements);
+    // printMatrix(measurements);
 
     let indicesWithDiagZero = findIndicesWithDiagZero(measurements);
     let index;
@@ -76,7 +75,7 @@ export function solve(measurements: bit[][]) {
     for (let row = index; row < measurements.length; row++) {
         result.push(measurements[row][index]);
     }
-    console.log(result);
+    return result;
 }
 
 function validateMeasurements(measurements: bit[][]) {
@@ -106,7 +105,6 @@ function validateContainsZeroVector(measurements: bit[][]) {
 }
 
 function reduceToRef(measurements: bit[][]) {
-    const rows = measurements.length;
     const cols = measurements[0].length;
 
     // Reduce to ref

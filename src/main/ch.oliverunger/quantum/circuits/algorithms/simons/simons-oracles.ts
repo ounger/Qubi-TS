@@ -4,14 +4,22 @@ import {cx} from "../../../multi-qubit/multi-qubit-gates";
 import {getNumberAsBitArray} from "../../../../util";
 import {bit} from "../../../../math/truth-table";
 
+export function createSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
+    if (reg.numQubits % 2 === 1) {
+        throw new Error("The number of qubits must be divisible by 2.");
+    }
+    if (secret.every(b => b === 0)) {
+        return createOneToOneSimonsOracle(reg);
+    } else {
+        return createTwoToOneSimonsOracle(reg, secret);
+    }
+}
+
 /**
  * Creates an oracle based on a one-to-one function for simons algorithm for a
  * register with n input qubits and n output qubits.
  */
-export function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
-    if (reg.numQubits % 2 === 1) {
-        throw new Error("The number of qubits must be divisible by 2.");
-    }
+function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
     // The hidden bitarray 'secret' is 00...0
     // We copy the content of the first register to the second register
     const circuit = new Circuit();
@@ -27,10 +35,7 @@ export function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
  * register with n input qubits and n output qubits. <br>
  * See {@link https://quantumcomputing.stackexchange.com/questions/15567/in-simons-algorithm-is-there-a-general-method-to-define-an-oracle-given-a-cert}
  */
-export function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
-    if (reg.numQubits % 2 === 1) {
-        throw new Error("The number of qubits must be divisible by 2.");
-    }
+function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
     const numInputQubits = reg.numQubits / 2;
     const zeroAsBitArray = getNumberAsBitArray(0, numInputQubits);
     if (zeroAsBitArray === secret) {
