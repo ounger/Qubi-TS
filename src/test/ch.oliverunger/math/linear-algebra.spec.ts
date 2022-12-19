@@ -4,7 +4,6 @@ import {
     countRows,
     cross,
     dot,
-    gaussModTwo,
     hadamardProductVectors,
     inner,
     isHermitian,
@@ -13,7 +12,6 @@ import {
     multiplyMatrixVector,
     outer,
     rowReduce,
-    rowReduceOverBinaryField,
     tensorMatrices,
     tensorVectors
 } from "../../../main/ch.oliverunger/math/linear-algebra";
@@ -53,7 +51,6 @@ import {
     PAULI_Y_GATE,
     PAULI_Z_GATE
 } from "../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates";
-import {bit} from "../../../main/ch.oliverunger/math/truth-table";
 
 const matrix = [
     [_3, _2, _1],
@@ -489,57 +486,6 @@ describe('rowReduce with no solution', () => {
             [_2, _3, _4, _11]
         ];
         expComplexArraysToBeCloseTo(rowReduce(matrix), []);
-    });
-
-});
-
-describe('rowReduceOverBinaryField', () => {
-
-    test('Example 1', () => {
-        const matrix: bit[][] = [
-            [1, 1, 0]
-        ];
-        expect(gaussModTwo(matrix)).toEqual([]);
-    });
-
-    test('Example 2', () => {
-        // See https://stackoverflow.com/questions/11483925/how-to-implementing-gaussian-elimination-for-binary-equations
-        const matrix: bit[][] = [
-            [1, 1, 1, 0, 1],
-            [1, 1, 0, 1, 1],
-            [1, 0, 1, 1, 0],
-            [0, 1, 1, 1, 1]
-        ];
-        expect(rowReduceOverBinaryField(matrix)).toEqual([0, 1, 0, 0]);
-    });
-
-    test('Example 3', () => {
-        const matrix: bit[][] = [
-            [1, 1, 1, 0, 1],
-            [1, 1, 0, 1, 1],
-            [1, 0, 1, 1, 0],
-            [0, 1, 1, 1, 1]
-        ];
-        expect(gaussModTwo(matrix)).toEqual([0, 1, 0, 0]);
-    });
-
-    test('Example 4', () => {
-        const matrix: bit[][] = [
-            [1, 1, 0, 0],
-            [0, 0, 1, 0],
-            [1, 1, 1, 0]
-        ];
-        expect(rowReduceOverBinaryField(matrix)).toEqual([1, 1, 0]);
-    });
-
-    test('Example 4', () => {
-        const matrix: bit[][] = [
-            [1, 0, 0, 1, 0],
-            [1, 1, 0, 1, 0],
-            [1, 0, 1, 1, 0],
-            [1, 0, 0, 0, 1]
-        ];
-        expect(gaussModTwo(matrix)).toEqual([1, 0, 0, 1, 1]);
     });
 
 });

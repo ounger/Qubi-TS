@@ -5,8 +5,7 @@ import {_0, _1, Complex} from "../../../../../../main/ch.oliverunger/math/comple
 import {STATE_ONE, STATE_ZERO} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
 import {expStatesToBeCloseTo} from "../../../../test-util";
 import {
-    createOneToOneSimonsOracle,
-    createTwoToOneSimonsOracle
+    createSimonsOracle
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-oracles";
 
 describe('createOneToOneSimonsOracle with 2 input qubits', () => {
@@ -15,7 +14,7 @@ describe('createOneToOneSimonsOracle with 2 input qubits', () => {
         const firstOutputQubit = Qubit.ofState(STATE_ZERO);
         const secondOutputQubit = Qubit.ofState(STATE_ZERO);
         const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, firstOutputQubit, secondOutputQubit);
-        const oracle = createOneToOneSimonsOracle(reg);
+        const oracle = createSimonsOracle(reg, [0, 0]);
         oracle.execute();
         expStatesToBeCloseTo(reg.states, expStates);
     }
@@ -36,7 +35,7 @@ describe('createOneToOneSimonsOracle with 3 input qubits', () => {
         const secondOutputQubit = Qubit.ofState(STATE_ZERO);
         const thridOutputQubit = Qubit.ofState(STATE_ZERO);
         const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, thirdInputQubit, firstOutputQubit, secondOutputQubit, thridOutputQubit);
-        const oracle = createOneToOneSimonsOracle(reg);
+        const oracle = createSimonsOracle(reg, [0, 0, 0]);
         oracle.execute();
         expStatesToBeCloseTo(reg.states, expStates);
     }
@@ -60,7 +59,7 @@ describe('createTwoToOneSimonsOracle with 2 input qubits', () => {
         const firstOutputQubit = Qubit.ofState(STATE_ZERO);
         const secondOutputQubit = Qubit.ofState(STATE_ZERO);
         const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, firstOutputQubit, secondOutputQubit);
-        const oracle = createTwoToOneSimonsOracle(reg, secret);
+        const oracle = createSimonsOracle(reg, secret);
         oracle.execute();
         expStatesToBeCloseTo(reg.states, expStates);
     }
@@ -106,7 +105,7 @@ describe('createSimonTwoToOneOracle with 3 input qubits', () => {
             firstInputQubit, secondInputQubit, thirdInputQubit,
             firstOutputQubit, secondOutputQubit, thirdOutputQubit
         );
-        const oracle = createTwoToOneSimonsOracle(reg, secret);
+        const oracle = createSimonsOracle(reg, secret);
         oracle.execute();
         expStatesToBeCloseTo(reg.states, expStates);
     }
