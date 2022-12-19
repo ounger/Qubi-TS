@@ -9,16 +9,9 @@ import {
     solve
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-algorithm";
 import {getBitArrayAsNumber, xor} from "../../../../../../main/ch.oliverunger/util";
+import {dotBinary} from "../../../../../../main/ch.oliverunger/math/linear-algebra";
 
 describe('Testing Simons Algorithm', () => {
-
-    function dot(secret: bit[], z: bit[]): number {
-        let accum = 0
-        for (let i = 0; i < secret.length; i++) {
-            accum += secret[i] * z[i];
-        }
-        return (accum % 2);
-    }
 
     function contains(measurements: bit[][], measurement: bit[]) {
         let contains = false;
@@ -45,7 +38,7 @@ describe('Testing Simons Algorithm', () => {
                 const measurement = executeSimonsAlgorithm(reg, oracle);
 
                 // Secret dot measurement should be 0
-                expect(dot(secret, measurement)).toEqual(0);
+                expect(dotBinary(secret, measurement)).toEqual(0);
 
                 const zeroVector = measurement.every(b => b === 0);
 

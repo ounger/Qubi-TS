@@ -1,5 +1,5 @@
 import {_0, Complex} from "./complex";
-import {getTTBitAt} from "./truth-table";
+import {bit, getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
 import {round} from "./math-util";
 
@@ -43,6 +43,14 @@ export function multiplyMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] 
         }
     }
     return matrixResult;
+}
+
+export function dotBinary(secret: bit[], z: bit[]): number {
+    let accum = 0
+    for (let i = 0; i < secret.length; i++) {
+        accum += secret[i] * z[i];
+    }
+    return (accum % 2);
 }
 
 /**
