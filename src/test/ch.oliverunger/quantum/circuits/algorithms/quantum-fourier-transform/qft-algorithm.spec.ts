@@ -3,16 +3,28 @@ import {
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/quantum-fourier-transform/qft-algorithm";
 import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {getNumberAsBitArray} from "../../../../../../main/ch.oliverunger/util";
-import {bit} from "../../../../../../main/ch.oliverunger/math/truth-table";
 import {Qubit} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
-import {STATE_L, STATE_MINUS, STATE_R} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
+import {
+    STATE_L,
+    STATE_MINUS,
+    STATE_PLUS,
+    STATE_R
+} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
 import {expStatesToBeCloseTo} from "../../../../test-util";
 
 describe('Create QFTs', () => {
 
-    function applyTest(numQubits: number, encodedNumberAsBitArray: bit[]) {
+    test("1 qubit", () => {
+        const reg = new QubitRegister(1);
+        const qftCircuit = createQFTCircuit(reg, getNumberAsBitArray(0, 1));
+        qftCircuit.execute();
+
+        expStatesToBeCloseTo(reg.states, STATE_PLUS);
+    });
+
+    test('3 qubits', () => {
         const reg = new QubitRegister(3);
-        const qftCircuit = createQFTCircuit(reg, encodedNumberAsBitArray);
+        const qftCircuit = createQFTCircuit(reg, getNumberAsBitArray(5, 3));
         qftCircuit.execute();
 
         const expQubit0 = Qubit.ofState(STATE_L);
@@ -24,11 +36,13 @@ describe('Create QFTs', () => {
         console.log("Actual " + reg.states);
         console.log("Exp " + expReg.states);
         expStatesToBeCloseTo(reg.states, expReg.states);
+    });
 
-    }
-
-    test('Test cases', () => {
-        applyTest(3, getNumberAsBitArray(5, 3));
+    test('Test', () => {
+        const qubit2 = Qubit.ofState(STATE_R);
+        qubit2.rotZ(90);
+        console.log(qubit2);
+        expStatesToBeCloseTo(qubit2.state(), STATE_PLUS);
     });
 
 });

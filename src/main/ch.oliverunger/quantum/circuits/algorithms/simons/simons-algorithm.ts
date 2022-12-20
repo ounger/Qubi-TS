@@ -59,7 +59,6 @@ export function solve(measurements: bit[][]): bit[] {
     validateMeasurements(measurements);
     reduceToRef(measurements); // May throw a LinearlyDependentMeasurementsException
     transformRefToRref(measurements);
-    // printMatrix(measurements);
 
     let indicesWithDiagZero = findIndicesWithDiagZero(measurements);
     let index;

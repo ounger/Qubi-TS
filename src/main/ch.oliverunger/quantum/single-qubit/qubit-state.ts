@@ -20,7 +20,9 @@ export const STATE_PLUS: QubitState = [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO];
 export const STATE_MINUS: QubitState = [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO];
 
 // The two orthogonal y-basis states
+/** Right State or i State */
 export const STATE_R: QubitState = [ONE_OF_SQRT_TWO, i_OF_SQRT_TWO];
+/** Left State or -i State */
 export const STATE_L: QubitState = [ONE_OF_SQRT_TWO, MINUS_i_OF_SQRT_TWO];
 
 // Others

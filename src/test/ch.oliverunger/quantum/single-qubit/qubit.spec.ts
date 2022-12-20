@@ -22,8 +22,10 @@ import {
     Complex,
     HALF_SQRT_TWO_HALF_i_SQRT_TWO,
     i,
+    i_OF_SQRT_TWO,
     MINUS_1,
     MINUS_i,
+    MINUS_i_OF_SQRT_TWO,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from "../../../../main/ch.oliverunger/math/complex";
@@ -575,6 +577,7 @@ describe('ROT-Z', () => {
     test('Test Cases', () => {
         applyTest(STATE_ZERO, 180, [MINUS_i, _0]);
         applyTest(STATE_ONE, 180, [_0, i]);
+        applyTest(STATE_PLUS, 180, [MINUS_i_OF_SQRT_TWO, i_OF_SQRT_TWO]);
     });
 
 });
