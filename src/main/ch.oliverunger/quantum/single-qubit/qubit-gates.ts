@@ -81,6 +81,13 @@ export function getRotZGate(angleDegrees: number): Complex[][] {
     ];
 }
 
+export function getRot1Gate(angleDegrees: number): Complex[][] {
+    return [
+        [_1, _0],
+        [_0, expOfiTimesAngleDegrees(angleDegrees)]
+    ];
+}
+
 export const RNOT_GATE = [
     [new Complex(0.5, 0.5), new Complex(0.5, -0.5)],
     [new Complex(0.5, -0.5), new Complex(0.5, 0.5)]

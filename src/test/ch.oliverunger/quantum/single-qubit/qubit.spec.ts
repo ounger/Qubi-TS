@@ -582,6 +582,45 @@ describe('ROT-Z', () => {
 
 });
 
+/**
+ * See {@link https://www.strathweb.com/2021/12/difference-between-r1-and-rz-gate-in-quantum-computing/}
+ */
+describe('ROT-1', () => {
+
+    test('Test Cases', () => {
+        function applyTest(state: QubitState, angleDegrees: number, expState: QubitState) {
+            const qubit = Qubit.ofState(state);
+            qubit.rot1(angleDegrees);
+            expQubitsToBeCloseTo(qubit, Qubit.ofState(expState));
+        }
+
+        applyTest(STATE_PLUS, 90, STATE_R);
+        applyTest(STATE_R, 90, STATE_MINUS);
+        applyTest(STATE_MINUS, 90, STATE_L);
+        applyTest(STATE_L, 90, STATE_PLUS);
+    });
+
+    test('Test against phaseS', () => {
+        function applyTest(state: QubitState): void {
+            const rot1Qubit = Qubit.ofState(state);
+            rot1Qubit.rot1(90);
+
+            const phaseSQubit = Qubit.ofState(state);
+            phaseSQubit.phaseS();
+
+            expQubitsToBeCloseTo(rot1Qubit, phaseSQubit);
+        }
+
+        applyTest(STATE_ZERO);
+        applyTest(STATE_ONE);
+        applyTest(STATE_PLUS);
+        applyTest(STATE_MINUS);
+        applyTest(STATE_R);
+        applyTest(STATE_L);
+    });
+
+});
+
 describe('RNOT = HAD Phase 90 Degrees HAD', () => {
 
     function applyTest(state: QubitState) {

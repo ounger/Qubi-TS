@@ -4,6 +4,7 @@ import {bit} from "../../math/truth-table";
 import {inner, multiplyMatrixVector2c} from "../../math/linear-algebra";
 import {
     getPhaseGate,
+    getRot1Gate,
     getRotXGate,
     getRotYGate,
     getRotZGate,
@@ -201,6 +202,14 @@ export class Qubit {
      */
     rotZ(angleDegrees: number) {
         this.applyGate(getRotZGate(angleDegrees));
+    }
+
+    /**
+     * Rotation around the ket(1) state <br>
+     * See {@link https://www.strathweb.com/2021/12/difference-between-r1-and-rz-gate-in-quantum-computing/}
+     */
+    rot1(angleDegrees: number) {
+        this.applyGate(getRot1Gate(angleDegrees));
     }
 
     /**
