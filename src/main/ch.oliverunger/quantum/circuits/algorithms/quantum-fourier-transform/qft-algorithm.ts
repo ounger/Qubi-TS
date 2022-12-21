@@ -29,3 +29,29 @@ export function createQFTCircuit(reg: QubitRegister, encodedNumberAsBitArray: bi
     }
     return circuit;
 }
+
+export function createQFTInverseCircuit(reg: QubitRegister, encodedNumberAsBitArray: bit[]): Circuit {
+    if (reg.numQubits !== encodedNumberAsBitArray.length) {
+        throw new Error(`Given register has ${reg.numQubits} qubits. 
+        This number is not equal to the length of the bit array for 
+        the encoded number which is ${encodedNumberAsBitArray.length}.`);
+    }
+    const circuit = new Circuit();
+    const numQubits = reg.numQubits;
+    for (let qubit = 0; qubit < Math.floor(reg.numQubits / 2); qubit++) {
+        circuit.addGate(() => swap(reg, numQubits - 1 - qubit, qubit));
+    }
+    for (let qubit = reg.numQubits - 1; qubit >= 0; qubit--) {
+        circuit.addGate(() => hadSingle(reg, qubit));
+        for (let otherQubit = qubit - 1; otherQubit >= 0; otherQubit--) {
+            const angleDegrees = radsToDegs(-1 * Math.PI / Math.pow(2, qubit - otherQubit));
+            circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));
+        }
+    }
+    for (let qubit = 0; qubit < encodedNumberAsBitArray.length; qubit++) {
+        if (encodedNumberAsBitArray[qubit] === 1) {
+            circuit.addGate(() => x(reg, qubit));
+        }
+    }
+    return circuit;
+}
