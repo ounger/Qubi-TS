@@ -4,15 +4,15 @@ import {cphase, hadSingle, swap, x} from "../../../multi-qubit/multi-qubit-gates
 import {bit} from "../../../../math/truth-table";
 import {radsToDegs} from "../../../../math/math-util";
 
-export function createQFTCircuit(reg: QubitRegister, encodedNumberAsBitArray: bit[]): Circuit {
-    if (reg.numQubits !== encodedNumberAsBitArray.length) {
+export function createQFTCircuit(reg: QubitRegister, encodedNumber: bit[]): Circuit {
+    if (reg.numQubits !== encodedNumber.length) {
         throw new Error(`Given register has ${reg.numQubits} qubits. 
         This number is not equal to the length of the bit array for 
-        the encoded number which is ${encodedNumberAsBitArray.length}.`);
+        the encoded number which is ${encodedNumber.length}.`);
     }
     const circuit = new Circuit();
-    for(let qubit = 0; qubit < encodedNumberAsBitArray.length; qubit++) {
-        if(encodedNumberAsBitArray[qubit] === 1) {
+    for (let qubit = 0; qubit < encodedNumber.length; qubit++) {
+        if (encodedNumber[qubit] === 1) {
             circuit.addGate(() => x(reg, qubit));
         }
     }
@@ -30,7 +30,7 @@ export function createQFTCircuit(reg: QubitRegister, encodedNumberAsBitArray: bi
     return circuit;
 }
 
-export function createQFTInverseCircuit(reg: QubitRegister, encodedNumberAsBitArray: bit[]): Circuit {
+export function createQFTInvertedCircuit(reg: QubitRegister, encodedNumberAsBitArray: bit[]): Circuit {
     if (reg.numQubits !== encodedNumberAsBitArray.length) {
         throw new Error(`Given register has ${reg.numQubits} qubits. 
         This number is not equal to the length of the bit array for 

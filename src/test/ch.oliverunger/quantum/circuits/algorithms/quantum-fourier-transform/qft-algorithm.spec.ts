@@ -2,7 +2,7 @@ import {expStatesToBeCloseTo} from "../../../../test-util";
 import {getNumberAsBitArray} from "../../../../../../main/ch.oliverunger/util";
 import {
     createQFTCircuit,
-    createQFTInverseCircuit
+    createQFTInvertedCircuit
 } from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/quantum-fourier-transform/qft-algorithm";
 import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {STATE_MINUS, STATE_PLUS, STATE_R} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
@@ -38,16 +38,14 @@ describe('Create QFTs', () => {
         expStatesToBeCloseTo(reg.states, expReg.states);
     });
 
-    // TODO More Tests
-
 });
 
 describe('QFT - QFT-Inverse', () => {
 
-    function applyTest(numQubits: number, numberEncodedAsBitArray: bit[]) {
+    function applyTest(numQubits: number, encodedNumber: bit[]) {
         const reg = new QubitRegister(numQubits);
-        const qftCircuit = createQFTCircuit(reg, numberEncodedAsBitArray);
-        const qftInvCircuit = createQFTInverseCircuit(reg, numberEncodedAsBitArray);
+        const qftCircuit = createQFTCircuit(reg, encodedNumber);
+        const qftInvCircuit = createQFTInvertedCircuit(reg, encodedNumber);
 
         qftCircuit.execute();
         qftInvCircuit.execute();
@@ -73,7 +71,20 @@ describe('QFT - QFT-Inverse', () => {
             const numAsBitArray = getNumberAsBitArray(num, 4);
             applyTest(4, numAsBitArray);
         }
+    });
 
-    })
+    test('Read encodednumber again', () => {
+        const num = 5;
+        const encodedNumber = getNumberAsBitArray(num, 3);
+        const reg = new QubitRegister(3);
+        const qftCircuit = createQFTCircuit(reg, encodedNumber);
+        const qftInvCircuit = createQFTInvertedCircuit(reg, [0, 0, 0]);
+
+        qftCircuit.execute();
+        qftInvCircuit.execute();
+        let readNumber = reg.measure();
+        expect(readNumber).toEqual(num);
+    });
+
 
 });
