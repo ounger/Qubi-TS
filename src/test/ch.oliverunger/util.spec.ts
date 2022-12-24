@@ -1,4 +1,4 @@
-import {getBitArrayAsNumber, xor} from "../../main/ch.oliverunger/util";
+import {getBitArrayAsNumber, range, xor} from '../../main/ch.oliverunger/util';
 import {bit} from "../../main/ch.oliverunger/math/truth-table";
 
 describe('xor', () => {
@@ -28,6 +28,22 @@ describe('getBitArrayAsNumber', () => {
         expect(getBitArrayAsNumber([1, 1])).toEqual(3);
         expect(getBitArrayAsNumber([0, 1, 1])).toEqual(3);
         expect(getBitArrayAsNumber([1, 0, 0])).toEqual(4);
+    });
+
+});
+
+describe('range', () => {
+
+    test("0 to 5", () => {
+        expect(range(0, 6)).toEqual([0, 1, 2, 3, 4, 5]);
+    });
+
+    test("1 to 5", () => {
+        expect(range(1, 6)).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    test("-1 to 5", () => {
+        expect(range(-1, 6)).toEqual([-1, 0, 1, 2, 3, 4, 5]);
     });
 
 });

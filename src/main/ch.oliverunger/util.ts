@@ -41,4 +41,4 @@ export function getBitArrayAsNumber(ba: bit[]): number {
 }
 
 export const range = (start: number, endExclusive: number): number[] =>
-    Array.from(Array(endExclusive - start + 1).keys()).map(x => x + start);
+    Array.from(Array(endExclusive - start).keys()).map(x => x + start);

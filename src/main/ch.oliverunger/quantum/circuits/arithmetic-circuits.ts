@@ -7,7 +7,7 @@ export function createIncrementCircuit(reg: QubitRegister): Circuit {
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits; qubit++) {
-        const controls = range(qubit + 1, numQubits - 1);
+        const controls = range(qubit + 1, numQubits);
         circuit.addGate(() => mct(reg, controls, qubit));
     }
     return circuit;
@@ -17,7 +17,7 @@ export function createDecrementCircuit(reg: QubitRegister): Circuit {
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits; qubit++) {
-        const controls = range(numQubits - qubit, numQubits - 1);
+        const controls = range(numQubits - qubit, numQubits);
         const target = numQubits - 1 - qubit;
         circuit.addGate(() => mct(reg, controls, target));
     }

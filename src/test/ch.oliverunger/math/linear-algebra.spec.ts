@@ -16,7 +16,7 @@ import {
     outer,
     rowReduce,
     tensorMatrices,
-    tensorVectors
+    tensorVectors, trace
 } from '../../../main/ch.oliverunger/math/linear-algebra';
 import {
     _0,
@@ -680,7 +680,7 @@ describe('Adjoint', () => {
         const matrix = [
             [_1]
         ];
-        expect(adjoint(matrix)).toEqual([[_1]]);
+        expect(adjoint(matrix)).toEqual([[new Complex(1, -0)]]);
     });
 
     test('Test 2', () => {
@@ -705,7 +705,40 @@ describe('Adjoint', () => {
 
 });
 
+describe('Trace', () => {
 
+    test('Not square 1', () => {
+        const matrix = [
+            [_0, _1]
+        ];
+        expect(() => trace(matrix)).toThrowError();
+    });
+
+    test('Not square 2', () => {
+        const matrix = [
+            [_0],
+            [_1]
+        ];
+        expect(() => trace(matrix)).toThrowError();
+    });
+
+    test('Not square 3', () => {
+        const matrix = [
+            [_0, _1, _2],
+            [_3, _4, _5]
+        ];
+        expect(() => trace(matrix)).toThrowError();
+    });
+
+    test("Trace identity", () => {
+        const matrix = [
+            [_1, _0],
+            [_0, _1]
+        ];
+        expect(trace(matrix)).toEqual(_2);
+    });
+
+});
 
 
 

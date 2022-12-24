@@ -2,6 +2,7 @@ import {_0, Complex} from "./complex";
 import {bit, getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
 import {round} from "./math-util";
+import {range} from '../util';
 
 // TODO Entweder arbeitet die lineare Algebra auf dem gegeben Argument aber returned nix oder aber es wird eine neue Matrix erzeugt und diese returned!
 
@@ -256,6 +257,19 @@ export function isUnitary(matrix: Complex[][]): boolean {
     }
     const result = multiplyMatrices(matrix, adjoint(matrix));
     return isIdentity(result);
+}
+
+/**
+ * The trace of a square matrix is defined as the sum of its diagonal elements.
+ */
+export function trace(matrix: Complex[][]): Complex {
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+    if (rows !== cols) {
+        throw new Error("Given matrix is not a square matrix!");
+    }
+    console.log(range(0, rows));
+    return range(0, rows).map(index => matrix[index][index]).reduce((p, c) => p.add(c), _0);
 }
 
 /**
