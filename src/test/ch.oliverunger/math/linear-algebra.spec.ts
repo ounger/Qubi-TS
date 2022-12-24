@@ -738,6 +738,14 @@ describe('Trace', () => {
         expect(trace(matrix)).toEqual(_2);
     });
 
+    test("Test 1", () => {
+       const matrix = [
+         [new Complex(-2, -2), new Complex(3, -3)],
+         [new Complex(-4, 4), new Complex(-1, 1)]
+       ];
+       expect(trace(matrix)).toEqual(new Complex(-3, -1));
+    });
+
 });
 
 
