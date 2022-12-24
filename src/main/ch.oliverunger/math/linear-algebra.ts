@@ -3,6 +3,8 @@ import {bit, getTTBitAt} from "./truth-table";
 import {Vector2c} from "./vector2c";
 import {round} from "./math-util";
 
+// TODO Entweder arbeitet die lineare Algebra auf dem gegeben Argument aber returned nix oder aber es wird eine neue Matrix erzeugt und diese returned!
+
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
     return multiplyMatrixVector(matrix, vector);
@@ -171,6 +173,26 @@ export function conjugate(matrix: Complex[][]): Complex[][] {
     return forEachMatrixElement(matrix, (c) => c.conjugate());
 }
 
+/**
+ * Returns the conjugate transpose of a given square matrix.
+ */
+export function adjoint(matrix: Complex[][]): Complex[][] {
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+    if (rows !== cols) {
+        throw new Error("Given matrix is not a square matrix!");
+    }
+    matrix = forEachMatrixElement(matrix, (c) => c.conjugate());
+    for(let row = 1; row < rows; row++) {
+        for(let col = 0; col < row; col++) {
+            const temp = matrix[row][col];
+            matrix[row][col] = matrix[col][row];
+            matrix[col][row] = temp;
+        }
+    }
+    return matrix;
+}
+
 export function multiplyMatrixScalar(matrix: Complex[][], scalar: Complex): Complex[][] {
     return forEachMatrixElement(matrix, (c) => c.mul(scalar));
 }
@@ -184,7 +206,26 @@ function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => C
 }
 
 /**
- * Checks if the given matrix is hermitian. <br>
+ * Checks, if the given matrix is an identity matrix.
+ */
+export function isIdentity(matrix: Complex[][]): boolean {
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+    if (rows !== cols) {
+        return false;
+    }
+    for(let row = 0; row < rows; row++) {
+        for(let col = 0; col < cols; col++) {
+            if(!matrix[row][col].equalsClose(Complex.ofRe(row === col ? 1 : 0))) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+/**
+ * Checks, if the given matrix is hermitian. <br>
  * A square matrix is called hermitian if it is self-adjoint.
  * This means that the matrix is equal to its conjugate transpose.
  * This is equivalent to the condition that aij = complex_conjugate(aji). <br>
@@ -202,6 +243,19 @@ export function isHermitian(matrix: Complex[][]): boolean {
         }
     }
     return true;
+}
+
+/**
+ * Checks, if the given matrix is unitary. <br>
+ * A matrix is unitary, if its conjugate transpose (adjoint) is equal to its inverse, <br>
+ * with adjoint(A) * A = I.
+ */
+export function isUnitary(matrix: Complex[][]): boolean {
+    if (countRows(matrix) !== countCols(matrix)) {
+        return false;
+    }
+    const result = multiplyMatrices(matrix, adjoint(matrix));
+    return isIdentity(result);
 }
 
 /**

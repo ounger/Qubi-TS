@@ -63,16 +63,16 @@ describe('b * a', () => {
   });
 });
 
-describe('conj(a)', () => {
-  it('', () => {
+describe('', () => {
+
+  test('conj(a)', () => {
     expect(a.conjugate()).toEqual(new Complex(5, -6));
   });
-});
 
-describe('conj(b)', () => {
-  it('', () => {
+  test('conj(b)', () => {
     expect(b.conjugate()).toEqual(new Complex(-3, -4));
   });
+
 });
 
 describe('abs(a)', () => {

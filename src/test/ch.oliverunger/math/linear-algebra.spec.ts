@@ -1,4 +1,5 @@
 import {
+    adjoint,
     conjugate,
     countCols,
     countRows,
@@ -7,6 +8,8 @@ import {
     hadamardProductVectors,
     inner,
     isHermitian,
+    isIdentity,
+    isUnitary,
     multiplyMatrices,
     multiplyMatrixScalar,
     multiplyMatrixVector,
@@ -14,7 +17,7 @@ import {
     rowReduce,
     tensorMatrices,
     tensorVectors
-} from "../../../main/ch.oliverunger/math/linear-algebra";
+} from '../../../main/ch.oliverunger/math/linear-algebra';
 import {
     _0,
     _1,
@@ -42,15 +45,19 @@ import {
     MINUS_i,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from "../../../main/ch.oliverunger/math/complex";
-import {expComplexArraysToBeCloseTo, expMatricesToBeCloseTo} from "../test-util";
+} from '../../../main/ch.oliverunger/math/complex';
+import {expComplexArraysToBeCloseTo, expMatricesToBeCloseTo} from '../test-util';
 import {
     HADAMARD_GATE,
     IDENTITY_GATE,
     PAULI_X_GATE,
     PAULI_Y_GATE,
-    PAULI_Z_GATE
-} from "../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates";
+    PAULI_Z_GATE,
+    PHASE_S_GATE,
+    PHASE_T_GATE,
+    RNOT_GATE,
+    RNOT_INVERSE_GATE
+} from '../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates';
 
 const matrix = [
     [_3, _2, _1],
@@ -363,6 +370,63 @@ describe('Tensor product of two matrices', () => {
 
 });
 
+describe('isIdentity', () => {
+
+    test('Not square 1', () => {
+        const matrix = [
+            [_0, _1]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Not square 2', () => {
+        const matrix = [
+            [_0],
+            [_1]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Not square 3', () => {
+        const matrix = [
+            [_0, _1, _2],
+            [_3, _4, _5]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Not identity', () => {
+        const matrix = [
+            [_1, new Complex(3, Math.sqrt(2))],
+            [new Complex(3, -Math.sqrt(2)), _0]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Is identity 1', () => {
+        const matrix = [[_1]];
+        expect(isIdentity(matrix)).toBeTruthy();
+    });
+
+    test('Is identity 2', () => {
+        const matrix = [
+            [_1, _0],
+            [_0, _1]
+        ];
+        expect(isIdentity(matrix)).toBeTruthy();
+    });
+
+    test('Is identity 3', () => {
+        const matrix = [
+            [_1, _0, _0],
+            [_0, _1, _0],
+            [_0, _0, _1]
+        ];
+        expect(isIdentity(matrix)).toBeTruthy();
+    });
+
+});
+
 describe('isHermitian', () => {
 
     test('X, Y, Z and H are hermitian', () => {
@@ -395,6 +459,103 @@ describe('isHermitian', () => {
             [Complex.ofIm(-2), Complex.ofRe(-3), _0]
         ];
         expect(isHermitian(m1)).toBeTruthy();
+    });
+
+    test('This matrix is hermitian', () => {
+        const matrix = [
+            [_1, new Complex(3, Math.sqrt(2))],
+            [new Complex(3, -Math.sqrt(2)), _0]
+        ];
+        expect(isHermitian(matrix)).toBeTruthy();
+    });
+
+    test('This matrix is hermitian and unitary', () => {
+        const matrix = [
+            [_0, i],
+            [MINUS_i, _0]
+        ];
+        expect(isHermitian(matrix)).toBeTruthy();
+    });
+
+    test('This matrix is unitary but not hermitian', () => {
+        const expI = new Complex(Math.cos(1), Math.sin(1));
+        const matrix = [
+            [_1, _0],
+            [_0, expI]
+        ];
+        expect(isHermitian(matrix)).toBeFalsy();
+    });
+
+    test('This matrix is hermitian but not unitary', () => {
+        const matrix = [
+            [_1, new Complex(3, Math.sqrt(2))],
+            [new Complex(3, -Math.sqrt(2)), _0]
+        ];
+        expect(isHermitian(matrix)).toBeTruthy();
+    });
+
+});
+
+describe('Is Unitary', () => {
+
+    test('Not square 1', () => {
+        const matrix = [
+            [_0, _1]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Not square 2', () => {
+        const matrix = [
+            [_0],
+            [_1]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('Not square 3', () => {
+        const matrix = [
+            [_0, _1, _2],
+            [_3, _4, _5]
+        ];
+        expect(isIdentity(matrix)).toBeFalsy();
+    });
+
+    test('This matrix is hermitian and unitary', () => {
+        const matrix = [
+            [_0, i],
+            [MINUS_i, _0]
+        ];
+        expect(isUnitary(matrix)).toBeTruthy();
+    });
+
+    test('This matrix is unitary but not hermitian', () => {
+        const expI = new Complex(Math.cos(1), Math.sin(1));
+        const matrix = [
+            [_1, _0],
+            [_0, expI]
+        ];
+        expect(isUnitary(matrix)).toBeTruthy();
+    });
+
+    test('This matrix is hermitian but not unitary', () => {
+        const matrix = [
+            [_1, new Complex(3, Math.sqrt(2))],
+            [new Complex(3, -Math.sqrt(2)), _0]
+        ];
+        expect(isUnitary(matrix)).toBeFalsy();
+    });
+
+    test('Quantum gates', () => {
+        expect(isUnitary(HADAMARD_GATE)).toBeTruthy();
+        expect(isUnitary(PAULI_X_GATE)).toBeTruthy();
+        expect(isUnitary(PAULI_Y_GATE)).toBeTruthy();
+        expect(isUnitary(PAULI_Z_GATE)).toBeTruthy();
+        expect(isUnitary(IDENTITY_GATE)).toBeTruthy();
+        expect(isUnitary(PHASE_S_GATE)).toBeTruthy();
+        expect(isUnitary(PHASE_T_GATE)).toBeTruthy();
+        expect(isUnitary(RNOT_GATE)).toBeTruthy();
+        expect(isUnitary(RNOT_INVERSE_GATE)).toBeTruthy();
     });
 
 });
@@ -486,6 +647,60 @@ describe('rowReduce with no solution', () => {
             [_2, _3, _4, _11]
         ];
         expComplexArraysToBeCloseTo(rowReduce(matrix), []);
+    });
+
+});
+
+describe('Adjoint', () => {
+
+    test('Not square 1', () => {
+        const matrix = [
+            [_0, _1]
+        ];
+        expect(() => adjoint(matrix)).toThrowError();
+    });
+
+    test('Not square 2', () => {
+        const matrix = [
+            [_0],
+            [_1]
+        ];
+        expect(() => adjoint(matrix)).toThrowError();
+    });
+
+    test('Not square 3', () => {
+        const matrix = [
+            [_0, _1, _2],
+            [_3, _4, _5]
+        ];
+        expect(() => adjoint(matrix)).toThrowError();
+    });
+
+    test('Test 1', () => {
+        const matrix = [
+            [_1]
+        ];
+        expect(adjoint(matrix)).toEqual([[_1]]);
+    });
+
+    test('Test 2', () => {
+        const matrix = [
+            [new Complex(-5, -4)]
+        ];
+        expect(adjoint(matrix)).toEqual([[new Complex(-5, 4)]]);
+    });
+
+    test('Test 3', () => {
+        const matrix = [
+            [new Complex(1, -1), new Complex(-2, -2), new Complex(3, 3)],
+            [new Complex(4, -4), new Complex(-5, -5), new Complex(-6, 6)],
+            [new Complex(-7, 7), new Complex(8, 8), new Complex(9, -9)]
+        ];
+        expect(adjoint(matrix)).toEqual([
+            [new Complex(1, 1), new Complex(4, 4), new Complex(-7, -7)],
+            [new Complex(-2, 2), new Complex(-5, 5), new Complex(8, -8)],
+            [new Complex(3, -3), new Complex(-6, -6), new Complex(9, 9)]
+        ])
     });
 
 });

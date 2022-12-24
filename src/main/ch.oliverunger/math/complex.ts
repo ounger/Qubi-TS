@@ -1,3 +1,5 @@
+import {round} from './math-util';
+
 export class Complex {
 
     constructor(private readonly real: number, private readonly imaginary: number) {
@@ -45,7 +47,7 @@ export class Complex {
 
     div(that: Complex): Complex {
         if (that.real === 0 && that.imaginary === 0) {
-            throw new Error("Division by 0 not possible!");
+            throw new Error('Division by 0 not possible!');
         }
         return that.conjugate().mul(this.scale(1 / (that.abs() * that.abs())));
     }
@@ -73,8 +75,13 @@ export class Complex {
         return this.re === that.re && this.im === that.im;
     }
 
+    equalsClose(that: Complex): boolean {
+        return round(Math.abs(this.re - that.re), 5) === 0
+            && round(Math.abs(this.im - that.im), 5) === 0;
+    }
+
     toString(): string {
-        return this.re + " + " + this.im + "i";
+        return this.re + ' + ' + this.im + 'i';
     }
 
 }
