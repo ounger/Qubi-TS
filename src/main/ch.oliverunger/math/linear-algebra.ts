@@ -1,7 +1,7 @@
-import {_0, Complex} from "./complex";
-import {bit, getTTBitAt} from "./truth-table";
-import {Vector2c} from "./vector2c";
-import {round} from "./math-util";
+import {_0, Complex} from './complex';
+import {bit, getTTBitAt} from './truth-table';
+import {Vector2c} from './vector2c';
+import {round} from './math-util';
 import {range} from '../util';
 
 // TODO Entweder arbeitet die lineare Algebra auf dem gegeben Argument aber returned nix oder aber es wird eine neue Matrix erzeugt und diese returned!
@@ -161,7 +161,7 @@ export function outer(colVector: Complex[], rowVector: Complex[]): Complex[][] {
 
 export function hadamardProductVectors(v0: Complex[], v1: Complex[]): Complex[] {
     if (v0.length !== v1.length) {
-        throw new Error("Both vectors don't have the same amount of components");
+        throw new Error('Both vectors don\'t have the same amount of components');
     }
     return [...Array(v0.length).keys()].map(index => v0[index].mul(v1[index]));
 }
@@ -170,7 +170,18 @@ export function hadamardProductMatrices(m0: Complex[][], m1: Complex[][]) {
     // TODO HadamardProduct for matrices
 }
 
-export function conjugate(matrix: Complex[][]): Complex[][] {
+/**
+ * Returns the conjugate of a given vector.
+ */
+export function conjugateVector(vector: Complex[]): Complex[] {
+    let result = new Array<Complex>(vector.length).fill(_0);
+    for (let i = 0; i < vector.length; i++) {
+        result[i] = vector[i].conjugate();
+    }
+    return result;
+}
+
+export function conjugateMatrix(matrix: Complex[][]): Complex[][] {
     return forEachMatrixElement(matrix, (c) => c.conjugate());
 }
 
@@ -266,10 +277,14 @@ export function trace(matrix: Complex[][]): Complex {
     const rows = countRows(matrix);
     const cols = countCols(matrix);
     if (rows !== cols) {
-        throw new Error("Given matrix is not a square matrix!");
+        throw new Error('Given matrix is not a square matrix!');
     }
     console.log(range(0, rows));
     return range(0, rows).map(index => matrix[index][index]).reduce((p, c) => p.add(c), _0);
+}
+
+export function density(vector: Complex[]): Complex[][] {
+    return outer(vector, conjugateVector(vector));
 }
 
 /**

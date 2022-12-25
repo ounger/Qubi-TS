@@ -1,9 +1,11 @@
 import {
     adjoint,
-    conjugate,
+    conjugateMatrix,
+    conjugateVector,
     countCols,
     countRows,
     cross,
+    density,
     dot,
     hadamardProductVectors,
     inner,
@@ -16,7 +18,8 @@ import {
     outer,
     rowReduce,
     tensorMatrices,
-    tensorVectors, trace
+    tensorVectors,
+    trace
 } from '../../../main/ch.oliverunger/math/linear-algebra';
 import {
     _0,
@@ -58,6 +61,7 @@ import {
     RNOT_GATE,
     RNOT_INVERSE_GATE
 } from '../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates';
+import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 
 const matrix = [
     [_3, _2, _1],
@@ -93,13 +97,33 @@ describe('Multiply matrix with scalar', () => {
     });
 });
 
+describe('Conjugate vector', () => {
+
+    test('Test 1', () => {
+        const vector = [
+            new Complex(-1, -1),
+            new Complex(-2, 2),
+            new Complex(3, -3),
+            new Complex(4, 4)
+        ];
+        const conjVector = conjugateVector(vector);
+        expect(conjVector).toEqual([
+            new Complex(-1, 1),
+            new Complex(-2, -2),
+            new Complex(3, 3),
+            new Complex(4, -4)
+        ]);
+    });
+
+});
+
 describe('Conjugate matrix', () => {
     test('Should be equal', () => {
         let matrix = [
             [i, MINUS_i],
             [MINUS_1, new Complex(1, 1)]
         ];
-        expect(conjugate(matrix)).toEqual([
+        expect(conjugateMatrix(matrix)).toEqual([
             [MINUS_i, i],
             [new Complex(-1, -0), new Complex(1, -1)]
         ]);
@@ -730,7 +754,7 @@ describe('Trace', () => {
         expect(() => trace(matrix)).toThrowError();
     });
 
-    test("Trace identity", () => {
+    test('Trace identity', () => {
         const matrix = [
             [_1, _0],
             [_0, _1]
@@ -738,17 +762,53 @@ describe('Trace', () => {
         expect(trace(matrix)).toEqual(_2);
     });
 
-    test("Test 1", () => {
-       const matrix = [
-         [new Complex(-2, -2), new Complex(3, -3)],
-         [new Complex(-4, 4), new Complex(-1, 1)]
-       ];
-       expect(trace(matrix)).toEqual(new Complex(-3, -1));
+    test('Test 1', () => {
+        const matrix = [
+            [new Complex(-2, -2), new Complex(3, -3)],
+            [new Complex(-4, 4), new Complex(-1, 1)]
+        ];
+        expect(trace(matrix)).toEqual(new Complex(-3, -1));
     });
 
 });
 
+describe('Density', () => {
 
+    test('ket(0)', () => {
+        const result = density(STATE_ZERO);
+        expect(result).toEqual([
+            [_1, _0],
+            [_0, _0]
+        ])
+    });
+
+    test('ket(1)', () => {
+        const result = density(STATE_ONE);
+        expect(result).toEqual([
+            [_0, _0],
+            [_0, _1]
+        ])
+    });
+
+    test('ket(+)', () => {
+        const result = density(STATE_PLUS);
+        expMatricesToBeCloseTo(
+            result,
+            [[Complex.ofRe(0.5), Complex.ofRe(0.5)],
+                [Complex.ofRe(0.5), Complex.ofRe(0.5)]]
+        );
+    });
+
+    test('ket(-)', () => {
+        const result = density(STATE_MINUS);
+        expMatricesToBeCloseTo(
+            result,
+            [[Complex.ofRe(0.5), Complex.ofRe(-0.5)],
+                [Complex.ofRe(-0.5), Complex.ofRe(0.5)]]
+        );
+    });
+
+});
 
 
 
