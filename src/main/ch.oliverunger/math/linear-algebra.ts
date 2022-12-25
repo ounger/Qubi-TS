@@ -1,10 +1,8 @@
 import {_0, Complex} from './complex';
 import {bit, getTTBitAt} from './truth-table';
 import {Vector2c} from './vector2c';
-import {round} from './math-util';
 import {range} from '../util';
 
-// TODO Entweder arbeitet die lineare Algebra auf dem gegeben Argument aber returned nix oder aber es wird eine neue Matrix erzeugt und diese returned!
 
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
@@ -13,7 +11,7 @@ export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): V
 
 export function multiplyMatrixVector(matrix: Complex[][], vector: Complex[]): Complex[] {
     if (countCols(matrix) !== vector.length) {
-        throw new Error("The number of columns of the matrix must match the length of the vector");
+        throw new Error('The number of columns of the matrix must match the length of the vector');
     }
     let vectorResult: Complex[] = new Array<Complex>(countRows(matrix));
     for (let row = 0; row < countRows(matrix); row++) {
@@ -27,14 +25,14 @@ export function multiplyMatrixVector(matrix: Complex[][], vector: Complex[]): Co
 
 export function cross(v0: Vector2c, v1: Vector2c): Complex {
     if (v0.length !== 2 || v1.length !== 2) {
-        throw new Error("Vectors need a length of 2");
+        throw new Error('Vectors need a length of 2');
     }
     return v0[0].mul(v1[1]).sub(v1[0].mul(v0[1]));
 }
 
 export function multiplyMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] {
     if (countCols(m0) !== countRows(m1)) {
-        throw new Error("The number of columns of the first matrix must match the number of the rows of the second matrix");
+        throw new Error('The number of columns of the first matrix must match the number of the rows of the second matrix');
     }
     let matrixResult: Complex[][] = new Array(countRows(m0)).fill(false).map(() => new Array(countCols(m1)).fill(false));
     for (let i = 0; i < countRows(m0); i++) {
@@ -62,7 +60,7 @@ export function dotBinary(secret: bit[], z: bit[]): number {
  */
 export function dot(v0: Complex[], v1: Complex[]): Complex {
     if (v0.length !== v1.length) {
-        throw new Error("Both vectors don't have the same amount of components");
+        throw new Error('Both vectors don\'t have the same amount of components');
     }
     return [...Array(v0.length).keys()]
         .map(index => v0[index].mul(v1[index]))
@@ -128,7 +126,7 @@ export function tensorMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] {
  */
 export function inner(rowVector: Complex[], colVector: Complex[]): Complex {
     if (rowVector.length !== colVector.length) {
-        throw new Error("Both vectors don't have the same amount of components");
+        throw new Error('Both vectors don\'t have the same amount of components');
     }
     let scalar = _0;
     for (let i = 0; i < rowVector.length; i++) {
@@ -192,17 +190,17 @@ export function adjoint(matrix: Complex[][]): Complex[][] {
     const rows = countRows(matrix);
     const cols = countCols(matrix);
     if (rows !== cols) {
-        throw new Error("Given matrix is not a square matrix!");
+        throw new Error('Given matrix is not a square matrix!');
     }
-    matrix = forEachMatrixElement(matrix, (c) => c.conjugate());
-    for(let row = 1; row < rows; row++) {
-        for(let col = 0; col < row; col++) {
-            const temp = matrix[row][col];
-            matrix[row][col] = matrix[col][row];
-            matrix[col][row] = temp;
+    const resultMatrix = forEachMatrixElement(matrix, (c) => c.conjugate());
+    for (let row = 1; row < rows; row++) {
+        for (let col = 0; col < row; col++) {
+            const temp = resultMatrix[row][col];
+            resultMatrix[row][col] = resultMatrix[col][row];
+            resultMatrix[col][row] = temp;
         }
     }
-    return matrix;
+    return resultMatrix;
 }
 
 export function multiplyMatrixScalar(matrix: Complex[][], scalar: Complex): Complex[][] {
@@ -210,11 +208,15 @@ export function multiplyMatrixScalar(matrix: Complex[][], scalar: Complex): Comp
 }
 
 function forEachMatrixElement(matrix: Complex[][], func: (complex: Complex) => Complex): Complex[][] {
-    return matrix.map((row) => {
-        return row.map((complex) => {
-            return func(complex);
-        });
-    });
+    const rows = countRows(matrix);
+    const cols = countCols(matrix);
+    const resultMatrix = new Array<Complex[]>(rows).fill([]).map(() => new Array(cols).fill(_0));
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            resultMatrix[row][col] = func(matrix[row][col]);
+        }
+    }
+    return resultMatrix;
 }
 
 /**
@@ -226,9 +228,9 @@ export function isIdentity(matrix: Complex[][]): boolean {
     if (rows !== cols) {
         return false;
     }
-    for(let row = 0; row < rows; row++) {
-        for(let col = 0; col < cols; col++) {
-            if(!matrix[row][col].equalsClose(Complex.ofRe(row === col ? 1 : 0))) {
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            if (!matrix[row][col].equalsClose(Complex.ofRe(row === col ? 1 : 0))) {
                 return false;
             }
         }
@@ -266,8 +268,7 @@ export function isUnitary(matrix: Complex[][]): boolean {
     if (countRows(matrix) !== countCols(matrix)) {
         return false;
     }
-    const result = multiplyMatrices(matrix, adjoint(matrix));
-    return isIdentity(result);
+    return isIdentity(multiplyMatrices(matrix, adjoint(matrix)));
 }
 
 /**
@@ -279,111 +280,11 @@ export function trace(matrix: Complex[][]): Complex {
     if (rows !== cols) {
         throw new Error('Given matrix is not a square matrix!');
     }
-    console.log(range(0, rows));
     return range(0, rows).map(index => matrix[index][index]).reduce((p, c) => p.add(c), _0);
 }
 
 export function density(vector: Complex[]): Complex[][] {
     return outer(vector, conjugateVector(vector));
-}
-
-/**
- * Solves a system linear equations by Gauss-Jordan elimination.
- * The given matrix has to be in augmented form.
- */
-export function rowReduce(matrix: Complex[][]): Complex[] {
-    // First step: Forward elimination
-    // Reduces the system to (unreduced) row echelon form
-    // (also called triangular form).
-
-    const rows = countRows(matrix);
-    const cols = countCols(matrix);
-
-    let row = 0; // Initialization of the pivot row
-    let col = 0; // Initialization of the pivot column
-
-    while (row < rows && col < cols) {
-        // Find the column's pivot
-        let iMax = 0;
-        let max = 0;
-        for (let i = row; i < rows; i++) {
-            const value = matrix[i][col].abs();
-            if (value > max) {
-                iMax = i;
-                max = value;
-            }
-        }
-        if (round(max, 5) === 0) {
-            // No pivot in this column, pass to next column.
-            col++;
-        } else {
-            swapRows(matrix, row, iMax);
-            // Do for all rows below pivot
-            for (let i = row + 1; i < rows; i++) {
-                const f = matrix[i][col].div(matrix[row][col]);
-                // Fill with zeros the lower part of pivot column
-                matrix[i][col] = _0;
-                // Do for all remaining elements in current row
-                for (let j = col + 1; j < cols; j++) {
-                    matrix[i][j] = matrix[i][j].sub(matrix[row][j].mul(f));
-                }
-            }
-            // Increase pivot row and column
-            row++;
-            col++;
-        }
-    }
-
-    let allCoefficientsZero = true;
-    for (let i = 0; i < cols - 1; i++) {
-        const rndRe = round(matrix[rows - 1][i].re, 5);
-        const rndIm = round(matrix[rows - 1][i].im, 5);
-        if (rndRe !== 0 || rndIm !== 0) {
-            allCoefficientsZero = false;
-        }
-    }
-    if (allCoefficientsZero) {
-        const rhs = matrix[rows - 1][cols - 1];
-        const rhsZero = round(rhs.re, 5) === 0 && round(rhs.im, 5) === 0;
-        if (!rhsZero) {
-            // If in the last row all coefficients are zero but the RHS is not zero, the system
-            // is inconsistent and has no solution.
-            return [];
-        } else {
-            // If in the last row all coefficients are zero but the RHS is zero too, the system
-            // is dependent and has an infinite number of solutions.
-            return [];
-        }
-    }
-
-    // Second step: Back substitution
-    // Reduces the system to reduced row echelon form.
-
-    const solutions: Complex[] = new Array<Complex>(cols).fill(_0);
-
-    // Start at the bottom and go up
-    for (let i = rows - 1; i >= 0; i--) {
-        // start with the RHS of the equation
-        solutions[i] = matrix[i][cols - 1];
-
-        // Initialize j to i+1 since matrix is upper triangular
-        for (let j = i + 1; j < cols; j++) {
-            // Subtract all the lhs values except the coefficient of the variable whose value is being calculated
-            solutions[i] = solutions[i].sub(matrix[i][j].mul(solutions[j]));
-        }
-
-        // Divide the RHS by the coefficient of the unknown being calculated
-        solutions[i] = solutions[i].div(matrix[i][i]);
-    }
-    solutions.pop();
-
-    return solutions;
-}
-
-function swapRows(matrix: any[][], firstRow: number, secondRow: number) {
-    const temp = matrix[firstRow];
-    matrix[firstRow] = matrix[secondRow];
-    matrix[secondRow] = temp;
 }
 
 export function countRows(matrix: any[][]) {
@@ -395,12 +296,12 @@ export function countCols(matrix: any[][]) {
 }
 
 export function printMatrix(matrix: any[][]) {
-    let s = "";
+    let s = '';
     for (let row = 0; row < matrix.length; row++) {
         for (let col = 0; col < matrix[0].length; col++) {
             s += matrix[row][col].toString() + ' ';
         }
-        s += "\n";
+        s += '\n';
     }
     console.log(s);
 }

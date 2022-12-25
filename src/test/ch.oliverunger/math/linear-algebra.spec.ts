@@ -16,7 +16,6 @@ import {
     multiplyMatrixScalar,
     multiplyMatrixVector,
     outer,
-    rowReduce,
     tensorMatrices,
     tensorVectors,
     trace
@@ -49,7 +48,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from '../../../main/ch.oliverunger/math/complex';
-import {expComplexArraysToBeCloseTo, expMatricesToBeCloseTo} from '../test-util';
+import {expMatricesToBeCloseTo} from '../test-util';
 import {
     HADAMARD_GATE,
     IDENTITY_GATE,
@@ -580,97 +579,6 @@ describe('Is Unitary', () => {
         expect(isUnitary(PHASE_T_GATE)).toBeTruthy();
         expect(isUnitary(RNOT_GATE)).toBeTruthy();
         expect(isUnitary(RNOT_INVERSE_GATE)).toBeTruthy();
-    });
-
-});
-
-describe('rowReduce with unique solution', () => {
-
-    test('Example 1', () => {
-        const matrix = [
-            [_3, _2, Complex.ofRe(-4), _3],
-            [_2, _3, _3, _15],
-            [_5, Complex.ofRe(-3), _1, _14]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [_3, _1, _2]);
-    });
-
-    test('Example 2', () => {
-        const matrix = [
-            [_2, _1, MINUS_1, _8],
-            [Complex.ofRe(-3), MINUS_1, _2, Complex.ofRe(-11)],
-            [Complex.ofRe(-2), _1, _2, Complex.ofRe(-3)]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [_2, _3, MINUS_1]);
-    });
-
-    test('Example 3', () => {
-        const matrix = [
-            [_9, _3, _4, _7],
-            [_4, _3, _4, _8],
-            [_1, _1, _1, _3]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [Complex.ofRe(-0.2), _4, Complex.ofRe(-0.8)]);
-    });
-
-    test('Example 4', () => {
-        const matrix = [
-            [_1, _2, _3, Complex.ofRe(-7)],
-            [_2, Complex.ofRe(-3), Complex.ofRe(-5), _9],
-            [Complex.ofRe(-6), Complex.ofRe(-8), _1, Complex.ofRe(-22)]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [MINUS_1, _3, Complex.ofRe(-4)]);
-    });
-
-    test('Example 5', () => {
-        const matrix = [
-            [MINUS_1, _2, _2, Complex.ofRe(-24)],
-            [_1, _1, _1, Complex.ofRe(48)],
-            [_2, Complex.ofRe(-6), _4, _12]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [Complex.ofRe(40), Complex.ofRe(10), Complex.ofRe(-2)]);
-    });
-
-    test('Example 6', () => {
-        const matrix = [
-            [_9, _4, _1, _7],
-            [_4, _3, _4, _8],
-            [_1, _1, _1, _3]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), [MINUS_1, _4, _0]);
-    });
-
-});
-
-describe('rowReduce with infinite number of solutions', () => {
-
-    test('Example 1: Infinite number of solutions', () => {
-        const matrix = [
-            [_3, _4, _12],
-            [_6, _8, _24]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), []);
-    });
-
-});
-
-describe('rowReduce with no solution', () => {
-
-    test('Example 1: No solution', () => {
-        const matrix = [
-            [_2, _1, _1],
-            [_4, _2, _6]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), []);
-    });
-
-    test('Example 2: No solution', () => {
-        const matrix = [
-            [_1, _1, _1, _2],
-            [_1, _2, _3, _5],
-            [_2, _3, _4, _11]
-        ];
-        expComplexArraysToBeCloseTo(rowReduce(matrix), []);
     });
 
 });
