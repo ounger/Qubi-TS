@@ -171,38 +171,6 @@ describe('Multiply matrices', () => {
     });
 });
 
-describe('Identity matrix is a involutory matrix (own inverse)', () => {
-    test('', () => {
-        expect(multiplyMatrices(IDENTITY_GATE, IDENTITY_GATE)).toEqual(IDENTITY_GATE);
-    });
-});
-
-describe('Pauli-X is a involutory matrix (own inverse)', () => {
-    test('', () => {
-        expect(multiplyMatrices(PAULI_X_GATE, PAULI_X_GATE)).toEqual(IDENTITY_GATE);
-    });
-});
-
-describe('Pauli-Y is a involutory matrix (own inverse)', () => {
-    test('', () => {
-        expect(multiplyMatrices(PAULI_Y_GATE, PAULI_Y_GATE)).toEqual(IDENTITY_GATE);
-    });
-});
-
-describe('Pauli-Z is a involutory matrix (own inverse)', () => {
-    test('', () => {
-        expect(multiplyMatrices(PAULI_Z_GATE, PAULI_Z_GATE)).toEqual(IDENTITY_GATE);
-    });
-});
-
-describe('-iXYZ = I', () => {
-    test('', () => {
-        expect(
-            multiplyMatrixScalar(multiplyMatrices(multiplyMatrices(PAULI_X_GATE, PAULI_Y_GATE), PAULI_Z_GATE), MINUS_i)
-        ).toEqual(IDENTITY_GATE);
-    });
-});
-
 describe('Tensor', () => {
     test('', () => {
         expect(tensorVectors([_1, _0], [_1, _0])).toEqual([_1, _0, _0, _0]); // |0> tensor |0> -> |00>

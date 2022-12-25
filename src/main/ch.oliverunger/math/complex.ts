@@ -2,6 +2,14 @@ import {round} from './math-util';
 
 export class Complex {
 
+    static ofRe(re: number) {
+        return new Complex(re, 0);
+    }
+
+    static ofIm(im: number) {
+        return new Complex(0, im);
+    }
+
     constructor(private readonly real: number, private readonly imaginary: number) {
     }
 
@@ -11,14 +19,6 @@ export class Complex {
 
     get im(): number {
         return this.imaginary;
-    }
-
-    static ofRe(re: number) {
-        return new Complex(re, 0);
-    }
-
-    static ofIm(im: number) {
-        return new Complex(0, im);
     }
 
     add(that: Complex): Complex {

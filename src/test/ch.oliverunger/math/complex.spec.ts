@@ -4,66 +4,66 @@ const a = new Complex(5, 6);
 const b = new Complex(-3, 4);
 
 describe('toString', () => {
-  it('', () => {
-    expect(a.toString()).toEqual("5 + 6i");
+  test('Test 1', () => {
+    expect(a.toString()).toEqual('5 + 6i');
   });
 });
 
 describe('Re(a)', () => {
-  it('', () => {
+  test('Test 1', () => {
     expect(a.re).toEqual(5);
   });
 });
 
 describe('Im(a)', () => {
-  it('', () => {
+  test('Test 1', () => {
     expect(a.im).toEqual(6);
   });
 });
 
-describe('a + b', () => {
-  it('', () => {
+describe('Add', () => {
+
+  test(' a + b', () => {
     expect(a.add(b)).toEqual(new Complex(2, 10));
   });
-});
 
-describe('b + a', () => {
-  it('', () => {
+  test('b + a', () => {
     expect(b.add(a)).toEqual(new Complex(2, 10));
   });
+
 });
 
-describe('a - b', () => {
-  it('', () => {
+describe('Sub', () => {
+
+  test('a - b', () => {
     expect(a.sub(b)).toEqual(new Complex(8, 2));
   });
-});
 
-describe('b - a', () => {
-  it('', () => {
+  test('b - a', () => {
     expect(b.sub(a)).toEqual(new Complex(-8, -2));
   });
+
 });
 
 describe('a * 5', () => {
-  it('', () => {
+  test('', () => {
     expect(a.scale(5)).toEqual(new Complex(25, 30));
   });
 });
 
-describe('a * b', () => {
-  it('', () => {
+describe('Multiply', () => {
+
+  test('a * b', () => {
     expect(a.mul(b)).toEqual(new Complex(-39, 2));
   });
-});
 
-describe('b * a', () => {
-  it('', () => {
+  test('b * a', () => {
     expect(b.mul(a)).toEqual(new Complex(-39, 2));
   });
+
 });
 
-describe('', () => {
+describe('Conjugate', () => {
 
   test('conj(a)', () => {
     expect(a.conjugate()).toEqual(new Complex(5, -6));
@@ -75,39 +75,44 @@ describe('', () => {
 
 });
 
-describe('abs(a)', () => {
-  it('', () => {
+describe('Absolute', () => {
+
+  test('abs(a)', () => {
     expect(a.abs()).toEqual(7.810249675906654);
   });
-});
 
-describe('abs(b)', () => {
-  it('', () => {
+  test('abs(b)', () => {
     expect(b.abs()).toEqual(5);
   });
+
 });
 
-describe('a / b', () => {
-  it('', () => {
+describe('Divide', () => {
+
+  test('a / b', () => {
     expect(a.div(b)).toEqual(new Complex(0.3599999999999999, -1.52));
   });
+
+  test('a / 0', () => {
+    expect(() => a.div(new Complex(0, 0))).toThrow();
+  });
+
 });
 
 describe('modulus', () => {
-  it('', () => {
+  test('', () => {
     expect(new Complex(2, 3).modulus()).toEqual(Math.sqrt(13));
   });
 });
 
 describe('sqrt', () => {
-  it('', () => {
+
+  test('(5 + 12i)^2', () => {
     expect(new Complex(5, 12).sqrt()).toEqual([new Complex(3, 2), new Complex(-3, -2)]);
+  });
+
+  test('(7 - 24i)^2', () => {
     expect(new Complex(7, -24).sqrt()).toEqual([new Complex(4, -3), new Complex(-4, 3)]);
   });
-});
 
-describe('a / 0', () => {
-  it('', () => {
-    expect(() => a.div(new Complex(0, 0))).toThrow();
-  });
 });

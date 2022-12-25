@@ -3,7 +3,6 @@ import {bit, getTTBitAt} from './truth-table';
 import {Vector2c} from './vector2c';
 import {range} from '../util';
 
-
 export function multiplyMatrixVector2c(matrix: Complex[][], vector: Vector2c): Vector2c {
     // @ts-ignore
     return multiplyMatrixVector(matrix, vector);
