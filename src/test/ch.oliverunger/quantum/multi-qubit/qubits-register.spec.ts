@@ -3,7 +3,7 @@ import {Qubit, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
 import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
-import {QubitState, STATE_ONE, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {QubitState, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 
 describe('probabilityOfState', () => {
 
@@ -555,21 +555,30 @@ describe('Construct the four Bell States', () => {
 
 });
 
-describe('Construct GHZ States', () => {
+describe('Create max entangled registers', () => {
 
-    function applyTest(numQubits: number) {
-        const reg = new QubitRegister(numQubits);
-        hadSingle(reg, 0);
-        for (let i = 1; i < numQubits; i++) {
-            cx(reg, 0, i);
-        }
-        expNumberArraysToBeCloseTo([reg.probabilityOfStateAtIndex(0), reg.probabilityOfStateAtIndex(reg.getStates().length - 1)], [0.5, 0.5]);
-    }
+    test('Single qubit - Returns ket(+)', () => {
+        const reg = QubitRegister.createMaxEntangledRegister(1);
+        expComplexArraysToBeCloseTo(reg.getStates(), STATE_PLUS);
+        expNumberArraysToBeCloseTo(reg.probabilities(), [0.5, 0.5]);
+    });
+
+    test('Two qubits - Returns Bell State Phi Plus', () => {
+        const reg = QubitRegister.createMaxEntangledRegister(2);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_PLUS);
+        expNumberArraysToBeCloseTo(reg.probabilities(), [0.5, 0, 0, 0.5]);
+    });
 
     test('Create GHZ Gates', () => {
-        for (let i = 2; i < 10; i++) {
-            applyTest(i);
+        for (let numQubits = 3; numQubits < 10; numQubits++) {
+            const reg = QubitRegister.createMaxEntangledRegister(numQubits);
+            expNumberArraysToBeCloseTo([reg.probabilityOfStateAtIndex(0), reg.probabilityOfStateAtIndex(reg.getStates().length - 1)],
+                [0.5, 0.5]);
         }
     });
 
+});
+
+describe('Create max mixed registers', () => {
+    // TODO
 });

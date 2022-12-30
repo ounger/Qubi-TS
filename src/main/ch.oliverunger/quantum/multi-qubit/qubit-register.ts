@@ -4,6 +4,7 @@ import {tensorVectors} from '../../math/linear-algebra';
 import {bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
 import {round} from '../../math/math-util';
 import {rotateArray} from '../../util';
+import {cx, hadSingle} from './multi-qubit-gates';
 
 export class QubitRegister {
 
@@ -36,6 +37,29 @@ export class QubitRegister {
             throw new Error('Probabilities dont sum up to 1');
         }
         return reg;
+    }
+
+    /**
+     * Returns a register with the given number of qubits maximally entangled. <br>
+     * 1 qubit: Returns ket(+) <br>
+     * 2 qubits: Returns the Bell State Phi+ <br>
+     * 3 qubits: Returns a GHZ State
+     */
+    static createMaxEntangledRegister(numQubits: number): QubitRegister {
+        if (numQubits < 1) {
+            throw new Error('Number of qubits has to be > 0');
+        }
+        const reg = new QubitRegister(numQubits);
+        hadSingle(reg, 0);
+        for (let i = 1; i < numQubits; i++) {
+            cx(reg, 0, i);
+        }
+        return reg;
+    }
+
+    static createMaxMixedRegister(numQubits: number): QubitRegister {
+        // TODO Nach hadAll() Implementierung
+        return new QubitRegister(0);
     }
 
     /** Creates a register of the given number of qubits and initializes it in state |0...0> */
