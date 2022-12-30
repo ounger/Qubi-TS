@@ -1,22 +1,19 @@
-import {expStatesToBeCloseTo} from "../../../../test-util";
-import {getNumberAsBitArray} from "../../../../../../main/ch.oliverunger/util";
-import {
-    createQFTCircuit,
-    createQFTInvertedCircuit
-} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/quantum-fourier-transform/qft-algorithm";
-import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
-import {STATE_MINUS, STATE_PLUS, STATE_R} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
-import {Qubit} from "../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
-import {bit} from "../../../../../../main/ch.oliverunger/math/truth-table";
+import {expComplexArraysToBeCloseTo} from '../../../../test-util';
+import {getNumberAsBitArray} from '../../../../../../main/ch.oliverunger/util';
+import {createQFTCircuit, createQFTInvertedCircuit} from '../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/quantum-fourier-transform/qft-algorithm';
+import {QubitRegister} from '../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {STATE_MINUS, STATE_PLUS, STATE_R} from '../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {Qubit} from '../../../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
+import {bit} from '../../../../../../main/ch.oliverunger/math/truth-table';
 
 describe('Create QFTs', () => {
 
-    test("1 qubit", () => {
+    test('1 qubit', () => {
         const reg = new QubitRegister(1);
         const qftCircuit = createQFTCircuit(reg, getNumberAsBitArray(0, 1));
         qftCircuit.execute();
 
-        expStatesToBeCloseTo(reg.states, STATE_PLUS);
+        expComplexArraysToBeCloseTo(reg.getStates(), STATE_PLUS);
     });
 
     /**
@@ -33,9 +30,9 @@ describe('Create QFTs', () => {
         expQubit2.rot1(45);
         const expReg = QubitRegister.ofQubits(expQubit0, expQubit1, expQubit2);
 
-        console.log("Actual " + reg.states);
-        console.log("Exp " + expReg.states);
-        expStatesToBeCloseTo(reg.states, expReg.states);
+        console.log('Actual ' + reg.getStates());
+        console.log('Exp ' + expReg.getStates());
+        expComplexArraysToBeCloseTo(reg.getStates(), expReg.getStates());
     });
 
 });
@@ -49,7 +46,7 @@ describe('QFT - QFT-Inverse', () => {
 
         qftCircuit.execute();
         qftInvCircuit.execute();
-        expStatesToBeCloseTo(reg.states, new QubitRegister(numQubits).states);
+        expComplexArraysToBeCloseTo(reg.getStates(), new QubitRegister(numQubits).getStates());
     }
 
     test('Test cases', () => {

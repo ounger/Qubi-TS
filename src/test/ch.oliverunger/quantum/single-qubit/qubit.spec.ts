@@ -1,22 +1,5 @@
-import {
-    Qubit,
-    QUBIT_STATE_L,
-    QUBIT_STATE_MINUS,
-    QUBIT_STATE_ONE,
-    QUBIT_STATE_PLUS,
-    QUBIT_STATE_R,
-    QUBIT_STATE_ZERO
-} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
-import {
-    QubitState,
-    STATE_L,
-    STATE_MINUS,
-    STATE_MINUS_ONE,
-    STATE_ONE,
-    STATE_PLUS,
-    STATE_R,
-    STATE_ZERO
-} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
+import {Qubit, QUBIT_STATE_L, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE_R, QUBIT_STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
+import {QubitState, STATE_L, STATE_MINUS, STATE_MINUS_ONE, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {
     _0,
     Complex,
@@ -28,9 +11,9 @@ import {
     MINUS_i_OF_SQRT_TWO,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from "../../../../main/ch.oliverunger/math/complex";
-import {expQubitsToBeCloseTo} from "../../test-util";
-import {round} from "../../../../main/ch.oliverunger/math/math-util";
+} from '../../../../main/ch.oliverunger/math/complex';
+import {expNumberArraysToBeCloseTo, expQubitsToBeCloseTo} from '../../test-util';
+import {round} from '../../../../main/ch.oliverunger/math/math-util';
 
 describe('Probability Tests', () => {
 
@@ -712,6 +695,40 @@ describe('RNOT RNOT Inverse = I', () => {
         applyTest(STATE_PLUS);
         applyTest(STATE_L);
         applyTest(STATE_R);
+    });
+
+});
+
+describe('calcCartesianCoordinates', () => {
+
+    test('ket(0)', () => {
+        const qubit = Qubit.ofState(STATE_ZERO);
+        expect(qubit.calcCartesianCoordinates()).toEqual([0, 0, 1]);
+    });
+
+    test('ket(1)', () => {
+        const qubit = Qubit.ofState(STATE_ONE);
+        expect(qubit.calcCartesianCoordinates()).toEqual([0, 0, -1]);
+    });
+
+    test('ket(+)', () => {
+        const qubit = Qubit.ofState(STATE_PLUS);
+        expNumberArraysToBeCloseTo(qubit.calcCartesianCoordinates(), [1, 0, 0])
+    });
+
+    test('ket(-)', () => {
+        const qubit = Qubit.ofState(STATE_MINUS);
+        expNumberArraysToBeCloseTo(qubit.calcCartesianCoordinates(), [-1, 0, 0]);
+    });
+
+    test('ket(R)', () => {
+        const qubit = Qubit.ofState(STATE_R);
+        expNumberArraysToBeCloseTo(qubit.calcCartesianCoordinates(), [0, 1, 0]);
+    });
+
+    test('ket(L)', () => {
+        const qubit = Qubit.ofState(STATE_L);
+        expNumberArraysToBeCloseTo(qubit.calcCartesianCoordinates(), [0, -1, 0]);
     });
 
 });

@@ -81,7 +81,7 @@ export class Complex {
     }
 
     toString(): string {
-        return this.re + ' + ' + this.im + 'i';
+        return round(this.re, 5) + ' + ' + round(this.im, 5) + 'i';
     }
 
 }

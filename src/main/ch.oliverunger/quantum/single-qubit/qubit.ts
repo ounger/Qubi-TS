@@ -1,7 +1,7 @@
-import {Complex} from "../../math/complex";
-import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from "./qubit-state";
-import {bit} from "../../math/truth-table";
-import {inner, multiplyMatrixVector2c} from "../../math/linear-algebra";
+import {Complex} from '../../math/complex';
+import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from './qubit-state';
+import {bit} from '../../math/truth-table';
+import {density, inner, multiplyMatrixVector2c} from '../../math/linear-algebra';
 import {
     getPhaseGate,
     getRot1Gate,
@@ -17,9 +17,11 @@ import {
     PHASE_T_GATE,
     RNOT_GATE,
     RNOT_INVERSE_GATE
-} from "./qubit-gates";
+} from './qubit-gates';
 
 export class Qubit {
+
+    private measuredValue: bit | null = null;
 
     static of(stateZeroAmplitude: Complex, stateOneAmplitude: Complex) {
         return new Qubit(stateZeroAmplitude, stateOneAmplitude);
@@ -28,8 +30,6 @@ export class Qubit {
     static ofState(state: QubitState) {
         return new Qubit(state[0], state[1]);
     }
-
-    private measuredValue: bit | null = null;
 
     /**
      * Creates a qubit with the given amplitudes for the computational basis states.
@@ -97,7 +97,7 @@ export class Qubit {
 
     private checkValidity() {
         if (!this.isValid()) {
-            throw new Error("Invalid qubit state. Probabilities for each state don't to sum up to 1.");
+            throw new Error('Invalid qubit state. Probabilities for each state don\'t to sum up to 1.');
         }
     }
 
@@ -105,6 +105,20 @@ export class Qubit {
         const probs = this.probabilities();
         const probsSum = probs[0] + probs[1];
         return probsSum > 0.99 && probsSum < 1.01;
+    }
+
+    /**
+     * Calculates the coordinates for this qubits state in the Bloch Sphere.
+     */
+    calcCartesianCoordinates(): [x: number, y: number, z: number] {
+        // See: https://quantumcomputing.stackexchange.com/a/17180/11582
+        const densityMatrix = density(this.state());
+        const a = densityMatrix[0][0];
+        const c = densityMatrix[1][0];
+        const x = 2 * c.re;
+        const y = 2 * c.im;
+        const z = 2 * a.re - 1;
+        return [x, y, z];
     }
 
     /**

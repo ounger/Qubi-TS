@@ -48,7 +48,7 @@ import {
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
 } from '../../../main/ch.oliverunger/math/complex';
-import {expMatricesToBeCloseTo} from '../test-util';
+import {expComplexMatricesToBeCloseTo} from '../test-util';
 import {
     HADAMARD_GATE,
     IDENTITY_GATE,
@@ -291,7 +291,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('HAD tensor HAD', () => {
-        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, HADAMARD_GATE),
+        expComplexMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, HADAMARD_GATE),
             [
                 [Complex.ofRe(1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(1 / 2)],
                 [Complex.ofRe(1 / 2), Complex.ofRe(-1 / 2), Complex.ofRe(1 / 2), Complex.ofRe(-1 / 2)],
@@ -301,7 +301,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('HAD tensor I', () => {
-        expMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), [
+        expComplexMatricesToBeCloseTo(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), [
             [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0],
             [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO],
             [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0],
@@ -310,7 +310,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('I tensor Had', () => {
-        expMatricesToBeCloseTo(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), [
+        expComplexMatricesToBeCloseTo(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), [
             [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0],
             [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0],
             [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO],
@@ -321,7 +321,7 @@ describe('Tensor product of two matrices', () => {
     // -----------------------------------------------
 
     test('HAD tensor I tensor I', () => {
-        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), IDENTITY_GATE), [
+        expComplexMatricesToBeCloseTo(tensorMatrices(tensorMatrices(HADAMARD_GATE, IDENTITY_GATE), IDENTITY_GATE), [
             [ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0, _0, _0],
             [_0, ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0, _0],
             [_0, _0, ONE_OF_SQRT_TWO, _0, _0, _0, ONE_OF_SQRT_TWO, _0],
@@ -334,7 +334,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('I tensor HAD tensor I', () => {
-        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), IDENTITY_GATE), [
+        expComplexMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, HADAMARD_GATE), IDENTITY_GATE), [
             [ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0],
             [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO, _0, _0, _0, _0],
             [ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0],
@@ -347,7 +347,7 @@ describe('Tensor product of two matrices', () => {
     });
 
     test('I tensor I tensor HAD', () => {
-        expMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, IDENTITY_GATE), HADAMARD_GATE), [
+        expComplexMatricesToBeCloseTo(tensorMatrices(tensorMatrices(IDENTITY_GATE, IDENTITY_GATE), HADAMARD_GATE), [
             [ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0, _0],
             [ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, _0, _0, _0, _0, _0, _0],
             [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO, _0, _0, _0, _0],
@@ -668,7 +668,7 @@ describe('Density', () => {
 
     test('ket(+)', () => {
         const result = density(STATE_PLUS);
-        expMatricesToBeCloseTo(
+        expComplexMatricesToBeCloseTo(
             result,
             [[Complex.ofRe(0.5), Complex.ofRe(0.5)],
                 [Complex.ofRe(0.5), Complex.ofRe(0.5)]]
@@ -677,7 +677,7 @@ describe('Density', () => {
 
     test('ket(-)', () => {
         const result = density(STATE_MINUS);
-        expMatricesToBeCloseTo(
+        expComplexMatricesToBeCloseTo(
             result,
             [[Complex.ofRe(0.5), Complex.ofRe(-0.5)],
                 [Complex.ofRe(-0.5), Complex.ofRe(0.5)]]

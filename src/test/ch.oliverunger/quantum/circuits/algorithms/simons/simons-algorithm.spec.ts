@@ -1,15 +1,9 @@
-import {QubitRegister} from "../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
-import {
-    createSimonsOracle
-} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-oracles";
-import {bit} from "../../../../../../main/ch.oliverunger/math/truth-table";
-import {
-    executeSimonsAlgorithm,
-    LinearlyDependentMeasurementsException,
-    solve
-} from "../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-algorithm";
-import {getBitArrayAsNumber, xor} from "../../../../../../main/ch.oliverunger/util";
-import {dotBinary} from "../../../../../../main/ch.oliverunger/math/linear-algebra";
+import {QubitRegister} from '../../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {createSimonsOracle} from '../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-oracles';
+import {bit} from '../../../../../../main/ch.oliverunger/math/truth-table';
+import {executeSimonsAlgorithm, LinearlyDependentMeasurementsException, solve} from '../../../../../../main/ch.oliverunger/quantum/circuits/algorithms/simons/simons-algorithm';
+import {getBitArrayAsNumber, xor} from '../../../../../../main/ch.oliverunger/util';
+import {dotBinary} from '../../../../../../main/ch.oliverunger/math/linear-algebra';
 
 describe('Testing Simons Algorithm', () => {
 
@@ -77,7 +71,7 @@ describe('Testing Simons Algorithm', () => {
                     }
                 }
                 if (same) {
-                    console.log("One-To-One");
+                    console.log('One-To-One');
                     runAgain = false;
                 }
             }

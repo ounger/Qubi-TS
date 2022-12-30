@@ -1,7 +1,7 @@
 import {multiplyMatrices, multiplyMatrixScalar} from '../../../../main/ch.oliverunger/math/linear-algebra';
 import {HADAMARD_GATE, IDENTITY_GATE, PAULI_X_GATE, PAULI_Y_GATE, PAULI_Z_GATE} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates';
 import {MINUS_i} from '../../../../main/ch.oliverunger/math/complex';
-import {expMatricesToBeCloseTo} from '../../test-util';
+import {expComplexMatricesToBeCloseTo} from '../../test-util';
 
 describe('Pauli matrices are involutory (their own inverse)', () => {
 
@@ -22,7 +22,7 @@ describe('Pauli matrices are involutory (their own inverse)', () => {
     });
 
     test('Hadamard', () => {
-        expMatricesToBeCloseTo(multiplyMatrices(HADAMARD_GATE, HADAMARD_GATE), IDENTITY_GATE);
+        expComplexMatricesToBeCloseTo(multiplyMatrices(HADAMARD_GATE, HADAMARD_GATE), IDENTITY_GATE);
     });
 
 });

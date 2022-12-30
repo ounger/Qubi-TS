@@ -1,27 +1,27 @@
-import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from "../../math/complex";
-import {Qubit} from "../single-qubit/qubit";
-import {tensorVectors} from "../../math/linear-algebra";
-import {bit, getAllRowsWith1InCol, getTTCol} from "../../math/truth-table";
-import {round} from "../../math/math-util";
-import {rotateArray} from "../../util";
+import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../math/complex';
+import {Qubit} from '../single-qubit/qubit';
+import {tensorVectors} from '../../math/linear-algebra';
+import {bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
+import {round} from '../../math/math-util';
+import {rotateArray} from '../../util';
 
 export class QubitRegister {
 
-    // TODO Remove _variables
-
     private measuredValue: number | null = null;
+    // noinspection TypeScriptFieldCanBeMadeReadonly
     private measuredValuesQubits: (bit | null)[];
-    private _states: Complex[];
+    // noinspection TypeScriptFieldCanBeMadeReadonly
+    private states: Complex[];
 
     static ofQubits(...qubits: Qubit[]): QubitRegister {
         let reg = new QubitRegister(qubits.length);
-        reg._states = tensorVectors(...qubits.map(q => q.state()));
+        reg.states = tensorVectors(...qubits.map(q => q.state()));
         return reg;
     }
 
     static ofStates(states: Complex[]): QubitRegister {
         if (states.length < 2) {
-            throw new Error("Number of states has to be > 1");
+            throw new Error('Number of states has to be > 1');
         }
         let numQubits = Math.log2(states.length);
         if (!Number.isInteger(numQubits)) {
@@ -29,7 +29,7 @@ export class QubitRegister {
         }
         let reg = new QubitRegister(numQubits);
         for (let state in states) {
-            reg._states[state] = states[state];
+            reg.getStates()[state] = states[state];
         }
         let probsSum = reg.probabilities().reduce((sum, current) => sum + current, 0);
         if (round(probsSum, 2) !== 1) {
@@ -40,16 +40,14 @@ export class QubitRegister {
 
     /** Creates a register of the given number of qubits and initializes it in state |0...0> */
     constructor(private _numQubits: number) {
-        this._states = new Array<Complex>(Math.pow(2, _numQubits)).fill(_0);
-        this._states[0] = _1;
+        this.states = new Array<Complex>(Math.pow(2, _numQubits)).fill(_0);
+        this.getStates()[0] = _1;
         this.measuredValuesQubits = new Array<bit | null>(_numQubits).fill(null);
     }
 
-    public get states(): Complex[] {
-        return this._states;
+    public getStates(): Complex[] {
+        return this.states;
     }
-
-    // TODO states setter?
 
     public get numQubits(): number {
         return this._numQubits!;
@@ -68,8 +66,8 @@ export class QubitRegister {
     }
 
     probabilityOfStateAtIndex(index: number): number {
-        return this.states[index].re * this.states[index].re
-            + this.states[index].im * this.states[index].im;
+        return this.getStates()[index].re * this.getStates()[index].re
+            + this.getStates()[index].im * this.getStates()[index].im;
     }
 
     /**
@@ -77,7 +75,7 @@ export class QubitRegister {
      */
     probabilities(): number[] {
         // |z|^2 (Modulus of z squared)
-        return this.states.map(state => state.re * state.re + state.im * state.im);
+        return this.getStates().map(state => state.re * state.re + state.im * state.im);
     }
 
     measureSingleQubit(q: number): bit {
@@ -96,10 +94,10 @@ export class QubitRegister {
                 if (ttCol[state] === measuredValue) {
                     // A remaining state must be renormalized (division by the squareroot of the outcome probability)
                     // so that the probabilities of the remaining states add up to 1.
-                    this.states[state] = this.states[state].div(Complex.ofRe(Math.sqrt(probOutcome)));
+                    this.getStates()[state] = this.getStates()[state].div(Complex.ofRe(Math.sqrt(probOutcome)));
                 } else {
                     // Eliminated state
-                    this.states[state] = _0;
+                    this.getStates()[state] = _0;
                 }
             }
             this.measuredValuesQubits[q] = measuredValue;
@@ -122,9 +120,9 @@ export class QubitRegister {
             const probabilites = this.probabilities(); // Sums to 1
             const rand = Math.random();
             let probsSum = 0;
-            for (let i = 0; i < this.states.length - 1; i++) {
+            for (let i = 0; i < this.getStates().length - 1; i++) {
                 probsSum += probabilites[i];
-                if (i == this.states.length - 2) { // The second last state
+                if (i == this.getStates().length - 2) { // The second last state
                     this.measuredValue = rand <= probsSum ? i : i + 1;
                 } else if (rand <= probsSum) {
                     this.measuredValue = i;
@@ -144,11 +142,11 @@ export class QubitRegister {
     }
 
     add(summand: number) {
-        rotateArray(this.states, -summand);
+        rotateArray(this.getStates(), -summand);
     }
 
     sub(subtrahend: number) {
-        rotateArray(this.states, subtrahend);
+        rotateArray(this.getStates(), subtrahend);
     }
 
 }

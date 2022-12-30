@@ -1,8 +1,8 @@
-import {QubitRegister} from "./qubit-register";
-import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from "../../math/truth-table";
-import {degsToRads} from "../../math/math-util";
-import {Complex} from "../../math/complex";
-import {HADAMARD_GATE} from "../single-qubit/qubit-gates";
+import {QubitRegister} from './qubit-register';
+import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from '../../math/truth-table';
+import {degsToRads} from '../../math/math-util';
+import {Complex} from '../../math/complex';
+import {HADAMARD_GATE} from '../single-qubit/qubit-gates';
 
 // TODO Controlled Gates but c shall be 0
 
@@ -34,7 +34,7 @@ export function ccx(reg: QubitRegister, firstControlQubit: number, secondControl
  */
 export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: number) {
     const numQubits = reg.numQubits;
-    const numStates = reg.states.length;
+    const numStates = reg.getStates().length;
     let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).fill([]).map((_, index) => {
         return getTTCol(numQubits, controlQubits[index]);
     });
@@ -49,9 +49,9 @@ export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: nu
 }
 
 function swapStates(reg: QubitRegister, oneStateIndex: number, anotherStateIndex: number) {
-    let temp = reg.states[oneStateIndex];
-    reg.states[oneStateIndex] = reg.states[anotherStateIndex];
-    reg.states[anotherStateIndex] = temp;
+    let temp = reg.getStates()[oneStateIndex];
+    reg.getStates()[oneStateIndex] = reg.getStates()[anotherStateIndex];
+    reg.getStates()[anotherStateIndex] = temp;
 }
 
 export function swap(reg: QubitRegister, q0: number, q1: number) {
@@ -64,7 +64,7 @@ export function swap(reg: QubitRegister, q0: number, q1: number) {
     let ttColQ0 = getTTCol(numQubits, q0);
     let ttColQ1 = getTTCol(numQubits, q1);
     let changedSwapPartnerStatesIndices = new Array<number>();
-    for (let i = 0; i < reg.states.length; i++) {
+    for (let i = 0; i < reg.getStates().length; i++) {
         if (ttColQ0[i] !== ttColQ1[i] && !changedSwapPartnerStatesIndices.includes(i)) {
             // Position of swapPartner is: index + sum {i = q0 + 1 to q1} 2^(numQubits - 1 - i)
             // This Summation is equivalent to the following expression.
@@ -101,7 +101,7 @@ export function phase(reg: QubitRegister, q: number, angleDegrees: number) {
     const phi = degsToRads(angleDegrees);
     const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
     for (let state of getAllRowsWith1InCol(reg.numQubits, q)) {
-        reg.states[state] = reg.states[state].mul(expOfiTimesAngle);
+        reg.getStates()[state] = reg.getStates()[state].mul(expOfiTimesAngle);
     }
 }
 
@@ -137,13 +137,16 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
     const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
     const ttColQ0 = getTTCol(reg.numQubits, q0);
     const ttColQ1 = getTTCol(reg.numQubits, q1);
-    for (let state = 0; state < reg.states.length; state++) {
+    for (let state = 0; state < reg.getStates().length; state++) {
         if (ttColQ0[state] === 1 && ttColQ1[state] === 1) {
-            reg.states[state] = reg.states[state].mul(expOfiTimesAngle);
+            reg.getStates()[state] = reg.getStates()[state].mul(expOfiTimesAngle);
         }
     }
 }
 
+/**
+ * The CSWAP Gate is also called Fredkin Gate.
+ */
 export function cswap() {
     // TODO
 }
@@ -153,7 +156,7 @@ export function cswap() {
  * Applies a hadamard gate to a single qubit in a register.
  */
 export function hadSingle(reg: QubitRegister, q: number) {
-    const numStates = reg.states.length;
+    const numStates = reg.getStates().length;
     const numQubits = reg.numQubits;
     let regStatesNew = new Array<Complex>(numStates);
     const twoPowQubitsMinusColMinus1 = Math.pow(2, numQubits - q - 1);
@@ -161,10 +164,10 @@ export function hadSingle(reg: QubitRegister, q: number) {
         const appliedHadRow = HADAMARD_GATE[getTTBitAt(numQubits, state, q)];
         const appliedState0 = state - getTTBitAt(numQubits, state, q) * twoPowQubitsMinusColMinus1;
         const appliedState1 = appliedState0 + twoPowQubitsMinusColMinus1;
-        regStatesNew[state] = appliedHadRow[0].mul(reg.states[appliedState0]).add(appliedHadRow[1].mul(reg.states[appliedState1]));
+        regStatesNew[state] = appliedHadRow[0].mul(reg.getStates()[appliedState0]).add(appliedHadRow[1].mul(reg.getStates()[appliedState1]));
     }
     for (let state = 0; state < numStates; state++) {
-        reg.states[state] = regStatesNew[state];
+        reg.getStates()[state] = regStatesNew[state];
     }
 }
 
