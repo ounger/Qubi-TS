@@ -1,8 +1,9 @@
-import {QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {BELL_STATE_PHI_MINUS, BELL_STATE_PHI_PLUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS, QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {Qubit, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
-import {hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
+import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
+import {STATE_ONE, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 
 describe('probabilityOfState', () => {
 
@@ -523,6 +524,38 @@ describe('Subtraction Tests', () => {
         let reg = QubitRegister.ofStates([_1, _0, _0, _0]);
         reg.sub(-1);
         expect(reg.getStates()).toEqual([_0, _1, _0, _0]);
+    });
+
+});
+
+describe('Construct the four Bell States', () => {
+
+    test('Phi Plus from ket(00)', () => {
+        const reg = QubitRegister.ofQubits(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO));
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_PLUS);
+    });
+
+    test('Phi Minus from ket(10)', () => {
+        const reg = QubitRegister.ofQubits(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ZERO));
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_MINUS);
+    });
+
+    test('Psi Plus from ket(01)', () => {
+        const reg = QubitRegister.ofQubits(Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ONE));
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_PLUS);
+    });
+
+    test('Psi Minus from ket(11)', () => {
+        const reg = QubitRegister.ofQubits(Qubit.ofState(STATE_ONE), Qubit.ofState(STATE_ONE));
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_MINUS);
     });
 
 });
