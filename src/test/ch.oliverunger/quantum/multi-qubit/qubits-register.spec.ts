@@ -554,3 +554,22 @@ describe('Construct the four Bell States', () => {
     });
 
 });
+
+describe('Construct GHZ States', () => {
+
+    function applyTest(numQubits: number) {
+        const reg = new QubitRegister(numQubits);
+        hadSingle(reg, 0);
+        for (let i = 1; i < numQubits; i++) {
+            cx(reg, 0, i);
+        }
+        expNumberArraysToBeCloseTo([reg.probabilityOfStateAtIndex(0), reg.probabilityOfStateAtIndex(reg.getStates().length - 1)], [0.5, 0.5]);
+    }
+
+    test('Create GHZ Gates', () => {
+        for (let i = 2; i < 10; i++) {
+            applyTest(i);
+        }
+    });
+
+});

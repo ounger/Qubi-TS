@@ -25,7 +25,7 @@ export class QubitRegister {
         }
         let numQubits = Math.log2(states.length);
         if (!Number.isInteger(numQubits)) {
-            throw new Error("Number of states is not a power of 2");
+            throw new Error('Number of states is not a power of 2');
         }
         let reg = new QubitRegister(numQubits);
         for (let state in states) {
@@ -33,7 +33,7 @@ export class QubitRegister {
         }
         let probsSum = reg.probabilities().reduce((sum, current) => sum + current, 0);
         if (round(probsSum, 2) !== 1) {
-            throw new Error("Probabilities dont sum up to 1");
+            throw new Error('Probabilities dont sum up to 1');
         }
         return reg;
     }
@@ -147,6 +147,15 @@ export class QubitRegister {
 
     sub(subtrahend: number) {
         rotateArray(this.getStates(), subtrahend);
+    }
+
+    /**
+     * Returns true, if the qubits in this register are entangled or not.
+     * If they are not entangled, they are said to be in a product state or separable.
+     */
+    areQubitsEntangled(): boolean {
+        // TODO
+        return false;
     }
 
 }
