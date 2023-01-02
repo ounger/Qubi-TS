@@ -18,6 +18,7 @@ import {
     RNOT_GATE,
     RNOT_INVERSE_GATE
 } from './qubit-gates';
+import {round} from '../../math/math-util';
 
 export class Qubit {
 
@@ -104,7 +105,7 @@ export class Qubit {
     private isValid(): boolean {
         const probs = this.probabilities();
         const probsSum = probs[0] + probs[1];
-        return probsSum > 0.99 && probsSum < 1.01;
+        return round(probsSum, 5) === 1;
     }
 
     /**

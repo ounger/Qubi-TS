@@ -4,7 +4,6 @@ import {tensorVectors} from '../../math/linear-algebra';
 import {bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
 import {round} from '../../math/math-util';
 import {rotateArray} from '../../util';
-import {cx, hadSingle} from './multi-qubit-gates';
 
 export class QubitRegister {
 
@@ -32,10 +31,11 @@ export class QubitRegister {
         for (let state in states) {
             reg.getStates()[state] = states[state];
         }
-        let probsSum = reg.probabilities().reduce((sum, current) => sum + current, 0);
-        if (round(probsSum, 2) !== 1) {
-            throw new Error('Probabilities dont sum up to 1');
-        }
+        reg.checkValidity();
+
+        // TODO Eigentlich muesste ich jeden Zustand vorher pruefen. Denn die summe der Probs zweier ungueltiger Zustaende
+        // TODO koennte wieder gueltig sein
+
         return reg;
     }
 
@@ -49,17 +49,22 @@ export class QubitRegister {
         if (numQubits < 1) {
             throw new Error('Number of qubits has to be > 0');
         }
-        const reg = new QubitRegister(numQubits);
-        hadSingle(reg, 0);
-        for (let i = 1; i < numQubits; i++) {
-            cx(reg, 0, i);
-        }
+        const reg = new QubitRegister(numQubits); // Returns ket(00...0)
+        reg.states[0] = ONE_OF_SQRT_TWO;
+        reg.states[reg.states.length - 1] = ONE_OF_SQRT_TWO;
         return reg;
     }
 
     static createMaxMixedRegister(numQubits: number): QubitRegister {
-        // TODO Nach hadAll() Implementierung
-        return new QubitRegister(0);
+        if (numQubits < 1) {
+            throw new Error('Number of qubits has to be > 0');
+        }
+        const numStates = Math.pow(2, numQubits);
+        // 1 qubit: [1/Sqrt(2), 1/Sqrt(2)]
+        // 2 qubit: [1/Sqrt(4), 1/Sqrt(4), 1/Sqrt(4), 1/Sqrt(4)]
+        // 3 qubits: [1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8), 1/Sqrt(8)]
+        const amp = Complex.ofRe(1 / Math.sqrt(Math.pow(2, numQubits)));
+        return QubitRegister.ofStates(new Array<Complex>(numStates).fill(amp));
     }
 
     /** Creates a register of the given number of qubits and initializes it in state |0...0> */
@@ -180,6 +185,17 @@ export class QubitRegister {
     areQubitsEntangled(): boolean {
         // TODO
         return false;
+    }
+
+    private checkValidity() {
+        if (!this.isValid()) {
+            throw new Error('Probabilities dont sum up to 1');
+        }
+    }
+
+    private isValid(): boolean {
+        const probsSum = this.probabilities().reduce((p, c) => p + c, 0);
+        return round(probsSum, 5) === 1;
     }
 
 }

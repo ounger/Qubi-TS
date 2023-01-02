@@ -4,6 +4,7 @@ import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
 import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
 import {QubitState, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {round} from '../../../../main/ch.oliverunger/math/math-util';
 
 describe('probabilityOfState', () => {
 
@@ -580,5 +581,12 @@ describe('Create max entangled registers', () => {
 });
 
 describe('Create max mixed registers', () => {
-    // TODO
+
+    test('Test Cases', () => {
+        for (let i = 1; i < 10; i++) {
+            const reg = QubitRegister.createMaxMixedRegister(i);
+            expect(round(reg.probabilities().reduce((p, c) => p + c, 0), 5)).toEqual(1);
+        }
+    });
+
 });
