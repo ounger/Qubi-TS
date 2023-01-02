@@ -61,6 +61,13 @@ export class Complex {
     }
 
     /**
+     * |z|^2
+     */
+    modulusSquared(): number {
+        return this.re * this.re + this.im * this.im;
+    }
+
+    /**
      * |z| is called the modulus of z
      */
     modulus(): number {

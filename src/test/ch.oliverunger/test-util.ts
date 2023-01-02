@@ -3,10 +3,10 @@ import {Qubit} from '../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {countCols, countRows} from '../../main/ch.oliverunger/math/linear-algebra';
 
 export function expQubitsToBeCloseTo(q0: Qubit, q1: Qubit): void {
-    expect(q0.stateZeroAmplitude.re).toBeCloseTo(q1.stateZeroAmplitude.re, 5);
-    expect(q0.stateZeroAmplitude.im).toBeCloseTo(q1.stateZeroAmplitude.im, 5);
-    expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 5);
-    expect(q0.stateOneAmplitude.re).toBeCloseTo(q1.stateOneAmplitude.re, 5);
+    expect(q0.getStateZeroAmplitude().re).toBeCloseTo(q1.getStateZeroAmplitude().re, 5);
+    expect(q0.getStateZeroAmplitude().im).toBeCloseTo(q1.getStateZeroAmplitude().im, 5);
+    expect(q0.getStateOneAmplitude().re).toBeCloseTo(q1.getStateOneAmplitude().re, 5);
+    expect(q0.getStateOneAmplitude().re).toBeCloseTo(q1.getStateOneAmplitude().re, 5);
 }
 
 export function expComplexMatricesToBeCloseTo(m0: Complex[][], m1: Complex[][]) {

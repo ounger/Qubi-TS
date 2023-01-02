@@ -35,21 +35,21 @@ export class Qubit {
     /**
      * Creates a qubit with the given amplitudes for the computational basis states.
      */
-    constructor(private _stateZeroAmplitude: Complex, private _stateOneAmplitude: Complex) {
+    constructor(private stateZeroAmplitude: Complex, private stateOneAmplitude: Complex) {
         this.checkValidity();
     }
 
-    get stateZeroAmplitude(): Complex {
-        return this._stateZeroAmplitude;
+    getStateZeroAmplitude(): Complex {
+        return this.stateZeroAmplitude;
     }
 
-    get stateOneAmplitude(): Complex {
-        return this._stateOneAmplitude;
+    getStateOneAmplitude(): Complex {
+        return this.stateOneAmplitude;
     }
 
     setAmplitudesOfState(newStateZeroAmplitude: Complex, newStateOneAmplitude: Complex) {
-        this._stateZeroAmplitude = newStateZeroAmplitude;
-        this._stateOneAmplitude = newStateOneAmplitude;
+        this.stateZeroAmplitude = newStateZeroAmplitude;
+        this.stateOneAmplitude = newStateOneAmplitude;
         this.checkValidity();
     }
 
@@ -58,11 +58,7 @@ export class Qubit {
     }
 
     probabilities(): [stateZeroProbability: number, stateOneProbability: number] {
-        // |z|^2 (Modulus of z squared)
-        return [
-            this.stateZeroAmplitude.re * this.stateZeroAmplitude.re + this.stateZeroAmplitude.im * this.stateZeroAmplitude.im,
-            this.stateOneAmplitude.re * this.stateOneAmplitude.re + this.stateOneAmplitude.im * this.stateOneAmplitude.im
-        ];
+        return [this.stateZeroAmplitude.modulusSquared(), this.stateOneAmplitude.modulusSquared()];
     }
 
     /**
