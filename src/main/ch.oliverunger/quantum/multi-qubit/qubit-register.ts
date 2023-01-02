@@ -32,10 +32,6 @@ export class QubitRegister {
             reg.getStates()[state] = states[state];
         }
         reg.checkValidity();
-
-        // TODO Eigentlich muesste ich jeden Zustand vorher pruefen. Denn die summe der Probs zweier ungueltiger Zustaende
-        // TODO koennte wieder gueltig sein
-
         return reg;
     }
 

@@ -30,8 +30,6 @@ describe('Create QFTs', () => {
         expQubit2.rot1(45);
         const expReg = QubitRegister.ofQubits(expQubit0, expQubit1, expQubit2);
 
-        console.log('Actual ' + reg.getStates());
-        console.log('Exp ' + expReg.getStates());
         expComplexArraysToBeCloseTo(reg.getStates(), expReg.getStates());
     });
 
