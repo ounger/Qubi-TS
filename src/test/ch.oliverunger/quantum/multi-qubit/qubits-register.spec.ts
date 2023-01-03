@@ -618,15 +618,25 @@ describe('Distinguish pure or mixed state - pure states', () => {
         expect(reg.isMixedState()).toBeFalsy();
     }
 
-    test('Test cases', () => {
+    test('Single qubit test cases', () => {
         applyTest(QubitRegister.ofStates(STATE_ZERO));
         applyTest(QubitRegister.ofStates(STATE_ONE));
         applyTest(QubitRegister.ofStates(STATE_PLUS));
         applyTest(QubitRegister.ofStates(STATE_MINUS));
         applyTest(QubitRegister.ofStates(STATE_R));
         applyTest(QubitRegister.ofStates(STATE_L));
+    });
 
-        // TODO More tests
+    test('Multiple qubits test cases', () => {
+        applyTest(QubitRegister.ofStates(BELL_STATE_PHI_PLUS));
+        applyTest(QubitRegister.ofStates(BELL_STATE_PHI_MINUS));
+        applyTest(QubitRegister.ofStates(BELL_STATE_PSI_PLUS));
+        applyTest(QubitRegister.ofStates(BELL_STATE_PSI_MINUS));
+        applyTest(QubitRegister.createMaxEntangledRegister(3));
+        applyTest(QubitRegister.createMaxEntangledRegister(4));
+        applyTest(QubitRegister.createMaxMixedRegister(2));
+        applyTest(QubitRegister.createMaxMixedRegister(3));
+        applyTest(QubitRegister.createMaxMixedRegister(4));
     });
 
 });
@@ -639,12 +649,7 @@ describe('Distinguish pure or mixed state - mixed state', () => {
     }
 
     test('Test cases', () => {
-        // applyTest(QubitRegister.createMaxMixedRegister(2));
-        // applyTest(QubitRegister.createMaxMixedRegister(3));
-        // applyTest(QubitRegister.createMaxMixedRegister(4));
-        applyTest(QubitRegister.createMaxEntangledRegister(2));
-
-        // TODO More tests
+        // TODO Create Bell State and trace out one qubit -> mixed state
     });
 
 });

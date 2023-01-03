@@ -282,6 +282,10 @@ export function trace(matrix: Complex[][]): Complex {
     return range(0, rows).map(index => matrix[index][index]).reduce((p, c) => p.add(c), _0);
 }
 
+/**
+ * Returns the density (also called projector) matrix of a given vector
+ * which is the outer product of this vector.
+ */
 export function density(vector: Complex[]): Complex[][] {
     return outer(vector, conjugateVector(vector));
 }

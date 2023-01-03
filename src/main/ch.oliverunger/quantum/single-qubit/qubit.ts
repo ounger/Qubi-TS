@@ -80,9 +80,19 @@ export class Qubit {
      */
     measure(): bit {
         if (this.measuredValue == null) {
-            const probabilities = this.probabilities(); // Sums to 1
+            const probs = this.probabilities();
             const rand = Math.random();
-            this.measuredValue = rand <= probabilities[0] ? 0 : 1;
+            this.measuredValue = rand <= probs[0] ? 0 : 1;
+        }
+        return this.measuredValue;
+        // Alternative: return this.measureInState(STATE_ZERO);
+    }
+
+    measureInState(state: QubitState): bit {
+        if (this.measuredValue == null) {
+            const prob = this.probabilityOfState(state);
+            const rand = Math.random();
+            this.measuredValue = rand <= prob ? 0 : 1;
         }
         return this.measuredValue;
     }
