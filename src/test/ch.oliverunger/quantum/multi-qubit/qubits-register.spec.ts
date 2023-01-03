@@ -1,9 +1,29 @@
-import {BELL_STATE_PHI_MINUS, BELL_STATE_PHI_PLUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS, QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
-import {Qubit, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
+import {
+    BELL_STATE_PHI_MINUS,
+    BELL_STATE_PHI_PLUS,
+    BELL_STATE_PSI_MINUS,
+    BELL_STATE_PSI_PLUS,
+    QubitRegister
+} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {
+    Qubit,
+    QUBIT_STATE_MINUS,
+    QUBIT_STATE_ONE,
+    QUBIT_STATE_PLUS,
+    QUBIT_STATE_ZERO
+} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
 import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
-import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {
+    QubitState,
+    STATE_L,
+    STATE_MINUS,
+    STATE_ONE,
+    STATE_PLUS,
+    STATE_R,
+    STATE_ZERO
+} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {round} from '../../../../main/ch.oliverunger/math/math-util';
 
 describe('probabilityOfState', () => {
@@ -619,7 +639,10 @@ describe('Distinguish pure or mixed state - mixed state', () => {
     }
 
     test('Test cases', () => {
-        applyTest(QubitRegister.createMaxMixedRegister(2));
+        // applyTest(QubitRegister.createMaxMixedRegister(2));
+        // applyTest(QubitRegister.createMaxMixedRegister(3));
+        // applyTest(QubitRegister.createMaxMixedRegister(4));
+        applyTest(QubitRegister.createMaxEntangledRegister(2));
 
         // TODO More tests
     });

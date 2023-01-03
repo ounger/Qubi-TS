@@ -1,6 +1,6 @@
 import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../math/complex';
 import {Qubit} from '../single-qubit/qubit';
-import {tensorVectors} from '../../math/linear-algebra';
+import {density, multiplyMatrices, tensorVectors, trace} from '../../math/linear-algebra';
 import {bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
 import {round} from '../../math/math-util';
 import {rotateArray} from '../../util';
@@ -195,17 +195,11 @@ export class QubitRegister {
     }
 
     isPureState(): boolean {
-        const states = this.getStates();
-        // Calculate trace of density squared
-        let trace = _0;
-        for (let i = 0; i < states.length; i++) {
-            trace = trace.add(states[i].mul(states[i].conjugate())).square();
-        }
-        // const trace = range(0, states.length)
-        //     .map(index => states[index].mul(states[index].conjugate()))
-        //     .map(value => value.square())
-        //     .reduce((p, c) => p.add(c), _0);
-        return round(trace.re, 5) === 1;
+        // See https://qiskit.org/textbook/ch-quantum-hardware/density-matrix.html#State-Purity-
+        const densityMatrix = density(this.states);
+        const densityMatrixSquared = multiplyMatrices(densityMatrix, densityMatrix);
+        const traceDensityMatrixSquared = trace(densityMatrixSquared);
+        return round(traceDensityMatrixSquared.re, 5) === 1;
     }
 
     isMixedState(): boolean {
