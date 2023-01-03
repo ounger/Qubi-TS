@@ -194,6 +194,24 @@ export class QubitRegister {
         return round(probsSum, 5) === 1;
     }
 
+    isPureState(): boolean {
+        const states = this.getStates();
+        // Calculate trace of density squared
+        let trace = _0;
+        for (let i = 0; i < states.length; i++) {
+            trace = trace.add(states[i].mul(states[i].conjugate())).square();
+        }
+        // const trace = range(0, states.length)
+        //     .map(index => states[index].mul(states[index].conjugate()))
+        //     .map(value => value.square())
+        //     .reduce((p, c) => p.add(c), _0);
+        return round(trace.re, 5) === 1;
+    }
+
+    isMixedState(): boolean {
+        return !this.isPureState();
+    }
+
 }
 
 /**

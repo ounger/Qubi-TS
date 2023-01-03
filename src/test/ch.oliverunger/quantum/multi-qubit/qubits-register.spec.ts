@@ -3,7 +3,7 @@ import {Qubit, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
 import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
-import {QubitState, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {round} from '../../../../main/ch.oliverunger/math/math-util';
 
 describe('probabilityOfState', () => {
@@ -587,6 +587,41 @@ describe('Create max mixed registers', () => {
             const reg = QubitRegister.createMaxMixedRegister(i);
             expect(round(reg.probabilities().reduce((p, c) => p + c, 0), 5)).toEqual(1);
         }
+    });
+
+});
+
+describe('Distinguish pure or mixed state - pure states', () => {
+
+    function applyTest(reg: QubitRegister) {
+        expect(reg.isPureState()).toBeTruthy();
+        expect(reg.isMixedState()).toBeFalsy();
+    }
+
+    test('Test cases', () => {
+        applyTest(QubitRegister.ofStates(STATE_ZERO));
+        applyTest(QubitRegister.ofStates(STATE_ONE));
+        applyTest(QubitRegister.ofStates(STATE_PLUS));
+        applyTest(QubitRegister.ofStates(STATE_MINUS));
+        applyTest(QubitRegister.ofStates(STATE_R));
+        applyTest(QubitRegister.ofStates(STATE_L));
+
+        // TODO More tests
+    });
+
+});
+
+describe('Distinguish pure or mixed state - mixed state', () => {
+
+    function applyTest(reg: QubitRegister) {
+        expect(reg.isPureState()).toBeFalsy();
+        expect(reg.isMixedState()).toBeTruthy();
+    }
+
+    test('Test cases', () => {
+        applyTest(QubitRegister.createMaxMixedRegister(2));
+
+        // TODO More tests
     });
 
 });

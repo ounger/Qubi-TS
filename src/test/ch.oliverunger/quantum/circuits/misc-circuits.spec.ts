@@ -1,5 +1,5 @@
-import {bit} from "../../../../main/ch.oliverunger/math/truth-table";
-import {qrng} from "../../../../main/ch.oliverunger/quantum/circuits/misc-circuits";
+import {bit} from '../../../../main/ch.oliverunger/math/truth-table';
+import {qrng} from '../../../../main/ch.oliverunger/quantum/program/qrng';
 
 describe('QRNG should generate 0s and 1s', () => {
     test('', () => {
