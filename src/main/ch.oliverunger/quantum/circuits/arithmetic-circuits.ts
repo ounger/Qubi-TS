@@ -1,6 +1,6 @@
 import {QubitRegister} from "../multi-qubit/qubit-register";
 import {Circuit} from "./circuit";
-import {mct} from "../multi-qubit/multi-qubit-gates";
+import {ccx, cx, mct} from "../multi-qubit/multi-qubit-gates";
 import {range} from "../../util";
 
 export function createIncrementCircuit(reg: QubitRegister): Circuit {
@@ -32,4 +32,25 @@ export function add(reg: QubitRegister): Circuit {
 export function sub(reg: QubitRegister): Circuit {
     // TODO
     return new Circuit();
+}
+
+/**
+ * Returns a circuit that sums three bits
+ * @param reg The register this circuit shall operate on
+ * @param aQubitIndex The index of the qubit of the first input bit
+ * @param bQubitIndex The index of the qubit of the second input bit
+ * @param cInQubitIndex The index of the qubit of the carry-in bit from a previous operation
+ * @param sumQubitIndex The index of the qubit of the output bit
+ * @param cOutQubitIndex The index of the qubit of the carry-out bit
+ */
+export function fullAdder(reg: QubitRegister, aQubitIndex: number, bQubitIndex: number, cInQubitIndex: number,
+                          sumQubitIndex: number, cOutQubitIndex: number): Circuit {
+    const circuit = new Circuit();
+    circuit.addGate(() => cx(reg, aQubitIndex, sumQubitIndex));
+    circuit.addGate(() => cx(reg, bQubitIndex, sumQubitIndex));
+    circuit.addGate(() => ccx(reg, aQubitIndex, bQubitIndex, cOutQubitIndex));
+    circuit.addGate(() => ccx(reg, aQubitIndex, cInQubitIndex, cOutQubitIndex));
+    circuit.addGate(() => ccx(reg, bQubitIndex, cInQubitIndex, cOutQubitIndex));
+    circuit.addGate(() => cx(reg, cInQubitIndex, sumQubitIndex));
+    return circuit;
 }
