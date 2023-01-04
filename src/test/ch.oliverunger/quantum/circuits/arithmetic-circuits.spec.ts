@@ -4,7 +4,8 @@ import {expComplexArraysToBeCloseTo} from '../../test-util';
 import {
     createDecrementCircuit,
     createIncrementCircuit,
-    fullAdder
+    fullAdder,
+    halfAdder
 } from '../../../../main/ch.oliverunger/quantum/circuits/arithmetic-circuits';
 import {bit} from "../../../../main/ch.oliverunger/math/truth-table";
 import {Qubit} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
@@ -112,6 +113,29 @@ describe('Sub', () => {
     test('', () => {
         // TODO
     });
+});
+
+describe('Half Adder', () => {
+
+    function applyTest(aValue: bit, bValue: bit, expCValue: bit, expSumValue: bit) {
+        const aQubit = aValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
+        const bQubit = bValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
+        const reg = QubitRegister.ofQubits(aQubit, bQubit, Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO));
+        const halfAdderCircuit = halfAdder(reg, 0, 1, 2, 3);
+        halfAdderCircuit.execute();
+        const sum = reg.measureSingleQubit(2);
+        const c = reg.measureSingleQubit(3);
+        expect(sum).toEqual(expSumValue);
+        expect(c).toEqual(expCValue);
+    }
+
+    test('Test cases', () => {
+        applyTest(0, 0, 0, 0);
+        applyTest(0, 1, 0, 1);
+        applyTest(1, 0, 0, 1);
+        applyTest(1, 1, 1, 0);
+    });
+
 });
 
 describe('Full Adder', () => {

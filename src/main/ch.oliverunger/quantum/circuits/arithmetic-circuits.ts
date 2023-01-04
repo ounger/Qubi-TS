@@ -35,6 +35,23 @@ export function sub(reg: QubitRegister): Circuit {
 }
 
 /**
+ * Returns a circuit that sums two bits
+ * @param reg The register this circuit shall operate on
+ * @param aQubitIndex The index of the qubit of the first input bit
+ * @param bQubitIndex The index of the qubit of the second input bit
+ * @param sumQubitIndex The index of the qubit of the output bit
+ * @param cQubitIndex The index of the qubit of the carry bit
+ */
+export function halfAdder(reg: QubitRegister, aQubitIndex: number, bQubitIndex: number,
+                          sumQubitIndex: number, cQubitIndex: number) {
+    const circuit = new Circuit();
+    circuit.addGate(() => cx(reg, aQubitIndex, sumQubitIndex));
+    circuit.addGate(() => cx(reg, bQubitIndex, sumQubitIndex));
+    circuit.addGate(() => ccx(reg, aQubitIndex, bQubitIndex, cQubitIndex));
+    return circuit;
+}
+
+/**
  * Returns a circuit that sums three bits
  * @param reg The register this circuit shall operate on
  * @param aQubitIndex The index of the qubit of the first input bit
