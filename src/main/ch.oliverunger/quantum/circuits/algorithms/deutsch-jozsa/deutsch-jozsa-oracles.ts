@@ -2,7 +2,7 @@ import {cx, x} from '../../../multi-qubit/multi-qubit-gates';
 import {QubitRegister} from '../../../multi-qubit/qubit-register';
 import {Circuit} from '../../circuit';
 import {getNumberAsBitArray, randomIntFromInterval} from '../../../../util';
-import {qrng} from '../../../program/qrng';
+import {qrngAlgorithm} from '../qrng/qrng-algorithm';
 
 /**
  * Returns a constant function f: {0, 1}^n -> {0, 1} as an oracle circuit.
@@ -12,7 +12,7 @@ export function createConstantDeutschJozsaOracle(reg: QubitRegister): Circuit {
     // to the (output) qubit with the lowest value 2^0 = 1 (that's the last one).
     const lowestValueQubitIndex = reg.numQubits - 1; // Output qubit
     const circuit = new Circuit();
-    const output = qrng();
+    const output = qrngAlgorithm();
     if (output === 1) {
         circuit.addGate(() => x(reg, lowestValueQubitIndex));
     }

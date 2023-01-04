@@ -5,5 +5,5 @@ You can create qubits and qubit registers, apply gates to them, combine gates to
 
 Example: Generate a random number using a Quantum Random Number Generator (QRNG):
 
-const rand: bit = qrng(); // Returns 0 or 1
+const rand: bit = qrngAlgorithm(); // Returns 0 or 1
 
