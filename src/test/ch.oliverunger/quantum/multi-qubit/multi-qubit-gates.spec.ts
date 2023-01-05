@@ -1,12 +1,43 @@
 // noinspection DuplicatedCode
 
-import {Qubit, QUBIT_STATE_L, QUBIT_STATE_MINUS, QUBIT_STATE_ONE, QUBIT_STATE_PLUS, QUBIT_STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
-import {ccx, cphase, cs, ct, cx, cz, hadSingle, phase, phaseS, phaseT, phaseZ, swap, x} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
+import {
+    Qubit,
+    QUBIT_STATE_L,
+    QUBIT_STATE_MINUS,
+    QUBIT_STATE_ONE,
+    QUBIT_STATE_PLUS,
+    QUBIT_STATE_ZERO
+} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
+import {
+    ccx,
+    cphase,
+    cs,
+    cswap,
+    ct,
+    cx,
+    cz,
+    hadSingle,
+    phase,
+    phaseS,
+    phaseT,
+    phaseZ,
+    swap,
+    x
+} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
 import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
-import {BELL_STATE_PHI_PLUS, BELL_STATE_PSI_PLUS, QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {
+    BELL_STATE_PHI_PLUS,
+    BELL_STATE_PSI_PLUS,
+    QubitRegister
+} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {expOfiTimesAngleDegrees} from '../../../../main/ch.oliverunger/math/math-util';
 import {expComplexArraysToBeCloseTo} from '../../test-util';
-import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {
+    STATE_MINUS,
+    STATE_ONE,
+    STATE_PLUS,
+    STATE_ZERO
+} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -856,6 +887,226 @@ describe('hadMulti', () => {
 
 });
 
+describe('cswap', () => {
+
+    test('t1 > t0', () => {
+        // The implementation behind cswap swaps the indices if firstTarget > secondTarget
+        let reg = createExampleRegister3Qubits();
+        cswap(reg, 0, 2, 1);
+        expect(reg.getStates()).toEqual([
+            EX_REG_3Q_S0,
+            EX_REG_3Q_S1,
+            EX_REG_3Q_S2,
+            EX_REG_3Q_S3,
+            EX_REG_3Q_S4,
+            EX_REG_3Q_S6,
+            EX_REG_3Q_S5,
+            EX_REG_3Q_S7
+        ]);
+    });
+
+    test('Swap by 0', () => {
+        let reg = createExampleRegister3Qubits();
+        cswap(reg, 2, 0, 1, true);
+        expect(reg.getStates()).toEqual([
+            EX_REG_3Q_S0,
+            EX_REG_3Q_S1,
+            EX_REG_3Q_S4,
+            EX_REG_3Q_S3,
+            EX_REG_3Q_S2,
+            EX_REG_3Q_S5,
+            EX_REG_3Q_S6,
+            EX_REG_3Q_S7
+        ]);
+
+    });
+
+    test('3 Qubits - c t0 t1', () => {
+        let reg = createExampleRegister3Qubits();
+        cswap(reg, 0, 1, 2);
+        expect(reg.getStates()).toEqual([
+            EX_REG_3Q_S0,
+            EX_REG_3Q_S1,
+            EX_REG_3Q_S2,
+            EX_REG_3Q_S3,
+            EX_REG_3Q_S4,
+            EX_REG_3Q_S6,
+            EX_REG_3Q_S5,
+            EX_REG_3Q_S7
+        ]);
+    });
+
+    test('3 Qubits - t0 c t1', () => {
+        let reg = createExampleRegister3Qubits();
+        cswap(reg, 1, 0, 2);
+        expect(reg.getStates()).toEqual([
+            EX_REG_3Q_S0,
+            EX_REG_3Q_S1,
+            EX_REG_3Q_S2,
+            EX_REG_3Q_S6,
+            EX_REG_3Q_S4,
+            EX_REG_3Q_S5,
+            EX_REG_3Q_S3,
+            EX_REG_3Q_S7
+        ]);
+    });
+
+    test('3 Qubits - t0 t1 c', () => {
+        let reg = createExampleRegister3Qubits();
+        cswap(reg, 2, 0, 1);
+        expect(reg.getStates()).toEqual([
+            EX_REG_3Q_S0,
+            EX_REG_3Q_S1,
+            EX_REG_3Q_S2,
+            EX_REG_3Q_S5,
+            EX_REG_3Q_S4,
+            EX_REG_3Q_S3,
+            EX_REG_3Q_S6,
+            EX_REG_3Q_S7
+        ]);
+    });
+
+    test('4 Qubits - c t0 t1 o', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 0, 1, 2);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+    test('4 Qubits - c t0 o t1', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 0, 1, 3);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+    test('4 Qubits - c o t0 t1', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 0, 2, 3);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+    test('4 Qubits - t0 c t1 o', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 1, 0, 2);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+    test('4 Qubits - t0 c o t1', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 1, 0, 3);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+    test('4 Qubits - o c t0 t1', () => {
+        let reg = createExampleRegister4Qubits();
+        cswap(reg, 1, 2, 3);
+        expect(reg.getStates()).toEqual([
+            EX_REG_4Q_S0,
+            EX_REG_4Q_S1,
+            EX_REG_4Q_S2,
+            EX_REG_4Q_S3,
+            EX_REG_4Q_S4,
+            EX_REG_4Q_S6,
+            EX_REG_4Q_S5,
+            EX_REG_4Q_S7,
+            EX_REG_4Q_S8,
+            EX_REG_4Q_S9,
+            EX_REG_4Q_S10,
+            EX_REG_4Q_S11,
+            EX_REG_4Q_S12,
+            EX_REG_4Q_S14,
+            EX_REG_4Q_S13,
+            EX_REG_4Q_S15,
+        ]);
+    });
+
+})
+;
+
 /* Example Register of 2 Qubits State x */
 const EX_REG_2Q_S0: Complex = Complex.ofRe(Math.sqrt(0.1));
 const EX_REG_2Q_S1: Complex = Complex.ofRe(Math.sqrt(0.2));
@@ -890,5 +1141,43 @@ function createExampleRegister3Qubits(): QubitRegister {
         EX_REG_3Q_S5,
         EX_REG_3Q_S6,
         EX_REG_3Q_S7
+    ]);
+}
+
+const EX_REG_4Q_S0: Complex = Complex.ofRe(Math.sqrt(0.01));
+const EX_REG_4Q_S1: Complex = Complex.ofRe(Math.sqrt(0.02));
+const EX_REG_4Q_S2: Complex = Complex.ofRe(Math.sqrt(0.03));
+const EX_REG_4Q_S3: Complex = Complex.ofRe(Math.sqrt(0.04));
+const EX_REG_4Q_S4: Complex = Complex.ofRe(Math.sqrt(0.015));
+const EX_REG_4Q_S5: Complex = Complex.ofRe(Math.sqrt(0.035));
+const EX_REG_4Q_S6: Complex = Complex.ofRe(Math.sqrt(0.05));
+const EX_REG_4Q_S7: Complex = Complex.ofRe(Math.sqrt(0.1));
+const EX_REG_4Q_S8: Complex = Complex.ofRe(Math.sqrt(0.06));
+const EX_REG_4Q_S9: Complex = Complex.ofRe(Math.sqrt(0.07));
+const EX_REG_4Q_S10: Complex = Complex.ofRe(Math.sqrt(0.075));
+const EX_REG_4Q_S11: Complex = Complex.ofRe(Math.sqrt(0.095));
+const EX_REG_4Q_S12: Complex = Complex.ofRe(Math.sqrt(0.085));
+const EX_REG_4Q_S13: Complex = Complex.ofRe(Math.sqrt(0.105));
+const EX_REG_4Q_S14: Complex = Complex.ofRe(Math.sqrt(0.13));
+const EX_REG_4Q_S15: Complex = Complex.ofRe(Math.sqrt(0.08));
+
+function createExampleRegister4Qubits(): QubitRegister {
+    return QubitRegister.ofStates([
+        EX_REG_4Q_S0,
+        EX_REG_4Q_S1,
+        EX_REG_4Q_S2,
+        EX_REG_4Q_S3,
+        EX_REG_4Q_S4,
+        EX_REG_4Q_S5,
+        EX_REG_4Q_S6,
+        EX_REG_4Q_S7,
+        EX_REG_4Q_S8,
+        EX_REG_4Q_S9,
+        EX_REG_4Q_S10,
+        EX_REG_4Q_S11,
+        EX_REG_4Q_S12,
+        EX_REG_4Q_S13,
+        EX_REG_4Q_S14,
+        EX_REG_4Q_S15
     ]);
 }

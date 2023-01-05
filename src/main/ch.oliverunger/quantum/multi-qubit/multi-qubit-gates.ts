@@ -148,7 +148,23 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
  * The CSWAP Gate is also called Fredkin Gate.
  */
 export function cswap(reg: QubitRegister, control: number, firstTargetQubit: number, secondTargetQubit: number, byZero = false) {
-    // TODO
+    // Swap firstTarget and secondTarget if firstTarget > secondTarget
+    let temp = firstTargetQubit;
+    firstTargetQubit = Math.min(firstTargetQubit, secondTargetQubit);
+    secondTargetQubit = Math.max(temp, secondTargetQubit);
+
+    const numQubits = reg.numQubits;
+    let ttColControl = getTTCol(numQubits, control);
+    let ttColFirstTarget = getTTCol(numQubits, firstTargetQubit);
+    let ttColSecondTarget = getTTCol(numQubits, secondTargetQubit);
+    let changedSwapPartnerStatesIndices = new Array<number>();
+    for (let i = 0; i < reg.getStates().length; i++) {
+        if (ttColControl[i] === (byZero ? 0 : 1) && ttColFirstTarget[i] !== ttColSecondTarget[i] && !changedSwapPartnerStatesIndices.includes(i)) {
+            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - firstTargetQubit) - Math.pow(2, numQubits - 1 - secondTargetQubit);
+            swapStates(reg, i, swapPartnerStateIndex);
+            changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
+        }
+    }
 }
 
 // TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
