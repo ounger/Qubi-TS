@@ -147,7 +147,7 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
 /**
  * The CSWAP Gate is also called Fredkin Gate.
  */
-export function cswap() {
+export function cswap(reg: QubitRegister, control: number, firstTargetQubit: number, secondTargetQubit: number, byZero = false) {
     // TODO
 }
 
