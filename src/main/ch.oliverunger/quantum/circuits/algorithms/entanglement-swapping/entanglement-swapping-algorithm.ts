@@ -11,9 +11,9 @@ import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../analyzer-c
 import {bit} from "../../../../math/truth-table";
 
 /**
- * Entangles two separate parties (Alice and Bob) over an unknowing third party (Carol).
- * @See Wikipedia: https://en.wikipedia.org/wiki/Quantum_teleportation#Entanglement_swapping
- * @See Youtube: https://www.youtube.com/watch?v=hxDYq09mWTo&t=276
+ * Entangles two separate parties (Alice and Bob) over an unknowing third party (Carol). <br>
+ * See Wikipedia: {@link https://en.wikipedia.org/wiki/Quantum_teleportation#Entanglement_swapping} <br>
+ * and Youtube: {@link https://www.youtube.com/watch?v=hxDYq09mWTo&t=276}
  */
 export function executeEntanglementSwappingAlgorithm(): bit[] {
     const alicesQubit0 = Qubit.ofState(STATE_ZERO);
