@@ -39,7 +39,6 @@ export function executeEntanglementSwappingAlgorithm(): bit[] {
     const b2 = reg.measureSingleQubit(2);
     // We want a Bell State Phi Plus. If we have another Bell State, we have to apply the following gates:
     const bellState = analyzeBellState(b1, b2);
-
     if (bellState === BELL_STATE_PSI_PLUS || bellState === BELL_STATE_PSI_MINUS) {
         x(reg, 3);
     }
