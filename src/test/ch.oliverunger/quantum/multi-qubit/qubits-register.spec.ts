@@ -14,7 +14,7 @@ import {
 } from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
-import {cx, hadSingle, phaseT} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
+import {cx, hadSingle, phaseT, phaseZ, x} from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
 import {
     QubitState,
     STATE_L,
@@ -572,6 +572,42 @@ describe('Construct the four Bell States', () => {
 
     test('Psi Minus from ket(11)', () => {
         applyTest(STATE_ONE, STATE_ONE, BELL_STATE_PSI_MINUS);
+    });
+
+});
+
+describe('Construct the four Bell States from ket(00)', () => {
+
+    test("Create Bell State Phi Plus", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_PLUS);
+    });
+
+    test("Create Bell State Phi Minus", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        phaseZ(reg, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_MINUS);
+    });
+
+    test("Create Bell State Psi Plus", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        x(reg, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_PLUS);
+    });
+
+    test("Create Bell State Psi Minus", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        hadSingle(reg, 0);
+        cx(reg, 0, 1);
+        phaseZ(reg, 1);
+        x(reg, 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_MINUS);
     });
 
 });
