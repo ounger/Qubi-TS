@@ -3,11 +3,14 @@ import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {Circuit} from "../../circuits/circuit";
 import {cx} from "../../multi-qubit/multi-qubit-gates";
 
-export function createBernsteinVaziraniOracle(reg: QubitRegister, s: bit[]): Circuit {
+/**
+ * Creates an oracle for the given secret bit-string.
+ */
+export function createBernsteinVaziraniOracle(reg: QubitRegister, secret: bit[]): Circuit {
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {
-        if (s[qubit] === 1) {
+        if (secret[qubit] === 1) {
             circuit.addGate(() => cx(reg, qubit, numQubits - 1));
         }
     }
