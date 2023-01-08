@@ -8,17 +8,14 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
     if (reg.numQubits % 2 === 1) {
         throw new Error("The number of qubits must be divisible by 2.");
     }
-    const firstStepCircuit = new Circuit();
     const numInputQubits = reg.numQubits / 2;
 
     // Input to ket(+)
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
-        firstStepCircuit.addGate(() => hadSingle(reg, qubit));
+        hadSingle(reg, qubit);
     }
 
-    firstStepCircuit.appendCircuitToEnd(simonsOracle)
-
-    firstStepCircuit.execute();
+    simonsOracle.execute();
 
     // Measure output qubits
     const outputResult = new Array<bit>(numInputQubits);
@@ -26,14 +23,10 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
         outputResult[qubit] = reg.measureSingleQubit(numInputQubits + qubit);
     }
 
-    const secondStepCircuit = new Circuit();
-
     // Hadamard on input qubits
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
-        secondStepCircuit.addGate(() => hadSingle(reg, qubit));
+        hadSingle(reg, qubit);
     }
-
-    secondStepCircuit.execute();
 
     // Measure input qubits
     const inputResult = new Array<bit>(numInputQubits);
