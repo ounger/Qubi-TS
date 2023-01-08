@@ -48,32 +48,38 @@ export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: nu
     }
 }
 
-function swapStates(reg: QubitRegister, oneStateIndex: number, anotherStateIndex: number) {
-    let temp = reg.getStates()[oneStateIndex];
-    reg.getStates()[oneStateIndex] = reg.getStates()[anotherStateIndex];
-    reg.getStates()[anotherStateIndex] = temp;
+export function swap(reg: QubitRegister, q0: number, q1: number) {
+    cswap(reg, q0, q1); // Delegate to cswap but without control qubit
 }
 
-export function swap(reg: QubitRegister, q0: number, q1: number) {
-    // Swap q0 and q1 if q0 > q1
-    let temp = q0;
-    q0 = Math.min(q0, q1);
-    q1 = Math.max(temp, q1);
+/**
+ * The Controlled-Swap Gate is also called Fredkin Gate.
+ */
+export function cswap(reg: QubitRegister, target0: number, target1: number, control?: number, byZero = false) {
+    // Swap first and second target if firstTarget > secondTarget
+    let temp = target0;
+    target0 = Math.min(target0, target1);
+    target1 = Math.max(temp, target1);
 
     const numQubits = reg.numQubits;
-    let ttColQ0 = getTTCol(numQubits, q0);
-    let ttColQ1 = getTTCol(numQubits, q1);
+    let ttColControl = control !== undefined ? getTTCol(numQubits, control) : new Array<bit>();
+    let ttColFirstTarget = getTTCol(numQubits, target0);
+    let ttColSecondTarget = getTTCol(numQubits, target1);
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let i = 0; i < reg.getStates().length; i++) {
-        if (ttColQ0[i] !== ttColQ1[i] && !changedSwapPartnerStatesIndices.includes(i)) {
-            // Position of swapPartner is: index + sum {i = q0 + 1 to q1} 2^(numQubits - 1 - i)
-            // This Summation is equivalent to the following expression.
-            // See: https://www.wolframalpha.com/input?i=sum+x%3Da%2B1+to+b+2%5E%28n-1-x%29
-            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1) * (Math.pow(2, -q0) - Math.pow(2, -q1));
+        if ((ttColControl.length === 0 || ttColControl[i] === (byZero ? 0 : 1))
+            && ttColFirstTarget[i] !== ttColSecondTarget[i] && !changedSwapPartnerStatesIndices.includes(i)) {
+            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - target0) - Math.pow(2, numQubits - 1 - target1);
             swapStates(reg, i, swapPartnerStateIndex);
             changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
         }
     }
+}
+
+function swapStates(reg: QubitRegister, oneStateIndex: number, anotherStateIndex: number) {
+    let temp = reg.getStates()[oneStateIndex];
+    reg.getStates()[oneStateIndex] = reg.getStates()[anotherStateIndex];
+    reg.getStates()[anotherStateIndex] = temp;
 }
 
 /**
@@ -140,29 +146,6 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
     for (let state = 0; state < reg.getStates().length; state++) {
         if (ttColQ0[state] === 1 && ttColQ1[state] === 1) {
             reg.getStates()[state] = reg.getStates()[state].mul(expOfiTimesAngle);
-        }
-    }
-}
-
-/**
- * The CSWAP Gate is also called Fredkin Gate.
- */
-export function cswap(reg: QubitRegister, control: number, firstTargetQubit: number, secondTargetQubit: number, byZero = false) {
-    // Swap firstTarget and secondTarget if firstTarget > secondTarget
-    let temp = firstTargetQubit;
-    firstTargetQubit = Math.min(firstTargetQubit, secondTargetQubit);
-    secondTargetQubit = Math.max(temp, secondTargetQubit);
-
-    const numQubits = reg.numQubits;
-    let ttColControl = getTTCol(numQubits, control);
-    let ttColFirstTarget = getTTCol(numQubits, firstTargetQubit);
-    let ttColSecondTarget = getTTCol(numQubits, secondTargetQubit);
-    let changedSwapPartnerStatesIndices = new Array<number>();
-    for (let i = 0; i < reg.getStates().length; i++) {
-        if (ttColControl[i] === (byZero ? 0 : 1) && ttColFirstTarget[i] !== ttColSecondTarget[i] && !changedSwapPartnerStatesIndices.includes(i)) {
-            let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - firstTargetQubit) - Math.pow(2, numQubits - 1 - secondTargetQubit);
-            swapStates(reg, i, swapPartnerStateIndex);
-            changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
         }
     }
 }

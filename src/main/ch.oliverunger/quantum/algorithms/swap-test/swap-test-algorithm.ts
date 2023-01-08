@@ -15,7 +15,7 @@ export function executeSwapTestAlgorithm(firstQubit: Qubit, secondQubit: Qubit):
     const resultQubit = Qubit.ofState(STATE_ZERO);
     const reg = QubitRegister.ofQubits(resultQubit, firstQubit, secondQubit);
     hadSingle(reg, 0);
-    cswap(reg, 0, 1, 2);
+    cswap(reg, 1, 2, 0);
     hadSingle(reg, 0);
     return 1 - reg.probabilityOfQubit(0); // Probability of measuring qubit 0 in ket(0)
 }
