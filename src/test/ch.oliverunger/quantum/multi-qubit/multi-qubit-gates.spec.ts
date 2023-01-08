@@ -892,7 +892,7 @@ describe('cswap', () => {
     test('t1 > t0', () => {
         // The implementation behind cswap swaps the indices if firstTarget > secondTarget
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 2, 1, 0);
+        cswap(reg, 0, 2, 1);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -907,7 +907,7 @@ describe('cswap', () => {
 
     test('Swap by 0', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 0, 1, 2, true);
+        cswap(reg, 2, 0, 1, true);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -923,7 +923,7 @@ describe('cswap', () => {
 
     test('3 Qubits - c t0 t1', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 1, 2, 0);
+        cswap(reg, 0, 1, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -938,7 +938,7 @@ describe('cswap', () => {
 
     test('3 Qubits - t0 c t1', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 0, 2, 1);
+        cswap(reg, 1, 0, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -953,7 +953,7 @@ describe('cswap', () => {
 
     test('3 Qubits - t0 t1 c', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 0, 1, 2);
+        cswap(reg, 2, 0, 1);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -968,7 +968,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c t0 t1 o', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 1, 2, 0);
+        cswap(reg, 0, 1, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -991,7 +991,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c t0 o t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 1, 3, 0);
+        cswap(reg, 0, 1, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1014,7 +1014,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c o t0 t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 2, 3, 0);
+        cswap(reg, 0, 2, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1037,7 +1037,7 @@ describe('cswap', () => {
 
     test('4 Qubits - t0 c t1 o', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 0, 2, 1);
+        cswap(reg, 1, 0, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1060,7 +1060,7 @@ describe('cswap', () => {
 
     test('4 Qubits - t0 c o t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 0, 3, 1);
+        cswap(reg, 1, 0, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1083,7 +1083,7 @@ describe('cswap', () => {
 
     test('4 Qubits - o c t0 t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 2, 3, 1);
+        cswap(reg, 1, 2, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,

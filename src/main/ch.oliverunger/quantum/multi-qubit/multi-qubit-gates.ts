@@ -49,20 +49,20 @@ export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: nu
 }
 
 export function swap(reg: QubitRegister, q0: number, q1: number) {
-    cswap(reg, q0, q1); // Delegate to cswap but without control qubit
+    cswap(reg, -1, q0, q1); // Delegate to cswap but without control qubit
 }
 
 /**
  * The Controlled-Swap Gate is also called Fredkin Gate.
  */
-export function cswap(reg: QubitRegister, target0: number, target1: number, control?: number, byZero = false) {
+export function cswap(reg: QubitRegister, control: number, target0: number, target1: number, byZero = false) {
     // Swap first and second target if firstTarget > secondTarget
     let temp = target0;
     target0 = Math.min(target0, target1);
     target1 = Math.max(temp, target1);
 
     const numQubits = reg.numQubits;
-    let ttColControl = control !== undefined ? getTTCol(numQubits, control) : new Array<bit>();
+    let ttColControl = control !== -1 ? getTTCol(numQubits, control) : new Array<bit>();
     let ttColFirstTarget = getTTCol(numQubits, target0);
     let ttColSecondTarget = getTTCol(numQubits, target1);
     let changedSwapPartnerStatesIndices = new Array<number>();
