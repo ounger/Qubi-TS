@@ -1,13 +1,13 @@
 import {Circuit} from "./circuit";
+import {QubitRegister} from "../multi-qubit/qubit-register";
+import {cx, hadSingle} from "../multi-qubit/multi-qubit-gates";
+import {bit} from "../../math/truth-table";
 import {
     BELL_STATE_PHI_MINUS,
     BELL_STATE_PHI_PLUS,
     BELL_STATE_PSI_MINUS,
-    BELL_STATE_PSI_PLUS,
-    QubitRegister
-} from "../multi-qubit/qubit-register";
-import {cx, hadSingle} from "../multi-qubit/multi-qubit-gates";
-import {bit} from "../../math/truth-table";
+    BELL_STATE_PSI_PLUS
+} from "../multi-qubit/bell-states";
 
 /**
  * Given a register of two qubits with the qubits being in a bell state it returns a Bell State analyzer circuit. <br>

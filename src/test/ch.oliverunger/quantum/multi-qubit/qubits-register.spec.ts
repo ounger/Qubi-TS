@@ -1,10 +1,4 @@
-import {
-    BELL_STATE_PHI_MINUS,
-    BELL_STATE_PHI_PLUS,
-    BELL_STATE_PSI_MINUS,
-    BELL_STATE_PSI_PLUS,
-    QubitRegister
-} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {
     Qubit,
     QUBIT_STATE_MINUS,
@@ -25,6 +19,12 @@ import {
     STATE_ZERO
 } from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {round} from '../../../../main/ch.oliverunger/math/math-util';
+import {
+    BELL_STATE_PHI_MINUS,
+    BELL_STATE_PHI_PLUS,
+    BELL_STATE_PSI_MINUS,
+    BELL_STATE_PSI_PLUS
+} from "../../../../main/ch.oliverunger/quantum/multi-qubit/bell-states";
 
 describe('probabilityOfState', () => {
 

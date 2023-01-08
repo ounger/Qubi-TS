@@ -1,15 +1,15 @@
-import {
-    BELL_STATE_PHI_MINUS,
-    BELL_STATE_PHI_PLUS,
-    BELL_STATE_PSI_MINUS,
-    BELL_STATE_PSI_PLUS,
-    QubitRegister
-} from "../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
+import {QubitRegister} from "../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
 import {
     analyzeBellState,
     createBellStateAnalyzerCircuit
 } from "../../../../main/ch.oliverunger/quantum/circuits/analyzer-circuits";
 import {expComplexArraysToBeCloseTo} from "../../test-util";
+import {
+    BELL_STATE_PHI_MINUS,
+    BELL_STATE_PHI_PLUS,
+    BELL_STATE_PSI_MINUS,
+    BELL_STATE_PSI_PLUS
+} from "../../../../main/ch.oliverunger/quantum/multi-qubit/bell-states";
 
 describe("Bell State analyzer", () => {
 

@@ -2,6 +2,8 @@ import {Complex} from '../../main/ch.oliverunger/math/complex';
 import {Qubit} from '../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {countCols, countRows} from '../../main/ch.oliverunger/math/linear-algebra';
 
+// TODO Bei vielen Qubits sind die Vergleiche langsam. Wie in expComplexArraysToBeCloseTo optimieren!
+
 export function expQubitsToBeCloseTo(q0: Qubit, q1: Qubit): void {
     expect(q0.getStateZeroAmplitude().re).toBeCloseTo(q1.getStateZeroAmplitude().re, 5);
     expect(q0.getStateZeroAmplitude().im).toBeCloseTo(q1.getStateZeroAmplitude().im, 5);
@@ -34,7 +36,14 @@ export function expNumberArraysToBeCloseTo(actual: number[], expected: number[])
 export function expComplexArraysToBeCloseTo(actual: Complex[], expected: Complex[]) {
     expect(actual.length).toEqual(expected.length);
     for (let i = 0; i < actual.length; i++) {
-        expect(actual[i].re).toBeCloseTo(expected[i].re, 5);
-        expect(actual[i].im).toBeCloseTo(expected[i].im, 5);
+        const v0Re = actual[i].re;
+        const v0Im = actual[i].im;
+        const v1Re = expected[i].re;
+        const v1Im = expected[i].im;
+        const tol = 0.00001;
+        if (!(v0Re + tol > v1Re && v0Im + tol > v1Im && v0Re - tol < v1Re && v0Im - tol < v1Im)) {
+            fail("Fail");
+        }
     }
+
 }

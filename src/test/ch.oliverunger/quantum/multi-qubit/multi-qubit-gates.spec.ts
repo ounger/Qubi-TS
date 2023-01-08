@@ -21,23 +21,32 @@ import {
     phaseS,
     phaseT,
     phaseZ,
+    rnot,
+    rnotInverse,
+    rot1,
+    rotX,
+    rotY,
+    rotZ,
     swap,
     x
 } from '../../../../main/ch.oliverunger/quantum/multi-qubit/multi-qubit-gates';
 import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../../../main/ch.oliverunger/math/complex';
-import {
-    BELL_STATE_PHI_PLUS,
-    BELL_STATE_PSI_PLUS,
-    QubitRegister
-} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {expOfiTimesAngleDegrees} from '../../../../main/ch.oliverunger/math/math-util';
 import {expComplexArraysToBeCloseTo} from '../../test-util';
 import {
+    QubitState,
+    STATE_L,
     STATE_MINUS,
     STATE_ONE,
     STATE_PLUS,
+    STATE_R,
     STATE_ZERO
 } from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
+import {
+    BELL_STATE_PHI_PLUS,
+    BELL_STATE_PSI_PLUS
+} from "../../../../main/ch.oliverunger/quantum/multi-qubit/bell-states";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);
@@ -739,8 +748,8 @@ describe('Uebereinstimmung bei vielen Qubits Test', () => {
 //             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
 //         hadSingle(reg0, 0);
 //
-//         let q0 = QUBIT_STATE_ZERO;
-//         q0 = had(q0);
+//         let q0 = Qubit.ofState(STATE_ZERO);
+//         q0.had();
 //         let reg1 = QubitRegister.ofQubits(
 //             q0, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
 //             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
@@ -749,8 +758,7 @@ describe('Uebereinstimmung bei vielen Qubits Test', () => {
 //             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO,
 //             QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
 //
-//         // expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
-//
+//         expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
 //     });
 //
 // });
@@ -883,6 +891,234 @@ describe('hadMulti', () => {
 
     test('H tensor H on ket(11) -> ket(--)', () => {
         // TODO
+    });
+
+});
+
+describe("Rot1", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, angleDegrees: number, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rot1(reg0, applyToQubit, angleDegrees);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rot1(angleDegrees);
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rot1(angleDegrees);
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe("RotX", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, angleDegrees: number, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rotX(reg0, applyToQubit, angleDegrees);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rotX(angleDegrees);
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rotX(angleDegrees);
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe("RotY", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, angleDegrees: number, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rotY(reg0, applyToQubit, angleDegrees);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rotY(angleDegrees);
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rotY(angleDegrees);
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe("RotZ", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 90, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 180, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, angleDegrees: number, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rotZ(reg0, applyToQubit, angleDegrees);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rotZ(angleDegrees);
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rotZ(angleDegrees);
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe("RNOT", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rnot(reg0, applyToQubit);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rnot();
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rnot();
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe("RNOT Inverse", () => {
+
+    function applyTest(firstQubitState: QubitState, secondQubitState: QubitState) {
+        applyTestToQubit(firstQubitState, secondQubitState, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 0);
+        applyTestToQubit(firstQubitState, secondQubitState, 1);
+        applyTestToQubit(firstQubitState, secondQubitState, 1);
+    }
+
+    function applyTestToQubit(firstQubitState: QubitState, secondQubitState: QubitState, applyToQubit: number) {
+        const reg0 = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
+        rnotInverse(reg0, applyToQubit);
+
+        const firstQubit = Qubit.ofState(firstQubitState);
+        if (applyToQubit === 0) {
+            firstQubit.rnotInverse();
+        }
+        const secondQubit = Qubit.ofState(secondQubitState);
+        if (applyToQubit === 1) {
+            secondQubit.rnotInverse();
+        }
+        const reg1 = QubitRegister.ofQubits(firstQubit, secondQubit);
+
+        expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
+    }
+
+    test('Test cases', () => {
+        applyTest(STATE_ZERO, STATE_ZERO);
+        applyTest(STATE_ZERO, STATE_ONE);
+        applyTest(STATE_ONE, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_ONE);
+        applyTest(STATE_PLUS, STATE_ZERO);
+        applyTest(STATE_ONE, STATE_MINUS);
+        applyTest(STATE_R, STATE_L);
     });
 
 });
