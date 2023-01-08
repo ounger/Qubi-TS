@@ -1,10 +1,10 @@
-import {QubitRegister} from "../../../multi-qubit/qubit-register";
-import {cx, hadSingle, phaseZ, x} from "../../../multi-qubit/multi-qubit-gates";
-import {STATE_ZERO} from "../../../single-qubit/qubit-state";
-import {Qubit} from "../../../single-qubit/qubit";
-import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../analyzer-circuits";
-import {bit} from "../../../../math/truth-table";
-import {BELL_STATE_PHI_MINUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS} from "../../../multi-qubit/bell-states";
+import {Qubit} from "../../single-qubit/qubit";
+import {STATE_ZERO} from "../../single-qubit/qubit-state";
+import {bit} from "../../../math/truth-table";
+import {QubitRegister} from "../../multi-qubit/qubit-register";
+import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
+import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../circuits/analyzer-circuits";
+import {BELL_STATE_PHI_MINUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS} from "../../multi-qubit/bell-states";
 
 /**
  * Entangles two separate parties (Alice and Bob) over an unknowing third party (Carol). <br>
