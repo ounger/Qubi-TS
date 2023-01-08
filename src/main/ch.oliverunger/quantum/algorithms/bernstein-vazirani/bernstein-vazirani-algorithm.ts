@@ -4,24 +4,20 @@ import {bit} from "../../../math/truth-table";
 import {hadSingle, x} from "../../multi-qubit/multi-qubit-gates";
 
 export function executeBernsteinVaziraniAlgorithm(reg: QubitRegister, bvOracle: Circuit): bit[] {
-    const circuit = new Circuit();
+    // Output qubit to ket(-)
+    x(reg, reg.numQubits - 1);
+    hadSingle(reg, reg.numQubits - 1);
 
-    // Output to ket(-)
-    circuit.addGate(() => x(reg, reg.numQubits - 1));
-    circuit.addGate(() => hadSingle(reg, reg.numQubits - 1));
-
-    // Input to ket(+)
+    // Input qubits to ket(+)
     for (let qubit = 0; qubit < reg.numQubits - 1; qubit++) {
-        circuit.addGate(() => hadSingle(reg, qubit));
+        hadSingle(reg, qubit);
     }
 
-    circuit.appendCircuitToEnd(bvOracle);
+    bvOracle.execute();
 
     for (let qubit = 0; qubit < reg.numQubits - 1; qubit++) {
-        circuit.addGate(() => hadSingle(reg, qubit));
+        hadSingle(reg, qubit);
     }
-
-    circuit.execute();
 
     const result = new Array<bit>(reg.numQubits - 1);
     for (let qubit = 0; qubit < reg.numQubits - 1; qubit++) {
