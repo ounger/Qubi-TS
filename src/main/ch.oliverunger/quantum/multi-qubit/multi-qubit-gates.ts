@@ -1,15 +1,13 @@
 import {QubitRegister} from './qubit-register';
-import {bit, getTTCol} from '../../math/truth-table';
+import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from '../../math/truth-table';
 import {degsToRads} from '../../math/math-util';
 import {Complex} from '../../math/complex';
 import {
-    getPhaseGate,
     getRot1Gate,
     getRotXGate,
     getRotYGate,
     getRotZGate,
     HADAMARD_GATE,
-    PAULI_X_GATE,
     RNOT_GATE,
     RNOT_INVERSE_GATE
 } from '../single-qubit/qubit-gates';
@@ -21,37 +19,37 @@ import {
 // TODO Sparse Matrices?
 
 export function x(reg: QubitRegister, q: number) {
-    applySingleQubitGate(reg, q, PAULI_X_GATE);
+    mct(reg, [], q);
 }
 
 /**
  * The Controlled Pauli-X gate (CNOT, CX) is a multi-qubit operation, where one qubit acts as a control and one qubit acts as a target qubit.
  * It performs a NOT operation on the target qubit only when the control qubit is in ket(1).
  */
-export function cx(reg: QubitRegister, controlQubit: number, targetQubit: number) {
-    mct(reg, [controlQubit], targetQubit);
+export function cx(reg: QubitRegister, control: number, target: number) {
+    mct(reg, [control], target);
 }
 
 /**
  * The Toffoli gate (CCNOT, CCX) acts like {@link cx}, but with two control qubits.
  */
-export function ccx(reg: QubitRegister, firstControlQubit: number, secondControlQubit: number, targetQubit: number) {
-    mct(reg, [firstControlQubit, secondControlQubit], targetQubit);
+export function ccx(reg: QubitRegister, control0: number, control1: number, target: number) {
+    mct(reg, [control0, control1], target);
 }
 
 /**
  * The Multi-Control Toffoli (MCT) acts like {@link cx}, but with an arbitrary number of control qubits.
  */
-export function mct(reg: QubitRegister, controlQubits: number[], targetQubit: number) {
+export function mct(reg: QubitRegister, controls: number[], target: number) {
     const numQubits = reg.numQubits;
     const numStates = reg.getStates().length;
-    let ttCols: bit[][] = new Array<bit[]>(controlQubits.length).fill([]).map((_, index) => {
-        return getTTCol(numQubits, controlQubits[index]);
+    let ttCols: bit[][] = new Array<bit[]>(controls.length).fill([]).map((_, index) => {
+        return getTTCol(numQubits, controls[index]);
     });
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let state = 0; state < numStates; state++) {
         if (!changedSwapPartnerStatesIndices.includes(state) && ttCols.every(ttCol => ttCol[state] === 1)) {
-            let swapPartnerStateIndex = state + Math.pow(2, numQubits - 1 - targetQubit);
+            let swapPartnerStateIndex = state + Math.pow(2, numQubits - 1 - target);
             swapStates(reg, state, swapPartnerStateIndex);
             changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
         }
@@ -114,7 +112,11 @@ export function phaseZ(reg: QubitRegister, q: number) {
 }
 
 export function phase(reg: QubitRegister, q: number, angleDegrees: number) {
-    applySingleQubitGate(reg, q, getPhaseGate(angleDegrees));
+    const phi = degsToRads(angleDegrees);
+    const expOfiTimesAngle: Complex = new Complex(Math.cos(phi), Math.sin(phi));
+    for (let state of getAllRowsWith1InCol(reg.numQubits, q)) {
+        reg.getStates()[state] = reg.getStates()[state].mul(expOfiTimesAngle);
+    }
 }
 
 /**
@@ -226,27 +228,38 @@ function applySingleQubitGate(reg: QubitRegister, q: number, gate: Complex[][]) 
     }
     const numStates = reg.getStates().length;
     const numQubits = reg.numQubits;
-    // Reverse index of target qubit
-    q = numQubits - 1 - q;
-    const powTwoQubit = Math.pow(2, q);
-    const powTwoQubitPlus1 = powTwoQubit * 2;
-    const g00 = gate[0][0];
-    const g01 = gate[0][1];
-    const g10 = gate[1][0];
-    const g11 = gate[1][1];
-    for (let g = 0; g < numStates; g += powTwoQubitPlus1) {
-        for (let i = g; i < g + powTwoQubit; i++) {
-            const t1 = g00.mul(reg.getStates()[i]).add(g01.mul(reg.getStates()[i + powTwoQubit]));
-            const t2 = g10.mul(reg.getStates()[i]).add(g11.mul(reg.getStates()[i + powTwoQubit]));
-            reg.getStates()[i] = t1;
-            reg.getStates()[i + powTwoQubit] = t2;
+    const regStatesNew = new Array<Complex>(numStates);
+    const pow2QubitMinusColMinus1 = Math.pow(2, numQubits - q - 1);
+    for (let state = 0; state < numStates; state++) {
+        const appliedGateRow = gate[getTTBitAt(numQubits, state, q)];
+        const appliedState0 = state - getTTBitAt(numQubits, state, q) * pow2QubitMinusColMinus1;
+        const appliedState1 = appliedState0 + pow2QubitMinusColMinus1;
+        regStatesNew[state] = appliedGateRow[0].mul(reg.getStates()[appliedState0])
+            .add(appliedGateRow[1].mul(reg.getStates()[appliedState1]));
+    }
+    reg.setStates(regStatesNew);
+}
+
+function applyControlledGate(reg: QubitRegister, controls: [q: number, by: bit][], target: number, gate: Complex[][]) {
+    if (gate.length !== 2 || gate[0].length !== 2 || gate[1].length !== 2) {
+        throw new Error("Not a single qubit gate!");
+    }
+    const numStates = reg.getStates().length;
+    const numQubits = reg.numQubits;
+    const regStatesNew = new Array<Complex>(numStates);
+    const pow2QubitMinusColMinus1 = Math.pow(2, numQubits - target - 1);
+    for (let state = 0; state < numStates; state++) {
+        if (controls.every(c => getTTBitAt(numQubits, state, c[0]) === c[1])) {
+            const appliedGateRow = gate[getTTBitAt(numQubits, state, target)];
+            const appliedState0 = state - getTTBitAt(numQubits, state, target) * pow2QubitMinusColMinus1;
+            const appliedState1 = appliedState0 + pow2QubitMinusColMinus1;
+            regStatesNew[state] = appliedGateRow[0].mul(reg.getStates()[appliedState0])
+                .add(appliedGateRow[1].mul(reg.getStates()[appliedState1]));
+        } else {
+            regStatesNew[state] = reg.getStates()[state];
         }
     }
+    reg.setStates(regStatesNew);
 }
-
-function applyControlledGate(reg: QubitRegister, controls: number[], targets: number[], gate: Complex[][]) {
-    // TODO
-}
-
 
 
