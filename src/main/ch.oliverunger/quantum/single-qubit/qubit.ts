@@ -1,6 +1,6 @@
 import {Complex} from '../../math/complex';
 import {QubitState, STATE_L, STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_R, STATE_ZERO} from './qubit-state';
-import {bit} from '../../math/truth-table';
+import {Bit} from '../../math/truth-table';
 import {density, inner, multiplyMatrixVector2c} from '../../math/linear-algebra';
 import {
     getPhaseGate,
@@ -22,7 +22,7 @@ import {round} from '../../math/math-util';
 
 export class Qubit {
 
-    private measuredValue: bit | null = null;
+    private measuredValue: Bit | null = null;
 
     static of(stateZeroAmplitude: Complex, stateOneAmplitude: Complex) {
         return new Qubit(stateZeroAmplitude, stateOneAmplitude);
@@ -78,7 +78,7 @@ export class Qubit {
     /**
      * Simulating a measurement
      */
-    measure(): bit {
+    measure(): Bit {
         if (this.measuredValue == null) {
             const probs = this.probabilities();
             const rand = Math.random();
@@ -88,7 +88,7 @@ export class Qubit {
         // Alternative: return this.measureInState(STATE_ZERO);
     }
 
-    measureInState(state: QubitState): bit {
+    measureInState(state: QubitState): Bit {
         if (this.measuredValue == null) {
             const prob = this.probabilityOfState(state);
             const rand = Math.random();

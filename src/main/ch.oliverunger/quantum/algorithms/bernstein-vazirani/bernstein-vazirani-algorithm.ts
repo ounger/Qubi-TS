@@ -1,9 +1,9 @@
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {Circuit} from "../../circuits/circuit";
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 import {hadSingle, x} from "../../multi-qubit/multi-qubit-gates";
 
-export function executeBernsteinVaziraniAlgorithm(reg: QubitRegister, bvOracle: Circuit): bit[] {
+export function executeBernsteinVaziraniAlgorithm(reg: QubitRegister, bvOracle: Circuit): Bit[] {
     // Output qubit to ket(-)
     x(reg, reg.numQubits - 1);
     hadSingle(reg, reg.numQubits - 1);
@@ -19,7 +19,7 @@ export function executeBernsteinVaziraniAlgorithm(reg: QubitRegister, bvOracle: 
         hadSingle(reg, qubit);
     }
 
-    const result = new Array<bit>(reg.numQubits - 1);
+    const result = new Array<Bit>(reg.numQubits - 1);
     for (let qubit = 0; qubit < reg.numQubits - 1; qubit++) {
         result[qubit] = reg.measureSingleQubit(qubit);
     }

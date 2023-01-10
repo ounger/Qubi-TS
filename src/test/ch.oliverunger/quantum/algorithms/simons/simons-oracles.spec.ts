@@ -1,5 +1,5 @@
 import {QubitRegister} from '../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
-import {bit} from '../../../../../main/ch.oliverunger/math/truth-table';
+import {Bit} from '../../../../../main/ch.oliverunger/math/truth-table';
 import {Qubit} from '../../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {_0, _1, Complex} from '../../../../../main/ch.oliverunger/math/complex';
 import {STATE_ONE, STATE_ZERO} from '../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
@@ -53,7 +53,7 @@ describe('createOneToOneSimonsOracle with 3 input qubits', () => {
 
 describe('createTwoToOneSimonsOracle with 2 input qubits', () => {
 
-    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, secret: bit[], expStates: Complex[]) {
+    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, secret: Bit[], expStates: Complex[]) {
         const firstOutputQubit = Qubit.ofState(STATE_ZERO);
         const secondOutputQubit = Qubit.ofState(STATE_ZERO);
         const reg = QubitRegister.ofQubits(firstInputQubit, secondInputQubit, firstOutputQubit, secondOutputQubit);
@@ -95,7 +95,7 @@ describe('createTwoToOneSimonsOracle with 2 input qubits', () => {
 
 describe('createSimonTwoToOneOracle with 3 input qubits', () => {
 
-    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, thirdInputQubit: Qubit, secret: bit[], expStates: Complex[]) {
+    function applyTest(firstInputQubit: Qubit, secondInputQubit: Qubit, thirdInputQubit: Qubit, secret: Bit[], expStates: Complex[]) {
         const firstOutputQubit = Qubit.ofState(STATE_ZERO);
         const secondOutputQubit = Qubit.ofState(STATE_ZERO);
         const thirdOutputQubit = Qubit.ofState(STATE_ZERO);

@@ -6,21 +6,21 @@ import {
     createBalancedDeutschJozsaOracle,
     createConstantDeutschJozsaOracle
 } from "../../../../../main/ch.oliverunger/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
-import {bit} from "../../../../../main/ch.oliverunger/math/truth-table";
+import {Bit} from "../../../../../main/ch.oliverunger/math/truth-table";
 
 describe('Deutsch-Jozsa Algorithm', () => {
 
     function applyTestConstant(numQubits: number) {
         const reg = new QubitRegister(numQubits);
         const djConstantOracle = createConstantDeutschJozsaOracle(reg);
-        const result: bit[] = executeDeutschJozsaAlgorithm(reg, djConstantOracle);
+        const result: Bit[] = executeDeutschJozsaAlgorithm(reg, djConstantOracle);
         expect(result.every(rb => rb === 0)).toBeTruthy();
     }
 
     function applyTestBalanced(numQubits: number) {
         const reg = new QubitRegister(numQubits);
         const djConstantOracle = createBalancedDeutschJozsaOracle(reg);
-        const result: bit[] = executeDeutschJozsaAlgorithm(reg, djConstantOracle);
+        const result: Bit[] = executeDeutschJozsaAlgorithm(reg, djConstantOracle);
         expect(result.every(rb => rb === 0)).toBeFalsy();
     }
 

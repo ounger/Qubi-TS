@@ -1,13 +1,13 @@
 import {QubitRegister} from "../multi-qubit/qubit-register";
 import {Circuit} from "./circuit";
-import {ccx, cx, mct} from "../multi-qubit/multi-qubit-gates";
+import {ccx, ControlQubit, cx, mct} from "../multi-qubit/multi-qubit-gates";
 import {range} from "../../util";
 
 export function createIncrementCircuit(reg: QubitRegister): Circuit {
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits; qubit++) {
-        const controls = range(qubit + 1, numQubits);
+        const controls = range(qubit + 1, numQubits).map(control => [control, 1] as ControlQubit);
         circuit.addGate(() => mct(reg, controls, qubit));
     }
     return circuit;
@@ -17,7 +17,7 @@ export function createDecrementCircuit(reg: QubitRegister): Circuit {
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits; qubit++) {
-        const controls = range(numQubits - qubit, numQubits);
+        const controls = range(numQubits - qubit, numQubits).map(control => [control, 1] as ControlQubit);
         const target = numQubits - 1 - qubit;
         circuit.addGate(() => mct(reg, controls, target));
     }
@@ -45,9 +45,9 @@ export function sub(reg: QubitRegister): Circuit {
 export function halfAdder(reg: QubitRegister, aQubitIndex: number, bQubitIndex: number,
                           sumQubitIndex: number, cQubitIndex: number) {
     const circuit = new Circuit();
-    circuit.addGate(() => cx(reg, aQubitIndex, sumQubitIndex));
-    circuit.addGate(() => cx(reg, bQubitIndex, sumQubitIndex));
-    circuit.addGate(() => ccx(reg, aQubitIndex, bQubitIndex, cQubitIndex));
+    circuit.addGate(() => cx(reg, [aQubitIndex, 1], sumQubitIndex));
+    circuit.addGate(() => cx(reg, [bQubitIndex, 1], sumQubitIndex));
+    circuit.addGate(() => ccx(reg, [[aQubitIndex, 1], [bQubitIndex, 1]], cQubitIndex));
     return circuit;
 }
 
@@ -63,11 +63,11 @@ export function halfAdder(reg: QubitRegister, aQubitIndex: number, bQubitIndex: 
 export function fullAdder(reg: QubitRegister, aQubitIndex: number, bQubitIndex: number, cInQubitIndex: number,
                           sumQubitIndex: number, cOutQubitIndex: number): Circuit {
     const circuit = new Circuit();
-    circuit.addGate(() => cx(reg, aQubitIndex, sumQubitIndex));
-    circuit.addGate(() => cx(reg, bQubitIndex, sumQubitIndex));
-    circuit.addGate(() => ccx(reg, aQubitIndex, bQubitIndex, cOutQubitIndex));
-    circuit.addGate(() => ccx(reg, aQubitIndex, cInQubitIndex, cOutQubitIndex));
-    circuit.addGate(() => ccx(reg, bQubitIndex, cInQubitIndex, cOutQubitIndex));
-    circuit.addGate(() => cx(reg, cInQubitIndex, sumQubitIndex));
+    circuit.addGate(() => cx(reg, [aQubitIndex, 1], sumQubitIndex));
+    circuit.addGate(() => cx(reg, [bQubitIndex, 1], sumQubitIndex));
+    circuit.addGate(() => ccx(reg, [[aQubitIndex, 1], [bQubitIndex, 1]], cOutQubitIndex));
+    circuit.addGate(() => ccx(reg, [[aQubitIndex, 1], [cInQubitIndex, 1]], cOutQubitIndex));
+    circuit.addGate(() => ccx(reg, [[bQubitIndex, 1], [cInQubitIndex, 1]], cOutQubitIndex));
+    circuit.addGate(() => cx(reg, [cInQubitIndex, 1], sumQubitIndex));
     return circuit;
 }

@@ -1,6 +1,6 @@
 import {getNumberAsBitArray} from "../util";
 
-export type bit = 0 | 1;
+export type Bit = 0 | 1;
 
 /**
  * This function returns an array of all row-indices of a truth table of n variables
@@ -25,17 +25,17 @@ export function getAllRowsWith1InCol(numCols: number, col: number): number[] {
     return result;
 }
 
-export function getTTCol(numCols: number, col: number): bit[] {
+export function getTTCol(numCols: number, col: number): Bit[] {
     return [...Array(Math.pow(2, numCols)).keys()].map(index => getTTBitAt(numCols, index, col));
 }
 
-export function getTTBitAt(numCols: number, row: number, col: number): bit {
+export function getTTBitAt(numCols: number, row: number, col: number): Bit {
     return (row & (1 << numCols - 1 - col)) != 0 ? 1 : 0;
 }
 
-export function getTT(numCols: number): bit[][] {
+export function getTT(numCols: number): Bit[][] {
     const numRows = countRows(numCols);
-    let tt: bit[][] = new Array<bit[]>(numRows).fill([]).map(_ => new Array<bit>().fill(0));
+    let tt: Bit[][] = new Array<Bit[]>(numRows).fill([]).map(_ => new Array<Bit>().fill(0));
     for (let row = 0; row < numRows; row++) {
         let rowAsBitArray = getNumberAsBitArray(row, numCols);
         for (let col = 0; col < numCols; col++) {

@@ -1,17 +1,17 @@
 import {getBitArrayAsNumber, range, xor} from '../../main/ch.oliverunger/util';
-import {bit} from "../../main/ch.oliverunger/math/truth-table";
+import {Bit} from "../../main/ch.oliverunger/math/truth-table";
 
 describe('xor', () => {
 
     test('Invalid input', () => {
-        const ba0: bit[] = [0, 1, 1];
-        const ba1: bit[] = [0, 1];
+        const ba0: Bit[] = [0, 1, 1];
+        const ba1: Bit[] = [0, 1];
         expect(() => xor(ba0, ba1)).toThrowError();
     });
 
     test('Valid input', () => {
-        const ba0: bit[] = [0, 1, 0, 1];
-        const ba1: bit[] = [0, 0, 1, 1];
+        const ba0: Bit[] = [0, 1, 0, 1];
+        const ba1: Bit[] = [0, 0, 1, 1];
         expect(xor(ba0, ba1)).toEqual([0, 1, 1, 0]);
     });
 

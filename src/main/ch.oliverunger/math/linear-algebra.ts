@@ -1,5 +1,5 @@
 import {_0, Complex} from './complex';
-import {bit, getTTBitAt} from './truth-table';
+import {Bit, getTTBitAt} from './truth-table';
 import {Vector2c} from './vector2c';
 import {range} from '../util';
 
@@ -45,7 +45,7 @@ export function multiplyMatrices(m0: Complex[][], m1: Complex[][]): Complex[][] 
     return matrixResult;
 }
 
-export function dotBinary(secret: bit[], z: bit[]): number {
+export function dotBinary(secret: Bit[], z: Bit[]): number {
     let accum = 0
     for (let i = 0; i < secret.length; i++) {
         accum += secret[i] * z[i];

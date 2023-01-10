@@ -1,7 +1,7 @@
 import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../math/complex';
 import {Qubit} from '../single-qubit/qubit';
 import {density, multiplyMatrices, tensorVectors, trace} from '../../math/linear-algebra';
-import {bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
+import {Bit, getAllRowsWith1InCol, getTTCol} from '../../math/truth-table';
 import {round} from '../../math/math-util';
 import {rotateArray} from '../../util';
 
@@ -9,7 +9,7 @@ export class QubitRegister {
 
     private measuredValue: number | null = null;
     // noinspection TypeScriptFieldCanBeMadeReadonly
-    private measuredValuesQubits: (bit | null)[];
+    private measuredValuesQubits: (Bit | null)[];
     // noinspection TypeScriptFieldCanBeMadeReadonly
     private states: Complex[];
 
@@ -67,7 +67,7 @@ export class QubitRegister {
     constructor(private _numQubits: number) {
         this.states = new Array<Complex>(Math.pow(2, _numQubits)).fill(_0);
         this.getStates()[0] = _1;
-        this.measuredValuesQubits = new Array<bit | null>(_numQubits).fill(null);
+        this.measuredValuesQubits = new Array<Bit | null>(_numQubits).fill(null);
     }
 
     public getStates(): Complex[] {
@@ -107,7 +107,7 @@ export class QubitRegister {
         return this.getStates().map(state => state.re * state.re + state.im * state.im);
     }
 
-    measureSingleQubit(q: number): bit {
+    measureSingleQubit(q: number): Bit {
         // https://andisama.medium.com/qubit-an-intuition-3-quantum-measurement-full-and-partial-qubits-969340a6fb3
         // https://learn.microsoft.com/en-us/azure/quantum/concepts-multiple-qubits
         if (this.measuredValuesQubits[q] === null) {  // Don't use !this.measuredValue here, because of 0 = false (Falsy value of type number)

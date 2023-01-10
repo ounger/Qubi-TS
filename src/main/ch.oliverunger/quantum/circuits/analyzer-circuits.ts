@@ -1,7 +1,7 @@
 import {Circuit} from "./circuit";
 import {QubitRegister} from "../multi-qubit/qubit-register";
 import {cx, hadSingle} from "../multi-qubit/multi-qubit-gates";
-import {bit} from "../../math/truth-table";
+import {Bit} from "../../math/truth-table";
 import {
     BELL_STATE_PHI_MINUS,
     BELL_STATE_PHI_PLUS,
@@ -15,7 +15,7 @@ import {
  */
 export function createBellStateAnalyzerCircuit(reg: QubitRegister, q0: number, q1: number): Circuit {
     const circuit = new Circuit();
-    circuit.addGate(() => cx(reg, q0, q1));
+    circuit.addGate(() => cx(reg, [q0, 1], q1));
     circuit.addGate(() => hadSingle(reg, q0));
     // TODO Umschreiben, sodass gemessene Bits direkt auf Klassiche Bits geschrieben werden.
     // TODO circuit.addGate(() => measureSingleQubit(reg, q0, c0)); Write to classical bit 0
@@ -23,7 +23,7 @@ export function createBellStateAnalyzerCircuit(reg: QubitRegister, q0: number, q
     return circuit;
 }
 
-export function analyzeBellState(b0: bit, b1: bit):
+export function analyzeBellState(b0: Bit, b1: Bit):
     typeof BELL_STATE_PHI_PLUS |
     typeof BELL_STATE_PHI_MINUS |
     typeof BELL_STATE_PSI_PLUS |

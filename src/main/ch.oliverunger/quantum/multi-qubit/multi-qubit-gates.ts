@@ -1,5 +1,5 @@
 import {QubitRegister} from './qubit-register';
-import {bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from '../../math/truth-table';
+import {Bit, getAllRowsWith1InCol, getTTBitAt, getTTCol} from '../../math/truth-table';
 import {degsToRads} from '../../math/math-util';
 import {Complex} from '../../math/complex';
 import {
@@ -12,11 +12,15 @@ import {
     RNOT_INVERSE_GATE
 } from '../single-qubit/qubit-gates';
 
-// TODO Controlled Gates but c shall be 0
-
 // TODO Die Wurzel kuerzen! SQRT = getSqrt(digitFractions)
 
 // TODO Sparse Matrices?
+
+/**
+ * @param q Index of the qubit in the register
+ * @param by Controlled by 0 or 1
+ */
+export type ControlQubit = [q: number, by: Bit];
 
 export function x(reg: QubitRegister, q: number) {
     mct(reg, [], q);
@@ -26,29 +30,30 @@ export function x(reg: QubitRegister, q: number) {
  * The Controlled Pauli-X gate (CNOT, CX) is a multi-qubit operation, where one qubit acts as a control and one qubit acts as a target qubit.
  * It performs a NOT operation on the target qubit only when the control qubit is in ket(1).
  */
-export function cx(reg: QubitRegister, control: number, target: number) {
+export function cx(reg: QubitRegister, control: ControlQubit, target: number) {
     mct(reg, [control], target);
 }
 
 /**
  * The Toffoli gate (CCNOT, CCX) acts like {@link cx}, but with two control qubits.
  */
-export function ccx(reg: QubitRegister, control0: number, control1: number, target: number) {
-    mct(reg, [control0, control1], target);
+export function ccx(reg: QubitRegister, controls: ControlQubit[], target: number) {
+    if (controls.length !== 2) {
+        throw new Error("CCX expects exactly two control qubits!");
+    }
+    mct(reg, controls, target);
 }
 
 /**
  * The Multi-Control Toffoli (MCT) acts like {@link cx}, but with an arbitrary number of control qubits.
  */
-export function mct(reg: QubitRegister, controls: number[], target: number) {
+export function mct(reg: QubitRegister, controls: ControlQubit[], target: number) {
     const numQubits = reg.numQubits;
     const numStates = reg.getStates().length;
-    let ttCols: bit[][] = new Array<bit[]>(controls.length).fill([]).map((_, index) => {
-        return getTTCol(numQubits, controls[index]);
-    });
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let state = 0; state < numStates; state++) {
-        if (!changedSwapPartnerStatesIndices.includes(state) && ttCols.every(ttCol => ttCol[state] === 1)) {
+        if (!changedSwapPartnerStatesIndices.includes(state)
+            && controls.every(control => getTTBitAt(numQubits, state, control[0]) === control[1])) {
             let swapPartnerStateIndex = state + Math.pow(2, numQubits - 1 - target);
             swapStates(reg, state, swapPartnerStateIndex);
             changedSwapPartnerStatesIndices.push(swapPartnerStateIndex);
@@ -57,25 +62,25 @@ export function mct(reg: QubitRegister, controls: number[], target: number) {
 }
 
 export function swap(reg: QubitRegister, q0: number, q1: number) {
-    cswap(reg, -1, q0, q1); // Delegate to cswap but without control qubit
+    cswap(reg, null, q0, q1); // Delegate to cswap but without control qubit
 }
 
 /**
  * The Controlled-Swap Gate is also called Fredkin Gate.
  */
-export function cswap(reg: QubitRegister, control: number, target0: number, target1: number, byZero = false) {
+export function cswap(reg: QubitRegister, control: ControlQubit | null, target0: number, target1: number) {
     // Swap first and second target if firstTarget > secondTarget
     let temp = target0;
     target0 = Math.min(target0, target1);
     target1 = Math.max(temp, target1);
 
     const numQubits = reg.numQubits;
-    let ttColControl = control !== -1 ? getTTCol(numQubits, control) : new Array<bit>();
+    let ttColControl = control !== null ? getTTCol(numQubits, control[0]) : new Array<Bit>();
     let ttColFirstTarget = getTTCol(numQubits, target0);
     let ttColSecondTarget = getTTCol(numQubits, target1);
     let changedSwapPartnerStatesIndices = new Array<number>();
     for (let i = 0; i < reg.getStates().length; i++) {
-        if ((ttColControl.length === 0 || ttColControl[i] === (byZero ? 0 : 1))
+        if ((ttColControl.length === 0 || ttColControl[i] === control![1])
             && ttColFirstTarget[i] !== ttColSecondTarget[i] && !changedSwapPartnerStatesIndices.includes(i)) {
             let swapPartnerStateIndex = i + Math.pow(2, numQubits - 1 - target0) - Math.pow(2, numQubits - 1 - target1);
             swapStates(reg, i, swapPartnerStateIndex);
@@ -240,7 +245,7 @@ function applySingleQubitGate(reg: QubitRegister, q: number, gate: Complex[][]) 
     reg.setStates(regStatesNew);
 }
 
-function applyControlledGate(reg: QubitRegister, controls: [q: number, by: bit][], target: number, gate: Complex[][]) {
+function applyControlledGate(reg: QubitRegister, controls: ControlQubit[], target: number, gate: Complex[][]) {
     if (gate.length !== 2 || gate[0].length !== 2 || gate[1].length !== 2) {
         throw new Error("Not a single qubit gate!");
     }

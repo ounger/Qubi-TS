@@ -1,10 +1,10 @@
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {Circuit} from "../../circuits/circuit";
 import {hadSingle} from "../../multi-qubit/multi-qubit-gates";
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 import {xor} from "../../../util";
 
-export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit): bit[] {
+export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit): Bit[] {
     if (reg.numQubits % 2 === 1) {
         throw new Error("The number of qubits must be divisible by 2.");
     }
@@ -18,7 +18,7 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
     simonsOracle.execute();
 
     // Measure output qubits
-    const outputResult = new Array<bit>(numInputQubits);
+    const outputResult = new Array<Bit>(numInputQubits);
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
         outputResult[qubit] = reg.measureSingleQubit(numInputQubits + qubit);
     }
@@ -29,7 +29,7 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
     }
 
     // Measure input qubits
-    const inputResult = new Array<bit>(numInputQubits);
+    const inputResult = new Array<Bit>(numInputQubits);
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
         inputResult[qubit] = reg.measureSingleQubit(qubit);
     }
@@ -46,7 +46,7 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
  * Simon's algorithm.
  * @throws {LinearlyDependentMeasurementsException}
  */
-export function solve(measurements: bit[][]): bit[] {
+export function solve(measurements: Bit[][]): Bit[] {
     // Implementation described here:
     // See https://quantumcomputing.stackexchange.com/a/29407/22394
     validateMeasurements(measurements);
@@ -60,7 +60,7 @@ export function solve(measurements: bit[][]): bit[] {
     } else {
         index = measurements.length;
     }
-    let result = new Array<bit>();
+    let result = new Array<Bit>();
     for (let row = 0; row < index; row++) {
         result.push(measurements[row][index]);
     }
@@ -71,7 +71,7 @@ export function solve(measurements: bit[][]): bit[] {
     return result;
 }
 
-function validateMeasurements(measurements: bit[][]) {
+function validateMeasurements(measurements: Bit[][]) {
     if (measurements == null || measurements.length < 1) {
         throw new Error("No measurements given!");
     }
@@ -97,7 +97,7 @@ function validateMeasurements(measurements: bit[][]) {
 /**
  * @throws {LinearlyDependentMeasurementsException}
  */
-function reduceToRef(measurements: bit[][]) {
+function reduceToRef(measurements: Bit[][]) {
     const cols = measurements[0].length;
 
     // Reduce to ref
@@ -115,13 +115,13 @@ function reduceToRef(measurements: bit[][]) {
     }
 }
 
-function measurementsContainZeroVector(measurements: bit[][]): boolean {
+function measurementsContainZeroVector(measurements: Bit[][]): boolean {
     return measurements.some(m => m.flat().every(b => b === 0));
 }
 
-function reorderRowsBy1InCol(measurements: bit[][], col: number): number {
-    let maskRowsWith1 = new Array<bit[]>();
-    let maskRowsWith0 = new Array<bit[]>();
+function reorderRowsBy1InCol(measurements: Bit[][], col: number): number {
+    let maskRowsWith1 = new Array<Bit[]>();
+    let maskRowsWith0 = new Array<Bit[]>();
     for (let row = col; row < measurements.length; row++) {
         if (measurements[row][col] === 1) {
             maskRowsWith1.push(measurements[row]);
@@ -138,7 +138,7 @@ function reorderRowsBy1InCol(measurements: bit[][], col: number): number {
     return maskRowsWith1.length;
 }
 
-function applyXORs(measurements: bit[][], col: number, maskSum: number) {
+function applyXORs(measurements: Bit[][], col: number, maskSum: number) {
     for (let i = 0; i < maskSum - 1; i++) {
         // maskSum - 1 because the first row with 1 in this column should stay
         // and all the orders shall get a 0 in this column
@@ -146,7 +146,7 @@ function applyXORs(measurements: bit[][], col: number, maskSum: number) {
     }
 }
 
-function transformRefToRref(measurements: bit[][]) {
+function transformRefToRref(measurements: Bit[][]) {
     for (let row = 1; row < measurements.length; row++) {
         let indexFirstColWith1InRow = measurements[row].indexOf(1);
         for (let i = 0; i < row; i++) {
@@ -157,7 +157,7 @@ function transformRefToRref(measurements: bit[][]) {
     }
 }
 
-function findIndicesWithDiagZero(measurements: bit[][]): number[] {
+function findIndicesWithDiagZero(measurements: Bit[][]): number[] {
     let indicesWithDiagZero = new Array<number>();
     for (let row = 0; row < measurements.length; row++) {
         if (measurements[row][row] === 0) {

@@ -1,4 +1,4 @@
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 import {Qubit} from "../../single-qubit/qubit";
 import {STATE_ZERO} from "../../single-qubit/qubit-state";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
@@ -11,14 +11,14 @@ import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
  * but can only transport one qubit physically to Bob.
  * @return Bob's measurement will correspond to the encoded classical bits.
  */
-export function executeSuperdenseCodingAlgorithm(message: [b0: bit, b1: bit]): [b0: bit, b1: bit] {
+export function executeSuperdenseCodingAlgorithm(message: [b0: Bit, b1: Bit]): [b0: Bit, b1: Bit] {
     const alicesQubit = Qubit.ofState(STATE_ZERO);
     const bobsQubit = Qubit.ofState(STATE_ZERO);
     const reg = QubitRegister.ofQubits(alicesQubit, bobsQubit);
 
     // Create an entanglement (Bell State Phi Plus)
     hadSingle(reg, 0);
-    cx(reg, 0, 1);
+    cx(reg, [0, 1], 1);
 
     // Now encode the message
     if (message[1] === 1) {
@@ -33,7 +33,7 @@ export function executeSuperdenseCodingAlgorithm(message: [b0: bit, b1: bit]): [
 
     // Now Alice transports her qubit to Bob.
     // Bob disentangles the qubits
-    cx(reg, 0, 1);
+    cx(reg, [0, 1], 1);
     hadSingle(reg, 0);
 
     // Bob measures the qubits

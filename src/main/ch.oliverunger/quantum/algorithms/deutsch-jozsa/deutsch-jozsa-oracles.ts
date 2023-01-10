@@ -39,7 +39,7 @@ export function createBalancedDeutschJozsaOracle(reg: QubitRegister): Circuit {
 
     // The core balanced function
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {
-        circuit.addGate(() => cx(reg, qubit, numQubits - 1));
+        circuit.addGate(() => cx(reg, [qubit, 1], numQubits - 1));
     }
 
     // We have to apply the X-Gates at the same qubits again we did for the variation

@@ -7,7 +7,7 @@ import {
     fullAdder,
     halfAdder
 } from '../../../../main/ch.oliverunger/quantum/circuits/arithmetic-circuits';
-import {bit} from "../../../../main/ch.oliverunger/math/truth-table";
+import {Bit} from "../../../../main/ch.oliverunger/math/truth-table";
 import {Qubit} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
 import {STATE_ONE, STATE_ZERO} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
 
@@ -117,7 +117,7 @@ describe('Sub', () => {
 
 describe('Half Adder', () => {
 
-    function applyTest(aValue: bit, bValue: bit, expCValue: bit, expSumValue: bit) {
+    function applyTest(aValue: Bit, bValue: Bit, expCValue: Bit, expSumValue: Bit) {
         const aQubit = aValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
         const bQubit = bValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
         const reg = QubitRegister.ofQubits(aQubit, bQubit, Qubit.ofState(STATE_ZERO), Qubit.ofState(STATE_ZERO));
@@ -140,7 +140,7 @@ describe('Half Adder', () => {
 
 describe('Full Adder', () => {
 
-    function applyTest(aValue: bit, bValue: bit, cInValue: bit, expCOutValue: bit, expSumValue: bit) {
+    function applyTest(aValue: Bit, bValue: Bit, cInValue: Bit, expCOutValue: Bit, expSumValue: Bit) {
         const aQubit = aValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
         const bQubit = bValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);
         const cInQubit = cInValue === 0 ? Qubit.ofState(STATE_ZERO) : Qubit.ofState(STATE_ONE);

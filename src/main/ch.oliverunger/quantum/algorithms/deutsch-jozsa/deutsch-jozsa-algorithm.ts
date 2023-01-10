@@ -1,9 +1,9 @@
 import {Circuit} from "../../circuits/circuit";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {hadSingle, x} from "../../multi-qubit/multi-qubit-gates";
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 
-export function executeDeutschJozsaAlgorithm(reg: QubitRegister, djOracle: Circuit): bit[] {
+export function executeDeutschJozsaAlgorithm(reg: QubitRegister, djOracle: Circuit): Bit[] {
     const numQubits = reg.numQubits;
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {
         hadSingle(reg, qubit);
@@ -17,7 +17,7 @@ export function executeDeutschJozsaAlgorithm(reg: QubitRegister, djOracle: Circu
         hadSingle(reg, qubit);
     }
 
-    const result = new Array<bit>(numQubits - 1);
+    const result = new Array<Bit>(numQubits - 1);
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {
         result[qubit] = reg.measureSingleQubit(qubit);
     }

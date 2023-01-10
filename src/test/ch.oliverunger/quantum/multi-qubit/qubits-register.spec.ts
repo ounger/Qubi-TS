@@ -554,7 +554,7 @@ describe('Construct the four Bell States', () => {
     function applyTest(firstQubitState: QubitState, secondQubitState: QubitState, expBellState: Complex[]) {
         const reg = QubitRegister.ofQubits(Qubit.ofState(firstQubitState), Qubit.ofState(secondQubitState));
         hadSingle(reg, 0);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expComplexArraysToBeCloseTo(reg.getStates(), expBellState);
     }
 
@@ -581,14 +581,14 @@ describe('Construct the four Bell States from ket(00)', () => {
     test("Create Bell State Phi Plus", () => {
         const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg, 0);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_PLUS);
     });
 
     test("Create Bell State Phi Minus", () => {
         const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg, 0);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         phaseZ(reg, 1);
         expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PHI_MINUS);
     });
@@ -596,7 +596,7 @@ describe('Construct the four Bell States from ket(00)', () => {
     test("Create Bell State Psi Plus", () => {
         const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg, 0);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         x(reg, 1);
         expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_PLUS);
     });
@@ -604,7 +604,7 @@ describe('Construct the four Bell States from ket(00)', () => {
     test("Create Bell State Psi Minus", () => {
         const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
         hadSingle(reg, 0);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         phaseZ(reg, 1);
         x(reg, 1);
         expComplexArraysToBeCloseTo(reg.getStates(), BELL_STATE_PSI_MINUS);

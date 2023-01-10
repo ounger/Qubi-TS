@@ -1,4 +1,4 @@
-import {bit} from "../../../../../main/ch.oliverunger/math/truth-table";
+import {Bit} from "../../../../../main/ch.oliverunger/math/truth-table";
 import {executeQRNGAlgorithm} from "../../../../../main/ch.oliverunger/quantum/algorithms/qrng/qrng-algorithm";
 
 describe('QRNG should generate 0s and 1s', () => {
@@ -8,7 +8,7 @@ describe('QRNG should generate 0s and 1s', () => {
         let counter = 0;
         while ((!hasZero || !hasOne) && counter < 100) {
             counter++;
-            const rand: bit = executeQRNGAlgorithm();
+            const rand: Bit = executeQRNGAlgorithm();
             if (rand === 0 && !hasZero) {
                 hasZero = true;
             } else if (rand === 1 && !hasOne) {

@@ -1,6 +1,6 @@
 import {QubitRegister} from '../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {createSimonsOracle} from '../../../../../main/ch.oliverunger/quantum/algorithms/simons/simons-oracles';
-import {bit} from '../../../../../main/ch.oliverunger/math/truth-table';
+import {Bit} from '../../../../../main/ch.oliverunger/math/truth-table';
 import {
     executeSimonsAlgorithm,
     LinearlyDependentMeasurementsException,
@@ -11,7 +11,7 @@ import {dotBinary} from '../../../../../main/ch.oliverunger/math/linear-algebra'
 
 describe('Testing Simons Algorithm', () => {
 
-    function contains(measurements: bit[][], measurement: bit[]) {
+    function contains(measurements: Bit[][], measurement: Bit[]) {
         let contains = false;
         for (let i = 0; i < measurements.length; i++) {
             if (getBitArrayAsNumber(measurements[i]) === getBitArrayAsNumber(measurement)) {
@@ -21,14 +21,14 @@ describe('Testing Simons Algorithm', () => {
         return contains;
     }
 
-    function applyTest(secret: bit[]) {
+    function applyTest(secret: Bit[]) {
         const secretLength = secret.length;
         let measurementsCopy;
         let measurements;
         let runAgain = true;
-        let solvedSecret: bit[];
+        let solvedSecret: Bit[];
         while (runAgain) {
-            measurements = new Array<bit[]>();
+            measurements = new Array<Bit[]>();
             while (measurements.length < secretLength - 1) { // We need at least secretLength - 1 measurements
                 // We need secretLength input qubits and secretLength output qubits
                 const reg = new QubitRegister(secretLength * 2);

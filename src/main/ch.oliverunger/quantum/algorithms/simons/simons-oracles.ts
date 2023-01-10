@@ -2,9 +2,9 @@ import {Circuit} from "../../circuits/circuit";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {cx} from "../../multi-qubit/multi-qubit-gates";
 import {getNumberAsBitArray} from "../../../util";
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 
-export function createSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
+export function createSimonsOracle(reg: QubitRegister, secret: Bit[]): Circuit {
     if (reg.numQubits % 2 === 1) {
         throw new Error("The number of qubits must be divisible by 2.");
     }
@@ -25,7 +25,7 @@ function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
     const circuit = new Circuit();
     const numInputQubits = reg.numQubits / 2;
     for (let inputQubit = 0; inputQubit < numInputQubits; inputQubit++) {
-        circuit.addGate(() => cx(reg, inputQubit, numInputQubits + inputQubit));
+        circuit.addGate(() => cx(reg, [inputQubit, 1], numInputQubits + inputQubit));
     }
     return circuit;
 }
@@ -35,7 +35,7 @@ function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
  * register with n input qubits and n output qubits. <br>
  * See {@link https://quantumcomputing.stackexchange.com/questions/15567/in-simons-algorithm-is-there-a-general-method-to-define-an-oracle-given-a-cert}
  */
-function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit {
+function createTwoToOneSimonsOracle(reg: QubitRegister, secret: Bit[]): Circuit {
     const numInputQubits = reg.numQubits / 2;
     const zeroAsBitArray = getNumberAsBitArray(0, numInputQubits);
     if (zeroAsBitArray === secret) {
@@ -46,13 +46,13 @@ function createTwoToOneSimonsOracle(reg: QubitRegister, secret: bit[]): Circuit 
 
     // Copy input to output
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
-        circuit.addGate(() => cx(reg, qubit, numInputQubits + qubit));
+        circuit.addGate(() => cx(reg, [qubit, 1], numInputQubits + qubit));
     }
 
     const mostSignificant1BitInSecret = secret.indexOf(1);
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
         if (secret[qubit] === 1) {
-            circuit.addGate(() => cx(reg, mostSignificant1BitInSecret, numInputQubits + qubit));
+            circuit.addGate(() => cx(reg, [mostSignificant1BitInSecret, 1], numInputQubits + qubit));
         }
     }
 

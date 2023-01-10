@@ -7,7 +7,7 @@ import {
 import {QubitRegister} from '../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {STATE_MINUS, STATE_PLUS, STATE_R} from '../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {Qubit} from '../../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
-import {bit} from '../../../../../main/ch.oliverunger/math/truth-table';
+import {Bit} from '../../../../../main/ch.oliverunger/math/truth-table';
 
 describe('Create QFTs', () => {
 
@@ -40,7 +40,7 @@ describe('Create QFTs', () => {
 
 describe('QFT - QFT-Inverse', () => {
 
-    function applyTest(numQubits: number, encodedNumber: bit[]) {
+    function applyTest(numQubits: number, encodedNumber: Bit[]) {
         const reg = new QubitRegister(numQubits);
         const qftCircuit = createQFTCircuit(reg, encodedNumber);
         const qftInvCircuit = createQFTInvertedCircuit(reg, encodedNumber);

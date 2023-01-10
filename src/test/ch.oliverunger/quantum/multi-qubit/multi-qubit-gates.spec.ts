@@ -56,55 +56,55 @@ describe('CX Tests: 2 Qubits', () => {
 
     test('Simple State: |00> -> |00>', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([_1, _0, _0, _0]);
     });
 
     test('Simple State: |01> -> |01>', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([_0, _1, _0, _0]);
     });
 
     test('Simple State: |10> -> |11>', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([_0, _0, _0, _1]);
     });
 
     test('Simple State: |11>  -> |10>', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([_0, _0, _1, _0]);
     });
 
     test('Superposition State: |+0> -> Bell Pair Phi-Plus', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual(BELL_STATE_PHI_PLUS);
     });
 
     test('Superposition State: |+1> -> Bell Pair Psi-Plus', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual(BELL_STATE_PSI_PLUS);
     });
 
     test('Superposition State: |-0> -> Bell Pair Phi-Minus', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_ZERO);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([ONE_OF_SQRT_TWO, _0, Complex.ofRe(-0), MINUS_ONE_OF_SQRT_TWO]);
     });
 
     test('Superposition State: |-1> -> Bell State Psi-Minus', () => {
         let reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_ONE);
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([_0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO, Complex.ofRe(-0)]);
     });
 
     test('First Qubit Target, Second Qubit Control', () => {
         let reg = createExampleRegister2Qubits();
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expect(reg.getStates()).toEqual([EX_REG_2Q_S0, EX_REG_2Q_S3, EX_REG_2Q_S2, EX_REG_2Q_S1]);
     });
 
@@ -114,42 +114,42 @@ describe('CX Tests: 3 Qubits', () => {
 
     test('First Qubit Control, Second Target', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 0, 1);
+        cx(reg, [0, 1], 1);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S2, EX_REG_3Q_S3,
             EX_REG_3Q_S6, EX_REG_3Q_S7, EX_REG_3Q_S4, EX_REG_3Q_S5]);
     });
 
     test('First Qubit Target, Second Control', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S6, EX_REG_3Q_S7,
             EX_REG_3Q_S4, EX_REG_3Q_S5, EX_REG_3Q_S2, EX_REG_3Q_S3]);
     });
 
     test('First Qubit Control, Third Target', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 0, 2);
+        cx(reg, [0, 1], 2);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S2, EX_REG_3Q_S3,
             EX_REG_3Q_S5, EX_REG_3Q_S4, EX_REG_3Q_S7, EX_REG_3Q_S6]);
     });
 
     test('First Qubit Target, Third Control', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 2, 0);
+        cx(reg, [2, 1], 0);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S5, EX_REG_3Q_S2, EX_REG_3Q_S7,
             EX_REG_3Q_S4, EX_REG_3Q_S1, EX_REG_3Q_S6, EX_REG_3Q_S3]);
     });
 
     test('Second Qubit Control, Third Target', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 1, 2);
+        cx(reg, [1, 1], 2);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S3, EX_REG_3Q_S2,
             EX_REG_3Q_S4, EX_REG_3Q_S5, EX_REG_3Q_S7, EX_REG_3Q_S6]);
     });
 
     test('Thrid Qubit Control, Second Target', () => {
         let reg = createExampleRegister3Qubits();
-        cx(reg, 2, 1);
+        cx(reg, [2, 1], 1);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S3, EX_REG_3Q_S2, EX_REG_3Q_S1,
             EX_REG_3Q_S4, EX_REG_3Q_S7, EX_REG_3Q_S6, EX_REG_3Q_S5]);
     });
@@ -369,19 +369,19 @@ describe('CCX Tests', () => {
 
     test('3 Qubits ccx(reg, c0 = 0, c1 = 1, c2 = 2)', () => {
         let reg = createExampleRegister3Qubits();
-        ccx(reg, 0, 1, 2);
+        ccx(reg, [[0, 1], [1, 1]], 2);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S2, EX_REG_3Q_S3, EX_REG_3Q_S4, EX_REG_3Q_S5, EX_REG_3Q_S7, EX_REG_3Q_S6]);
     });
 
     test('3 Qubits ccx(reg, c0 = 0, c1 = 2, c2 = 1)', () => {
         let reg = createExampleRegister3Qubits();
-        ccx(reg, 0, 2, 1);
+        ccx(reg, [[0, 1], [2, 1]], 1);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S2, EX_REG_3Q_S3, EX_REG_3Q_S4, EX_REG_3Q_S7, EX_REG_3Q_S6, EX_REG_3Q_S5]);
     });
 
     test('3 Qubits ccx(reg, c0 = 1, c1 = 2, c2 = 0)', () => {
         let reg = createExampleRegister3Qubits();
-        ccx(reg, 1, 2, 0);
+        ccx(reg, [[1, 1], [2, 1]], 0);
         expect(reg.getStates()).toEqual([EX_REG_3Q_S0, EX_REG_3Q_S1, EX_REG_3Q_S2, EX_REG_3Q_S7, EX_REG_3Q_S4, EX_REG_3Q_S5, EX_REG_3Q_S6, EX_REG_3Q_S3]);
     });
 
@@ -768,7 +768,7 @@ describe('Qiskit Examples', () => {
     test('CNOT(1, 0) on |0+> -> BELL_STATE_PHI_PLUS', () => {
         const reg = new QubitRegister(2);
         hadSingle(reg, 1);
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [ONE_OF_SQRT_TWO, _0, _0, ONE_OF_SQRT_TWO]);
     });
 
@@ -776,7 +776,7 @@ describe('Qiskit Examples', () => {
         const reg = new QubitRegister(2);
         hadSingle(reg, 0);
         hadSingle(reg, 1);
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5)]);
     });
 
@@ -785,13 +785,13 @@ describe('Qiskit Examples', () => {
         hadSingle(reg, 1);
         x(reg, 0);
         hadSingle(reg, 0);
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
     });
 
     test('Phase Kickback: CNOT(1, 0) on ket(-+) -> ket(--)', () => {
         const reg = QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_PLUS);
-        cx(reg, 1, 0);
+        cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
     });
 
@@ -803,12 +803,12 @@ describe('Reconstructing gates from other gates', () => {
         const reg0 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
         hadSingle(reg0, 0);
         hadSingle(reg0, 1);
-        cx(reg0, 1, 0);
+        cx(reg0, [1, 1], 0);
         hadSingle(reg0, 0);
         hadSingle(reg0, 1);
 
         const reg1 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
-        cx(reg1, 0, 1);
+        cx(reg1, [0, 1], 1);
 
         expComplexArraysToBeCloseTo(reg0.getStates(), reg1.getStates());
         expComplexArraysToBeCloseTo(reg0.getStates(), [_0, _0, _0, _1]);
@@ -818,7 +818,7 @@ describe('Reconstructing gates from other gates', () => {
         function applyTest(qubit0: Qubit, qubit1: Qubit) {
             const conReg = QubitRegister.ofQubits(qubit0, qubit1);
             hadSingle(conReg, 1);
-            cx(conReg, 0, 1);
+            cx(conReg, [0, 1], 1);
             hadSingle(conReg, 1);
 
             const czReg = QubitRegister.ofQubits(qubit0, qubit1);
@@ -847,9 +847,9 @@ describe('Reconstructing gates from other gates', () => {
         // This would work also if we changed the order of the CNOT gates
         function applyTest(qubit0: Qubit, qubit1: Qubit) {
             const conReg = QubitRegister.ofQubits(qubit0, qubit1);
-            cx(conReg, 1, 0);
-            cx(conReg, 0, 1);
-            cx(conReg, 1, 0);
+            cx(conReg, [1, 1], 0);
+            cx(conReg, [0, 1], 1);
+            cx(conReg, [1, 1], 0);
 
             const swap01Reg = QubitRegister.ofQubits(qubit0, qubit1);
             swap(swap01Reg, 0, 1);
@@ -1128,7 +1128,7 @@ describe('cswap', () => {
     test('t1 > t0', () => {
         // The implementation behind cswap swaps the indices if firstTarget > secondTarget
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 0, 2, 1);
+        cswap(reg, [0, 1], 2, 1);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -1143,7 +1143,7 @@ describe('cswap', () => {
 
     test('Swap by 0', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 2, 0, 1, true);
+        cswap(reg, [2, 0], 0, 1);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -1159,7 +1159,7 @@ describe('cswap', () => {
 
     test('3 Qubits - c t0 t1', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 0, 1, 2);
+        cswap(reg, [0, 1], 1, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -1174,7 +1174,7 @@ describe('cswap', () => {
 
     test('3 Qubits - t0 c t1', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 1, 0, 2);
+        cswap(reg, [1, 1], 0, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -1189,7 +1189,7 @@ describe('cswap', () => {
 
     test('3 Qubits - t0 t1 c', () => {
         let reg = createExampleRegister3Qubits();
-        cswap(reg, 2, 0, 1);
+        cswap(reg, [2, 1], 0, 1);
         expect(reg.getStates()).toEqual([
             EX_REG_3Q_S0,
             EX_REG_3Q_S1,
@@ -1204,7 +1204,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c t0 t1 o', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 0, 1, 2);
+        cswap(reg, [0, 1], 1, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1227,7 +1227,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c t0 o t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 0, 1, 3);
+        cswap(reg, [0, 1], 1, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1250,7 +1250,7 @@ describe('cswap', () => {
 
     test('4 Qubits - c o t0 t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 0, 2, 3);
+        cswap(reg, [0, 1], 2, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1273,7 +1273,7 @@ describe('cswap', () => {
 
     test('4 Qubits - t0 c t1 o', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 1, 0, 2);
+        cswap(reg, [1, 1], 0, 2);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1296,7 +1296,7 @@ describe('cswap', () => {
 
     test('4 Qubits - t0 c o t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 1, 0, 3);
+        cswap(reg, [1, 1], 0, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,
@@ -1319,7 +1319,7 @@ describe('cswap', () => {
 
     test('4 Qubits - o c t0 t1', () => {
         let reg = createExampleRegister4Qubits();
-        cswap(reg, 1, 2, 3);
+        cswap(reg, [1, 1], 2, 3);
         expect(reg.getStates()).toEqual([
             EX_REG_4Q_S0,
             EX_REG_4Q_S1,

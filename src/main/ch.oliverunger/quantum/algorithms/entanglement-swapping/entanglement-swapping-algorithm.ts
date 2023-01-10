@@ -1,6 +1,6 @@
 import {Qubit} from "../../single-qubit/qubit";
 import {STATE_ZERO} from "../../single-qubit/qubit-state";
-import {bit} from "../../../math/truth-table";
+import {Bit} from "../../../math/truth-table";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
 import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../circuits/analyzer-circuits";
@@ -11,7 +11,7 @@ import {BELL_STATE_PHI_MINUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS} from ".
  * See Wikipedia: {@link https://en.wikipedia.org/wiki/Quantum_teleportation#Entanglement_swapping} <br>
  * and Youtube: {@link https://www.youtube.com/watch?v=hxDYq09mWTo&t=276}
  */
-export function executeEntanglementSwappingAlgorithm(): bit[] {
+export function executeEntanglementSwappingAlgorithm(): Bit[] {
     const alicesQubit0 = Qubit.ofState(STATE_ZERO);
     const alicesQubit1 = Qubit.ofState(STATE_ZERO);
 
@@ -22,11 +22,11 @@ export function executeEntanglementSwappingAlgorithm(): bit[] {
 
     // Create entangled Bell State Phi Plus of Alice's qubits
     hadSingle(reg, 0);
-    cx(reg, 0, 1);
+    cx(reg, [0, 1], 1);
 
     // Create entangled Bell State Phi Plus of Bob's qubits
     hadSingle(reg, 2);
-    cx(reg, 2, 3);
+    cx(reg, [2, 1], 3);
 
     // Carol analyzes the given qubits without knowing anything about them.
     const bsa = createBellStateAnalyzerCircuit(reg, 1, 2);
