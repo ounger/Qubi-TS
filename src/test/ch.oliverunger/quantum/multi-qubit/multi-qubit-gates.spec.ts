@@ -10,6 +10,7 @@ import {
 } from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
 import {
     ccx,
+    chad,
     cphase,
     cs,
     cswap,
@@ -1119,6 +1120,58 @@ describe("RNOT Inverse", () => {
         applyTest(STATE_PLUS, STATE_ZERO);
         applyTest(STATE_ONE, STATE_MINUS);
         applyTest(STATE_R, STATE_L);
+    });
+
+});
+
+describe('Controlled Hadamard', () => {
+
+    test('ket(00), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        chad(reg, [0, 1], 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_1, _0, _0, _0]);
+    });
+
+    test('ket(10), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        chad(reg, [0, 1], 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
+    });
+
+    test('ket(01), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        chad(reg, [0, 1], 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _1, _0, _0]);
+    });
+
+    test('ket(11), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        chad(reg, [0, 1], 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]);
+    });
+
+    test('ket(00), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        chad(reg, [1, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_1, _0, _0, _0]);
+    });
+
+    test('ket(10), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        chad(reg, [1, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, _1, _0]);
+    });
+
+    test('ket(01), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        chad(reg, [1, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO]);
+    });
+
+    test('ket(11), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        chad(reg, [1, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(), [_0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO]);
     });
 
 });
