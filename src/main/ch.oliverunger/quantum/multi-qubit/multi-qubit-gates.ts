@@ -171,12 +171,14 @@ export function had(reg: QubitRegister, q: number) {
     applySingleQubitGate(reg, q, HADAMARD_GATE);
 }
 
-export function chad(reg: QubitRegister, controlQubit: number, targetQubit: number) {
-    // TODO
+// TODO Test
+export function chad(reg: QubitRegister, control: ControlQubit, target: number) {
+    applyControlledGate(reg, [control], target, HADAMARD_GATE);
 }
 
-export function mchadSingle(reg: QubitRegister, controlQubits: number[], targetQubit: number) {
-    // TODO
+// TODO Test
+export function mchad(reg: QubitRegister, controls: ControlQubit[], target: number) {
+    applyControlledGate(reg, controls, target, HADAMARD_GATE);
 }
 
 export function rot1(reg: QubitRegister, q: number, angleDegrees: number) {
