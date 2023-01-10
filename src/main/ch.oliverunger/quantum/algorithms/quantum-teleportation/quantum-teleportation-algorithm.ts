@@ -1,5 +1,5 @@
 import {QubitState, STATE_ZERO} from "../../single-qubit/qubit-state";
-import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
+import {cx, had, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
 import {Qubit} from "../../single-qubit/qubit";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {Complex} from "../../../math/complex";
@@ -18,14 +18,14 @@ export function executeQuantumTeleportationAlgorithm(message: QubitState): [mess
     const reg = QubitRegister.ofQubits(Qubit.ofState(message), alicesQubit, bobsQubit);
 
     // Create entangled Bell State Phi Plus of Alice's and Bob's qubits.
-    hadSingle(reg, 1);
+    had(reg, 1);
     cx(reg, [1, 1], 2);
 
     // Alice combines the message qubit with her qubit that is entangled with Bob's.
     cx(reg, [0, 1], 1);
 
     // Finally she applies a hadamard gate to the message qubit.
-    hadSingle(reg, 0);
+    had(reg, 0);
 
     // This creates the following state:
     // 1/2 * (

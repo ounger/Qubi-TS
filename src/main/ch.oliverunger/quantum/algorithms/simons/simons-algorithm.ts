@@ -1,6 +1,6 @@
 import {QubitRegister} from "../../multi-qubit/qubit-register";
 import {Circuit} from "../../circuits/circuit";
-import {hadSingle} from "../../multi-qubit/multi-qubit-gates";
+import {had} from "../../multi-qubit/multi-qubit-gates";
 import {Bit} from "../../../math/truth-table";
 import {xor} from "../../../util";
 
@@ -12,7 +12,7 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
 
     // Input to ket(+)
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
-        hadSingle(reg, qubit);
+        had(reg, qubit);
     }
 
     simonsOracle.execute();
@@ -25,7 +25,7 @@ export function executeSimonsAlgorithm(reg: QubitRegister, simonsOracle: Circuit
 
     // Hadamard on input qubits
     for (let qubit = 0; qubit < numInputQubits; qubit++) {
-        hadSingle(reg, qubit);
+        had(reg, qubit);
     }
 
     // Measure input qubits

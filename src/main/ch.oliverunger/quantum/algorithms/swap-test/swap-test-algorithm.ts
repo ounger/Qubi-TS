@@ -1,7 +1,7 @@
 import {Qubit} from "../../single-qubit/qubit";
 import {STATE_ZERO} from "../../single-qubit/qubit-state";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cswap, hadSingle} from "../../multi-qubit/multi-qubit-gates";
+import {cswap, had} from "../../multi-qubit/multi-qubit-gates";
 
 /**
  * The Swap Test algorithm determines if two qubits are similar or different by indirect measurement.
@@ -14,8 +14,8 @@ import {cswap, hadSingle} from "../../multi-qubit/multi-qubit-gates";
 export function executeSwapTestAlgorithm(firstQubit: Qubit, secondQubit: Qubit): number {
     const resultQubit = Qubit.ofState(STATE_ZERO);
     const reg = QubitRegister.ofQubits(resultQubit, firstQubit, secondQubit);
-    hadSingle(reg, 0);
+    had(reg, 0);
     cswap(reg, [0, 1], 1, 2);
-    hadSingle(reg, 0);
+    had(reg, 0);
     return 1 - reg.probabilityOfQubit(0); // Probability of measuring qubit 0 in ket(0)
 }

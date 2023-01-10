@@ -2,7 +2,7 @@ import {Qubit} from "../../single-qubit/qubit";
 import {STATE_ZERO} from "../../single-qubit/qubit-state";
 import {Bit} from "../../../math/truth-table";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
+import {cx, had, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
 import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../circuits/analyzer-circuits";
 import {BELL_STATE_PHI_MINUS, BELL_STATE_PSI_MINUS, BELL_STATE_PSI_PLUS} from "../../multi-qubit/bell-states";
 
@@ -21,11 +21,11 @@ export function executeEntanglementSwappingAlgorithm(): Bit[] {
     const reg = QubitRegister.ofQubits(alicesQubit0, alicesQubit1, bobsQubit0, bobsQubit1);
 
     // Create entangled Bell State Phi Plus of Alice's qubits
-    hadSingle(reg, 0);
+    had(reg, 0);
     cx(reg, [0, 1], 1);
 
     // Create entangled Bell State Phi Plus of Bob's qubits
-    hadSingle(reg, 2);
+    had(reg, 2);
     cx(reg, [2, 1], 3);
 
     // Carol analyzes the given qubits without knowing anything about them.

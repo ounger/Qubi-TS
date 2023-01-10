@@ -16,7 +16,7 @@ import {
     ct,
     cx,
     cz,
-    hadSingle,
+    had,
     phase,
     phaseS,
     phaseT,
@@ -604,7 +604,7 @@ describe('hadSingle Tests', () => {
     test('hadSingle on first qubit of |0+> -> |++>', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
-        hadSingle(reg0, 0);
+        had(reg0, 0);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -619,7 +619,7 @@ describe('hadSingle Tests', () => {
     test('hadSingle on second qubit of |0+> -> |00>', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS);
-        hadSingle(reg0, 1);
+        had(reg0, 1);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -634,7 +634,7 @@ describe('hadSingle Tests', () => {
     test('hadSingle on first qubit of |0+1> -> |++1>', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
-        hadSingle(reg0, 0);
+        had(reg0, 0);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -650,7 +650,7 @@ describe('hadSingle Tests', () => {
     test('hadSingle on second qubit of |0+1> -> |+01>', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
-        hadSingle(reg0, 1);
+        had(reg0, 1);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -666,7 +666,7 @@ describe('hadSingle Tests', () => {
     test('hadSingle on third qubit of |0+1> -> |+0->', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS, QUBIT_STATE_ONE);
-        hadSingle(reg0, 2);
+        had(reg0, 2);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -682,7 +682,7 @@ describe('hadSingle Tests', () => {
     test('TEST', () => {
         // Hadamard on the register
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        hadSingle(reg0, 0);
+        had(reg0, 0);
 
         // should be equal to applying hadamard on the qubit first and then
         // building the register
@@ -701,8 +701,8 @@ describe('Test Uebereinstimmung bei 4 Qubits', () => {
 
     test('Hadamard on first and third qubit', () => {
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO, QUBIT_STATE_MINUS, QUBIT_STATE_ONE);
-        hadSingle(reg0, 0);
-        hadSingle(reg0, 2);
+        had(reg0, 0);
+        had(reg0, 2);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         let q0 = Qubit.ofState(STATE_PLUS);
@@ -723,7 +723,7 @@ describe('Uebereinstimmung bei vielen Qubits Test', () => {
 
     test('', () => {
         let reg0 = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
-        hadSingle(reg0, 0);
+        had(reg0, 0);
         expect(reg0.probabilities().reduce((p, c) => p + c, 0)).toBeCloseTo(1, 5);
 
         let q0 = Qubit.ofState(STATE_ZERO);
@@ -767,24 +767,24 @@ describe('Qiskit Examples', () => {
 
     test('CNOT(1, 0) on |0+> -> BELL_STATE_PHI_PLUS', () => {
         const reg = new QubitRegister(2);
-        hadSingle(reg, 1);
+        had(reg, 1);
         cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [ONE_OF_SQRT_TWO, _0, _0, ONE_OF_SQRT_TWO]);
     });
 
     test('CNOT(1, 0) on |++> -> |++>', () => {
         const reg = new QubitRegister(2);
-        hadSingle(reg, 0);
-        hadSingle(reg, 1);
+        had(reg, 0);
+        had(reg, 1);
         cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5), Complex.ofRe(0.5)]);
     });
 
     test('CNOT(1, 0) on |-+> -> ket(--)', () => {
         const reg = new QubitRegister(2);
-        hadSingle(reg, 1);
+        had(reg, 1);
         x(reg, 0);
-        hadSingle(reg, 0);
+        had(reg, 0);
         cx(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [Complex.ofRe(0.5), Complex.ofRe(-0.5), Complex.ofRe(-0.5), Complex.ofRe(0.5)]);
     });
@@ -801,11 +801,11 @@ describe('Reconstructing gates from other gates', () => {
 
     test('Constructing a CNOT(0, 1) from Hadamard gates and a single CNOT(1, 0)', () => {
         const reg0 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
-        hadSingle(reg0, 0);
-        hadSingle(reg0, 1);
+        had(reg0, 0);
+        had(reg0, 1);
         cx(reg0, [1, 1], 0);
-        hadSingle(reg0, 0);
-        hadSingle(reg0, 1);
+        had(reg0, 0);
+        had(reg0, 1);
 
         const reg1 = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
         cx(reg1, [0, 1], 1);
@@ -817,9 +817,9 @@ describe('Reconstructing gates from other gates', () => {
     test('Reconstructing: CZ from Hadamards and CNOT', () => {
         function applyTest(qubit0: Qubit, qubit1: Qubit) {
             const conReg = QubitRegister.ofQubits(qubit0, qubit1);
-            hadSingle(conReg, 1);
+            had(conReg, 1);
             cx(conReg, [0, 1], 1);
-            hadSingle(conReg, 1);
+            had(conReg, 1);
 
             const czReg = QubitRegister.ofQubits(qubit0, qubit1);
             cz(czReg, 0, 1);

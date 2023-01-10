@@ -1,6 +1,6 @@
 import {Circuit} from "../../circuits/circuit";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cphase, hadSingle, swap, x} from "../../multi-qubit/multi-qubit-gates";
+import {cphase, had, swap, x} from "../../multi-qubit/multi-qubit-gates";
 import {Bit} from "../../../math/truth-table";
 import {radsToDegs} from "../../../math/math-util";
 
@@ -18,7 +18,7 @@ export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[]): Circ
     }
 
     for (let qubit = 0; qubit < reg.numQubits; qubit++) {
-        circuit.addGate(() => hadSingle(reg, qubit));
+        circuit.addGate(() => had(reg, qubit));
         for (let otherQubit = qubit + 1; otherQubit < reg.numQubits; otherQubit++) {
             const angleDegrees = radsToDegs(Math.PI / Math.pow(2, otherQubit - qubit));
             circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));
@@ -42,7 +42,7 @@ export function createQFTInvertedCircuit(reg: QubitRegister, encodedNumberAsBitA
         circuit.addGate(() => swap(reg, numQubits - 1 - qubit, qubit));
     }
     for (let qubit = reg.numQubits - 1; qubit >= 0; qubit--) {
-        circuit.addGate(() => hadSingle(reg, qubit));
+        circuit.addGate(() => had(reg, qubit));
         for (let otherQubit = qubit - 1; otherQubit >= 0; otherQubit--) {
             const angleDegrees = radsToDegs(-1 * Math.PI / Math.pow(2, qubit - otherQubit));
             circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));

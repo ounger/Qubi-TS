@@ -165,41 +165,17 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
 
 // TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
 /**
- * Applies a hadamard gate to a single qubit in a register.
+ * Applies a hadamard gate to a qubit in a register.
  */
-export function hadSingle(reg: QubitRegister, q: number) {
+export function had(reg: QubitRegister, q: number) {
     applySingleQubitGate(reg, q, HADAMARD_GATE);
 }
 
-export function hadMulti(reg: QubitRegister, qubits: number[]) {
-    // TODO
-}
-
-export function hadAll(reg: QubitRegister) {
-    // TODO
-}
-
-export function chadSingle(reg: QubitRegister, controlQubit: number, targetQubit: number) {
-    // TODO
-}
-
-export function chadMulti(reg: QubitRegister, controlQubit: number, targetQubits: number[]) {
-    // TODO
-}
-
-export function chadAll(reg: QubitRegister, controlQubit: number) {
+export function chad(reg: QubitRegister, controlQubit: number, targetQubit: number) {
     // TODO
 }
 
 export function mchadSingle(reg: QubitRegister, controlQubits: number[], targetQubit: number) {
-    // TODO
-}
-
-export function mchadMulti(reg: QubitRegister, controlQubits: number[], targetQubits: number[]) {
-    // TODO
-}
-
-export function mchadAll(reg: QubitRegister, controlQubits: number[]) {
     // TODO
 }
 

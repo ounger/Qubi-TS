@@ -2,7 +2,7 @@ import {Bit} from "../../../math/truth-table";
 import {Qubit} from "../../single-qubit/qubit";
 import {STATE_ZERO} from "../../single-qubit/qubit-state";
 import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cx, hadSingle, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
+import {cx, had, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
 
 /**
  * Superdense Coding encodes two classical bits in one qubit. <br>
@@ -17,7 +17,7 @@ export function executeSuperdenseCodingAlgorithm(message: [b0: Bit, b1: Bit]): [
     const reg = QubitRegister.ofQubits(alicesQubit, bobsQubit);
 
     // Create an entanglement (Bell State Phi Plus)
-    hadSingle(reg, 0);
+    had(reg, 0);
     cx(reg, [0, 1], 1);
 
     // Now encode the message
@@ -34,7 +34,7 @@ export function executeSuperdenseCodingAlgorithm(message: [b0: Bit, b1: Bit]): [
     // Now Alice transports her qubit to Bob.
     // Bob disentangles the qubits
     cx(reg, [0, 1], 1);
-    hadSingle(reg, 0);
+    had(reg, 0);
 
     // Bob measures the qubits
     const b0 = reg.measureSingleQubit(0);
