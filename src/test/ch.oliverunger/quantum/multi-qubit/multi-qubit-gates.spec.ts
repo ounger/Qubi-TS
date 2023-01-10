@@ -18,6 +18,7 @@ import {
     cx,
     cz,
     had,
+    mchad,
     phase,
     phaseS,
     phaseT,
@@ -1127,51 +1128,97 @@ describe("RNOT Inverse", () => {
 describe('Controlled Hadamard', () => {
 
     test('ket(00), first qubit control, second target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO); // [1, 0, 0, 0]
         chad(reg, [0, 1], 1);
         expComplexArraysToBeCloseTo(reg.getStates(), [_1, _0, _0, _0]);
     });
 
-    test('ket(10), first qubit control, second target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
-        chad(reg, [0, 1], 1);
-        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO]);
-    });
-
     test('ket(01), first qubit control, second target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE); // [0, 1, 0, 0]
         chad(reg, [0, 1], 1);
         expComplexArraysToBeCloseTo(reg.getStates(), [_0, _1, _0, _0]);
     });
 
-    test('ket(11), first qubit control, second target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+    test('ket(10), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO); // [0, 0, 1, 0]
         chad(reg, [0, 1], 1);
-        expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, ONE_OF_SQRT_TWO, MINUS_ONE_OF_SQRT_TWO]);
+        expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_PLUS).getStates());
+    });
+
+    test('ket(11), first qubit control, second target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE); // [0, 0, 0, 1]
+        chad(reg, [0, 1], 1);
+        expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_MINUS).getStates());
     });
 
     test('ket(00), second qubit control, first target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO);
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO); // [1, 0, 0, 0]
         chad(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [_1, _0, _0, _0]);
     });
 
+    test('ket(01), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE); // [0, 1, 0, 0]
+        chad(reg, [1, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ONE).getStates());
+    });
+
     test('ket(10), second qubit control, first target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ZERO); // [0, 0, 1, 0]
         chad(reg, [1, 1], 0);
         expComplexArraysToBeCloseTo(reg.getStates(), [_0, _0, _1, _0]);
     });
 
-    test('ket(01), second qubit control, first target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+    test('ket(11), second qubit control, first target', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE); // [0, 0, 0, 1]
         chad(reg, [1, 1], 0);
-        expComplexArraysToBeCloseTo(reg.getStates(), [_0, ONE_OF_SQRT_TWO, _0, ONE_OF_SQRT_TWO]);
+        expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_MINUS, QUBIT_STATE_ONE).getStates());
     });
 
-    test('ket(11), second qubit control, first target', () => {
-        const reg = QubitRegister.ofQubits(QUBIT_STATE_ONE, QUBIT_STATE_ONE);
-        chad(reg, [1, 1], 0);
-        expComplexArraysToBeCloseTo(reg.getStates(), [_0, ONE_OF_SQRT_TWO, _0, MINUS_ONE_OF_SQRT_TWO]);
+    test('ket(010) control 1, target 2', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        chad(reg, [1, 1], 2);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_PLUS).getStates());
+    });
+
+    test('ket(011) control 1, target 2', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        chad(reg, [1, 1], 2);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_MINUS).getStates());
+    });
+
+    test('ket(001) control 2, target 0', () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ZERO, QUBIT_STATE_ONE);
+        chad(reg, [2, 1], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ZERO, QUBIT_STATE_ONE).getStates());
+    });
+
+});
+
+describe('mchad', () => {
+
+    test("010, c0 = 1, c1 = 2, target = 0", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        mchad(reg, [[1, 1], [2, 1]], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ZERO).getStates());
+    });
+
+    test("011, c0 = 1, c1 = 2, target = 0", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ONE);
+        mchad(reg, [[1, 1], [2, 1]], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ONE, QUBIT_STATE_ONE).getStates());
+    });
+
+    test("010, c0 = 1, c1 = 2, target = 0 by 0", () => {
+        const reg = QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_ONE, QUBIT_STATE_ZERO);
+        mchad(reg, [[1, 1], [2, 0]], 0);
+        expComplexArraysToBeCloseTo(reg.getStates(),
+            QubitRegister.ofQubits(QUBIT_STATE_PLUS, QUBIT_STATE_ONE, QUBIT_STATE_ZERO).getStates());
     });
 
 });
