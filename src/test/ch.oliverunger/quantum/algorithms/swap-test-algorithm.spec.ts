@@ -4,11 +4,9 @@ import {
     STATE_ONE,
     STATE_PLUS,
     STATE_ZERO
-} from "../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
-import {Qubit} from "../../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
-import {
-    executeSwapTestAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/swap-test/swap-test-algorithm";
+} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
+import {Qubit} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit";
+import {executeSwapTestAlgorithm} from "../../../../main/ch.oliverunger/quantum/algorithms/swap-test-algorithm";
 
 describe('Swap test', () => {
 

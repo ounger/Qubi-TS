@@ -1,8 +1,8 @@
-import {Bit} from "../../../math/truth-table";
-import {Qubit} from "../../single-qubit/qubit";
-import {STATE_ZERO} from "../../single-qubit/qubit-state";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cx, had, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
+import {Bit} from "../../math/truth-table";
+import {Qubit} from "../single-qubit/qubit";
+import {STATE_ZERO} from "../single-qubit/qubit-state";
+import {QubitRegister} from "../multi-qubit/qubit-register";
+import {cx, had, phaseZ, x} from "../multi-qubit/multi-qubit-gates";
 
 /**
  * Superdense Coding encodes two classical bits in one qubit. <br>

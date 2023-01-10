@@ -1,6 +1,6 @@
-import {Bit} from '../../../math/truth-table';
-import {Qubit} from '../../single-qubit/qubit';
-import {STATE_ZERO} from '../../single-qubit/qubit-state';
+import {Bit} from '../../math/truth-table';
+import {Qubit} from '../single-qubit/qubit';
+import {STATE_ZERO} from '../single-qubit/qubit-state';
 
 /**
  * A Quantum Random Number Generator (QRNG) that emits a 0 or 1

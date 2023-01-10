@@ -1,8 +1,8 @@
-import {Circuit} from "../../circuits/circuit";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cphase, had, swap, x} from "../../multi-qubit/multi-qubit-gates";
-import {Bit} from "../../../math/truth-table";
-import {radsToDegs} from "../../../math/math-util";
+import {Circuit} from "../circuits/circuit";
+import {QubitRegister} from "../multi-qubit/qubit-register";
+import {cphase, had, swap, x} from "../multi-qubit/multi-qubit-gates";
+import {Bit} from "../../math/truth-table";
+import {radsToDegs} from "../../math/math-util";
 
 export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[]): Circuit {
     if (reg.numQubits !== encodedNumber.length) {

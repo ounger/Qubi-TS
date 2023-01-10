@@ -1,5 +1,5 @@
-import {Bit} from "../../../../../main/ch.oliverunger/math/truth-table";
-import {executeQRNGAlgorithm} from "../../../../../main/ch.oliverunger/quantum/algorithms/qrng/qrng-algorithm";
+import {Bit} from "../../../../main/ch.oliverunger/math/truth-table";
+import {executeQRNGAlgorithm} from "../../../../main/ch.oliverunger/quantum/algorithms/qrng-algorithm";
 
 describe('QRNG should generate 0s and 1s', () => {
     test('', () => {

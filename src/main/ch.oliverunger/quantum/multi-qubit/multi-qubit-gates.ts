@@ -14,6 +14,8 @@ import {
 
 // TODO Die Wurzel kuerzen! SQRT = getSqrt(digitFractions)
 
+// TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
+
 // TODO Sparse Matrices?
 
 /**
@@ -162,8 +164,6 @@ export function cphase(reg: QubitRegister, q0: number, q1: number, angleDegrees:
         }
     }
 }
-
-// TODO Kann man sich irgendwie States Berechnung sparen die sowieso null sind?
 /**
  * Applies a hadamard gate to a qubit in a register.
  */

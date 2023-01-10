@@ -1,6 +1,6 @@
 import {
     executeSuperdenseCodingAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/superdense-coding/superdense-coding-algorithm";
+} from "../../../../main/ch.oliverunger/quantum/algorithms/superdense-coding-algorithm";
 
 describe("Superdense Coding", () => {
 

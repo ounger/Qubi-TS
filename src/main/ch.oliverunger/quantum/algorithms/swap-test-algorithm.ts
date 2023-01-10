@@ -1,7 +1,7 @@
-import {Qubit} from "../../single-qubit/qubit";
-import {STATE_ZERO} from "../../single-qubit/qubit-state";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cswap, had} from "../../multi-qubit/multi-qubit-gates";
+import {Qubit} from "../single-qubit/qubit";
+import {STATE_ZERO} from "../single-qubit/qubit-state";
+import {QubitRegister} from "../multi-qubit/qubit-register";
+import {cswap, had} from "../multi-qubit/multi-qubit-gates";
 
 /**
  * The Swap Test algorithm determines if two qubits are similar or different by indirect measurement.

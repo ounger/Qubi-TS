@@ -1,6 +1,6 @@
 import {
     executeEntanglementSwappingAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/entanglement-swapping/entanglement-swapping-algorithm";
+} from "../../../../main/ch.oliverunger/quantum/algorithms/entanglement-swapping-algorithm";
 
 describe("Entanglement Swapping", () => {
 

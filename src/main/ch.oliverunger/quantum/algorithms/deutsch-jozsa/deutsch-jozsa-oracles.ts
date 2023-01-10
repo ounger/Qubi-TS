@@ -2,7 +2,7 @@ import {cx, x} from '../../multi-qubit/multi-qubit-gates';
 import {QubitRegister} from '../../multi-qubit/qubit-register';
 import {Circuit} from '../../circuits/circuit';
 import {getNumberAsBitArray, randomIntFromInterval} from '../../../util';
-import {executeQRNGAlgorithm} from '../qrng/qrng-algorithm';
+import {executeQRNGAlgorithm} from '../qrng-algorithm';
 
 /**
  * Returns a constant function f: {0, 1}^n -> {0, 1} as an oracle circuit.

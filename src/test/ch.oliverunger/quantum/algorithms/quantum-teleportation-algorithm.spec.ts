@@ -6,11 +6,11 @@ import {
     STATE_PLUS,
     STATE_R,
     STATE_ZERO
-} from "../../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
+} from "../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state";
 import {
     executeQuantumTeleportationAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/quantum-teleportation/quantum-teleportation-algorithm";
-import {expComplexArraysToBeCloseTo} from "../../../test-util";
+} from "../../../../main/ch.oliverunger/quantum/algorithms/quantum-teleportation-algorithm";
+import {expComplexArraysToBeCloseTo} from "../../test-util";
 
 describe("Quantum Teleportation", () => {
 

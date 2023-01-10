@@ -1,8 +1,8 @@
-import {QubitState, STATE_ZERO} from "../../single-qubit/qubit-state";
-import {cx, had, phaseZ, x} from "../../multi-qubit/multi-qubit-gates";
-import {Qubit} from "../../single-qubit/qubit";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {Complex} from "../../../math/complex";
+import {QubitState, STATE_ZERO} from "../single-qubit/qubit-state";
+import {cx, had, phaseZ, x} from "../multi-qubit/multi-qubit-gates";
+import {Qubit} from "../single-qubit/qubit";
+import {QubitRegister} from "../multi-qubit/qubit-register";
+import {Complex} from "../../math/complex";
 
 /**
  * This algorithm uses entanglement to communicate information across distant locations. <br>
