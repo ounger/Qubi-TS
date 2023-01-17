@@ -1,15 +1,5 @@
-import {
-    _0,
-    _1,
-    Complex,
-    HALF_SQRT_TWO_HALF_i_SQRT_TWO,
-    i,
-    MINUS_1,
-    MINUS_i,
-    MINUS_ONE_OF_SQRT_TWO,
-    ONE_OF_SQRT_TWO
-} from "../../math/complex";
-import {degsToRads, expOfiTimesAngleDegrees} from "../../math/math-util";
+import {_0, _1, Complex, HALF_SQRT_TWO_HALF_i_SQRT_TWO, i, MINUS_1, MINUS_i, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../math/complex';
+import {degsToRads, expOfiTimesAngleDegrees, expOfITimesAngleRadians} from '../../math/math-util';
 
 export const IDENTITY_GATE: Complex[][] = [
     [_1, _0],
@@ -47,10 +37,7 @@ export const PHASE_S_GATE: Complex[][] = [
 ];
 
 export function getPhaseGate(angleDegrees: number): Complex[][] {
-    return [
-        [_1, _0],
-        [_0, expOfiTimesAngleDegrees(angleDegrees)]
-    ];
+    return getU1Gate(degsToRads(angleDegrees));
 }
 
 export function getRotXGate(angleDegrees: number): Complex[][] {
@@ -82,10 +69,7 @@ export function getRotZGate(angleDegrees: number): Complex[][] {
 }
 
 export function getRot1Gate(angleDegrees: number): Complex[][] {
-    return [
-        [_1, _0],
-        [_0, expOfiTimesAngleDegrees(angleDegrees)]
-    ];
+    return getPhaseGate(angleDegrees);
 }
 
 export const RNOT_GATE = [
@@ -98,4 +82,28 @@ export const RNOT_INVERSE_GATE = [
     [new Complex(0.5, 0.5), new Complex(0.5, -0.5)]
 ];
 
+/**
+ * The 'discrete phase gate' or 'Rk' gate is a generalization of the phase gate. It performs rotations around the z-axis by
+ * fractional powers of 2, as in (2 * PI) / 2^k -> 2 * PI, PI, PI / 2, PI / 4, ...
+ */
+export function getRkGate(k: number): Complex[][] {
+    if (!Number.isInteger(k)) {
+        throw new Error('k has to be an integer');
+    }
+    return [
+        [_1, _0],
+        [_0, expOfITimesAngleRadians(2 * Math.PI / Math.pow(2, k))]
+    ];
+}
+
+/**
+ * The 'Phase shift' or 'Phase kick' gate is similar to the Rk gate ({@link getRkGate}),
+ * but arbitrary phase angles are allowed. <br>
+ */
+export function getU1Gate(angleRadians: number): Complex[][] {
+    return [
+        [_1, _0],
+        [_0, expOfITimesAngleRadians(angleRadians)]
+    ];
+}
 

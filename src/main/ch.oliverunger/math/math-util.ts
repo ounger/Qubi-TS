@@ -1,4 +1,4 @@
-import {Complex} from "./complex";
+import {Complex} from './complex';
 
 export function round(num: number, fractionDigits: number): number {
     return Number(num.toFixed(fractionDigits));
@@ -13,7 +13,10 @@ export function degsToRads(degs: number): number {
 }
 
 export function expOfiTimesAngleDegrees(angleDegrees: number): Complex {
-    const phi = degsToRads(angleDegrees);
-    return new Complex(Math.cos(phi), Math.sin(phi));
+    return expOfITimesAngleRadians(degsToRads(angleDegrees));
+}
+
+export function expOfITimesAngleRadians(angleRadians: number): Complex {
+    return new Complex(Math.cos(angleRadians), Math.sin(angleRadians));
 }
 

@@ -1,5 +1,5 @@
 import {multiplyMatrices, multiplyMatrixScalar} from '../../../../main/ch.oliverunger/math/linear-algebra';
-import {HADAMARD_GATE, IDENTITY_GATE, PAULI_X_GATE, PAULI_Y_GATE, PAULI_Z_GATE} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates';
+import {getRkGate, getU1Gate, HADAMARD_GATE, IDENTITY_GATE, PAULI_X_GATE, PAULI_Y_GATE, PAULI_Z_GATE} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-gates';
 import {MINUS_i} from '../../../../main/ch.oliverunger/math/complex';
 import {expComplexMatricesToBeCloseTo} from '../../test-util';
 
@@ -32,6 +32,18 @@ describe('-iXYZ = I', () => {
     test('', () => {
         expect(multiplyMatrixScalar(multiplyMatrices(multiplyMatrices(PAULI_X_GATE, PAULI_Y_GATE), PAULI_Z_GATE), MINUS_i))
             .toEqual(IDENTITY_GATE);
+    });
+
+});
+
+describe('Rk and U1', () => {
+
+    test('Test cases', () => {
+        for (let k = 0; k < 10; k++) {
+            const rkGate = getRkGate(k);
+            const u1Gate = getU1Gate(2 * Math.PI / Math.pow(2, k));
+            expComplexMatricesToBeCloseTo(rkGate, u1Gate);
+        }
     });
 
 });

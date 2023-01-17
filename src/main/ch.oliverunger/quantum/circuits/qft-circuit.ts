@@ -1,8 +1,8 @@
-import {Circuit} from "../circuits/circuit";
-import {QubitRegister} from "../multi-qubit/qubit-register";
-import {cphase, had, swap, x} from "../multi-qubit/multi-qubit-gates";
-import {Bit} from "../../math/truth-table";
-import {radsToDegs} from "../../math/math-util";
+import {Circuit} from './circuit';
+import {QubitRegister} from '../multi-qubit/qubit-register';
+import {cphase, had, swap, x} from '../multi-qubit/multi-qubit-gates';
+import {Bit} from '../../math/truth-table';
+import {radsToDegs} from '../../math/math-util';
 
 export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[]): Circuit {
     if (reg.numQubits !== encodedNumber.length) {
@@ -24,7 +24,9 @@ export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[]): Circ
             circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));
         }
     }
-    for (let qubit = 0; qubit < Math.floor(reg.numQubits / 2); qubit++) {
+
+    const floorOfHalfNumQubits = Math.floor(reg.numQubits / 2);
+    for (let qubit = 0; qubit < floorOfHalfNumQubits; qubit++) {
         circuit.addGate(() => swap(reg, qubit, reg.numQubits - qubit - 1));
     }
     return circuit;
@@ -38,7 +40,8 @@ export function createQFTInvertedCircuit(reg: QubitRegister, encodedNumberAsBitA
     }
     const circuit = new Circuit();
     const numQubits = reg.numQubits;
-    for (let qubit = 0; qubit < Math.floor(reg.numQubits / 2); qubit++) {
+    const floorOfHalfNumQubits = Math.floor(reg.numQubits / 2);
+    for (let qubit = 0; qubit < floorOfHalfNumQubits; qubit++) {
         circuit.addGate(() => swap(reg, numQubits - 1 - qubit, qubit));
     }
     for (let qubit = reg.numQubits - 1; qubit >= 0; qubit--) {

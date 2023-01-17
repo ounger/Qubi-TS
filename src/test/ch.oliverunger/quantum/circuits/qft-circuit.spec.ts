@@ -1,9 +1,6 @@
 import {expComplexArraysToBeCloseTo} from '../../test-util';
 import {getNumberAsBitArray} from '../../../../main/ch.oliverunger/util';
-import {
-    createQFTCircuit,
-    createQFTInvertedCircuit
-} from '../../../../main/ch.oliverunger/quantum/algorithms/qft-algorithm';
+import {createQFTCircuit, createQFTInvertedCircuit} from '../../../../main/ch.oliverunger/quantum/circuits/qft-circuit';
 import {QubitRegister} from '../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
 import {STATE_MINUS, STATE_PLUS, STATE_R} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit-state';
 import {Qubit} from '../../../../main/ch.oliverunger/quantum/single-qubit/qubit';
@@ -83,6 +80,5 @@ describe('QFT - QFT-Inverse', () => {
         let readNumber = reg.measure();
         expect(readNumber).toEqual(num);
     });
-
 
 });
