@@ -1,7 +1,7 @@
 import {cx, x} from '../../multi-qubit/multi-qubit-gates';
 import {QubitRegister} from '../../multi-qubit/qubit-register';
 import {Circuit} from '../../circuits/circuit';
-import {getNumberAsBitArray, randomIntFromInterval} from '../../../util';
+import {getNumberAsBitArrayZeroPadded, randomIntFromInterval} from '../../../util';
 import {executeQRNGAlgorithm} from '../qrng-algorithm';
 
 /**
@@ -28,7 +28,7 @@ export function createBalancedDeutschJozsaOracle(reg: QubitRegister): Circuit {
     const numQubits = reg.numQubits;
     const circuit = new Circuit();
     const rnd = randomIntFromInterval(0, Math.pow(2, numQubits - 1));
-    const rndIntAsBitarray = getNumberAsBitArray(rnd, numQubits - 1);
+    const rndIntAsBitarray = getNumberAsBitArrayZeroPadded(rnd, numQubits - 1);
 
     // Apply X-Gates for variation to the input qubits
     for (let qubit = 0; qubit < numQubits - 1; qubit++) {

@@ -1,5 +1,5 @@
 import {degsToRads, radsToDegs, round} from '../../../main/ch.oliverunger/math/math-util';
-import {getNumberAsBitArray} from "../../../main/ch.oliverunger/util";
+import {getNumberAsBitArrayZeroPadded} from '../../../main/ch.oliverunger/util';
 
 describe('Rounding', () => {
     test('', () => {
@@ -35,35 +35,35 @@ describe('Degrees to radians', () => {
 describe('GetNumber as bit array', () => {
 
     test('number: O, length: 1', () => {
-        expect(getNumberAsBitArray(0, 1)).toEqual([0]);
+        expect(getNumberAsBitArrayZeroPadded(0, 1)).toEqual([0]);
     });
 
     test('number: O, length: 2', () => {
-        expect(getNumberAsBitArray(0, 2)).toEqual([0, 0]);
+        expect(getNumberAsBitArrayZeroPadded(0, 2)).toEqual([0, 0]);
     });
 
     test('number: 1, length: 1', () => {
-        expect(getNumberAsBitArray(1, 1)).toEqual([1]);
+        expect(getNumberAsBitArrayZeroPadded(1, 1)).toEqual([1]);
     });
 
     test('number: 1, length: 2', () => {
-        expect(getNumberAsBitArray(1, 2)).toEqual([0, 1]);
+        expect(getNumberAsBitArrayZeroPadded(1, 2)).toEqual([0, 1]);
     });
 
     test('number: 2, length: 1', () => {
-        expect(getNumberAsBitArray(2, 1)).toEqual([0]);
+        expect(getNumberAsBitArrayZeroPadded(2, 1)).toEqual([0]);
     });
 
     test('number: 2, length: 2', () => {
-        expect(getNumberAsBitArray(2, 2)).toEqual([1, 0]);
+        expect(getNumberAsBitArrayZeroPadded(2, 2)).toEqual([1, 0]);
     });
 
     test('number: 3, length: 2', () => {
-        expect(getNumberAsBitArray(3, 2)).toEqual([1, 1]);
+        expect(getNumberAsBitArrayZeroPadded(3, 2)).toEqual([1, 1]);
     });
 
     test('number: 4, length: 3', () => {
-        expect(getNumberAsBitArray(4, 3)).toEqual([1, 0, 0]);
+        expect(getNumberAsBitArrayZeroPadded(4, 3)).toEqual([1, 0, 0]);
     });
 
 });

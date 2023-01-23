@@ -1,4 +1,4 @@
-import {getNumberAsBitArray} from "../util";
+import {getNumberAsBitArrayZeroPadded} from '../util';
 
 export type Bit = 0 | 1;
 
@@ -37,7 +37,7 @@ export function getTT(numCols: number): Bit[][] {
     const numRows = countRows(numCols);
     let tt: Bit[][] = new Array<Bit[]>(numRows).fill([]).map(_ => new Array<Bit>().fill(0));
     for (let row = 0; row < numRows; row++) {
-        let rowAsBitArray = getNumberAsBitArray(row, numCols);
+        let rowAsBitArray = getNumberAsBitArrayZeroPadded(row, numCols);
         for (let col = 0; col < numCols; col++) {
             tt[row][col] = rowAsBitArray[col];
         }

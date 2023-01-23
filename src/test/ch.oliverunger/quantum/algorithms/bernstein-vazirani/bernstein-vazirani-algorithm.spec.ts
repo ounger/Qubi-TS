@@ -1,17 +1,13 @@
-import {
-    executeBernsteinVaziraniAlgorithm
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-algorithm";
-import {QubitRegister} from "../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register";
-import {
-    createBernsteinVaziraniOracle
-} from "../../../../../main/ch.oliverunger/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle";
-import {getNumberAsBitArray, randomIntFromInterval} from "../../../../../main/ch.oliverunger/util";
+import {executeBernsteinVaziraniAlgorithm} from '../../../../../main/ch.oliverunger/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-algorithm';
+import {QubitRegister} from '../../../../../main/ch.oliverunger/quantum/multi-qubit/qubit-register';
+import {createBernsteinVaziraniOracle} from '../../../../../main/ch.oliverunger/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle';
+import {getNumberAsBitArrayZeroPadded, randomIntFromInterval} from '../../../../../main/ch.oliverunger/util';
 
 describe('Execute Bernstein-Vazirani Algorithm', () => {
 
     function getRandomBitArray(length: number) {
         const rnd = randomIntFromInterval(0, Math.pow(2, length));
-        return getNumberAsBitArray(rnd, length);
+        return getNumberAsBitArrayZeroPadded(rnd, length);
     }
 
     function applyTest(numQubits: number) {

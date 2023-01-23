@@ -1,5 +1,5 @@
-import {getBitArrayAsNumber, range, xor} from '../../main/ch.oliverunger/util';
-import {Bit} from "../../main/ch.oliverunger/math/truth-table";
+import {Bit} from '../../main/ch.oliverunger/math/truth-table';
+import {getBitArrayAsNumber, getNumberAsBitArray, range, xor} from '../../main/ch.oliverunger/util';
 
 describe('xor', () => {
 
@@ -48,4 +48,27 @@ describe('range', () => {
 
 });
 
+describe('getNumberAsBitArray', () => {
+
+    test('Test cases', () => {
+        expect(getNumberAsBitArray(0)).toEqual([0]);
+        expect(getNumberAsBitArray(1)).toEqual([1]);
+        expect(getNumberAsBitArray(2)).toEqual([1, 0]);
+        expect(getNumberAsBitArray(3)).toEqual([1, 1]);
+        expect(getNumberAsBitArray(4)).toEqual([1, 0, 0]);
+        expect(getNumberAsBitArray(5)).toEqual([1, 0, 1]);
+        expect(getNumberAsBitArray(6)).toEqual([1, 1, 0]);
+        expect(getNumberAsBitArray(7)).toEqual([1, 1, 1]);
+        expect(getNumberAsBitArray(8)).toEqual([1, 0, 0, 0]);
+        expect(getNumberAsBitArray(9)).toEqual([1, 0, 0, 1]);
+        expect(getNumberAsBitArray(10)).toEqual([1, 0, 1, 0]);
+        expect(getNumberAsBitArray(11)).toEqual([1, 0, 1, 1]);
+        expect(getNumberAsBitArray(12)).toEqual([1, 1, 0, 0]);
+        expect(getNumberAsBitArray(13)).toEqual([1, 1, 0, 1]);
+        expect(getNumberAsBitArray(14)).toEqual([1, 1, 1, 0]);
+        expect(getNumberAsBitArray(15)).toEqual([1, 1, 1, 1]);
+        expect(getNumberAsBitArray(16)).toEqual([1, 0, 0, 0, 0]);
+    });
+
+});
 

@@ -1,4 +1,4 @@
-import {Bit} from "./math/truth-table";
+import {Bit} from './math/truth-table';
 
 export const rotateArray = (array: any[], n: number) => {
     let len = array.length;
@@ -28,7 +28,12 @@ export function xor(ba0: Bit[], ba1: Bit[]): Bit[] {
     return result;
 }
 
-export function getNumberAsBitArray(n: number, length: number): Bit[] {
+export function getNumberAsBitArray(n: number): Bit[] {
+    const requiredBits = Math.floor(Math.max(0, Math.log2(n))) + 1;
+    return getNumberAsBitArrayZeroPadded(n, requiredBits);
+}
+
+export function getNumberAsBitArrayZeroPadded(n: number, length: number): Bit[] {
     return [...Array(length)].map((_, i) => n >> i & 1).reverse() as Bit[];
 }
 

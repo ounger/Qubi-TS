@@ -1,8 +1,8 @@
-import {Circuit} from "../../circuits/circuit";
-import {QubitRegister} from "../../multi-qubit/qubit-register";
-import {cx} from "../../multi-qubit/multi-qubit-gates";
-import {getNumberAsBitArray} from "../../../util";
-import {Bit} from "../../../math/truth-table";
+import {Circuit} from '../../circuits/circuit';
+import {QubitRegister} from '../../multi-qubit/qubit-register';
+import {cx} from '../../multi-qubit/multi-qubit-gates';
+import {getNumberAsBitArrayZeroPadded} from '../../../util';
+import {Bit} from '../../../math/truth-table';
 
 export function createSimonsOracle(reg: QubitRegister, secret: Bit[]): Circuit {
     if (reg.numQubits % 2 === 1) {
@@ -37,7 +37,7 @@ function createOneToOneSimonsOracle(reg: QubitRegister): Circuit {
  */
 function createTwoToOneSimonsOracle(reg: QubitRegister, secret: Bit[]): Circuit {
     const numInputQubits = reg.numQubits / 2;
-    const zeroAsBitArray = getNumberAsBitArray(0, numInputQubits);
+    const zeroAsBitArray = getNumberAsBitArrayZeroPadded(0, numInputQubits);
     if (zeroAsBitArray === secret) {
         throw new Error("Hidden bitarray 'secret' has to be unequal to the bitarray 00...0, because this would be a one-to-one function!");
     }
