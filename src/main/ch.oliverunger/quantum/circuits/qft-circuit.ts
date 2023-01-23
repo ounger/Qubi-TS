@@ -6,7 +6,7 @@ import {radsToDegs} from '../../math/math-util';
 
 export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[], offset: number = 0): Circuit {
     let constructionString = '';
-    if (reg.numQubits - offset !== encodedNumber.length) {
+    if (reg.numQubits - offset < encodedNumber.length) {
         throw new Error(`The number of available qubits ${reg.numQubits - offset} has to be greater or equal to 
         the length of the bit array for the encoded number which is ${encodedNumber.length}.`);
     }
@@ -40,7 +40,7 @@ export function createQFTCircuit(reg: QubitRegister, encodedNumber: Bit[], offse
 
 export function createQFTInvertedCircuit(reg: QubitRegister, encodedNumberAsBitArray: Bit[], offset: number = 0): Circuit {
     let constructionString = '';
-    if (reg.numQubits - offset !== encodedNumberAsBitArray.length) {
+    if (reg.numQubits - offset < encodedNumberAsBitArray.length) {
         throw new Error(`
         The number of available qubits ${reg.numQubits - offset} has to be greater or equal to 
         the length of the bit array for the encoded number which is ${encodedNumberAsBitArray.length}.`);
