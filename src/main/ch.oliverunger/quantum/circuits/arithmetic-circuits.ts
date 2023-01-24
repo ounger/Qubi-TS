@@ -24,16 +24,6 @@ export function createDecrementCircuit(reg: QubitRegister): Circuit {
     return circuit;
 }
 
-export function add(reg: QubitRegister): Circuit {
-    // TODO
-    return new Circuit();
-}
-
-export function sub(reg: QubitRegister): Circuit {
-    // TODO
-    return new Circuit();
-}
-
 /**
  * Returns a circuit that sums two bits
  * @param reg The register this circuit shall operate on

@@ -27,7 +27,7 @@ export function createQFTCircuit(reg: QubitRegister, n?: number, offset: number 
     for (let qubit = offset; qubit < floorOfHalfNumEnc + offset; qubit++) {
         const otherQubit = n - 1 + 2 * offset - qubit;
         circuit.addGate(() => swap(reg, qubit, otherQubit));
-        constructionString += `Swap(${qubit}, ${otherQubit})`;
+        constructionString += `Swap(${qubit}, ${otherQubit}) `;
     }
 
     console.log(constructionString);
