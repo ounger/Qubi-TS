@@ -24,10 +24,11 @@ describe('Create QFTs', () => {
     });
 
     test('1 qubit with offset 1', () => {
+        const offset = 1;
         const reg = new QubitRegister(2);
 
-        createEncodeNumberCircuit(reg, getNumberAsBitArray(0)).execute();
-        createQFTCircuit(reg, 1, 1).execute();
+        createEncodeNumberCircuit(reg, getNumberAsBitArray(0), offset).execute();
+        createQFTCircuit(reg, 1, offset).execute();
 
         expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS).getStates());
     });
@@ -38,7 +39,7 @@ describe('Create QFTs', () => {
     test('3 qubits', () => {
         const reg = new QubitRegister(3);
 
-        createEncodeNumberCircuit(reg, getNumberAsBitArray(5)).execute();
+        createEncodeNumberCircuit(reg, getNumberAsBitArrayZeroPadded(5, 3)).execute();
         createQFTCircuit(reg).execute();
 
         const expQubit0 = Qubit.ofState(STATE_MINUS);
@@ -54,10 +55,11 @@ describe('Create QFTs', () => {
      * From {@link https://qiskit.org/textbook/ch-algorithms/quantum-fourier-transform.html#8.2-General-QFT-Function-}
      */
     test('3 qubits with offset 1 -> actual 4 qubits', () => {
+        const offset = 1;
         const reg = new QubitRegister(4);
 
-        createEncodeNumberCircuit(reg, getNumberAsBitArray(5), 1).execute();
-        createQFTCircuit(reg, 3, 1).execute();
+        createEncodeNumberCircuit(reg, getNumberAsBitArrayZeroPadded(5, 3), offset).execute();
+        createQFTCircuit(reg, 3, offset).execute();
 
         const expQubit0 = Qubit.ofState(STATE_ZERO);
         const expQubit1 = Qubit.ofState(STATE_MINUS);
@@ -121,7 +123,7 @@ describe('QFT - QFT-Inverse', () => {
         applyTest(4, [1, 1, 0], 1);
         applyTest(4, [1, 1, 1], 1);
         for (let num = 0; num < Math.pow(2, 4); num++) {
-            const numAsBitArray = getNumberAsBitArray(num);
+            const numAsBitArray = getNumberAsBitArrayZeroPadded(num, 4);
             applyTest(5, numAsBitArray, 1);
         }
     });
