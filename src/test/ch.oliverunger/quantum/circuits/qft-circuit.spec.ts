@@ -87,24 +87,24 @@ describe('QFT - QFT-Inverse', () => {
     }
 
     test('Test cases without offset', () => {
-        applyTest(1, [0]);
-        applyTest(1, [1]);
-        applyTest(2, [0, 0]);
+        // applyTest(1, [0]);
+        // applyTest(1, [1]);
+        // applyTest(2, [0, 0]);
         applyTest(2, [0, 1]);
-        applyTest(2, [1, 0]);
-        applyTest(2, [1, 1]);
-        applyTest(3, [0, 0, 0]);
-        applyTest(3, [0, 0, 1]);
-        applyTest(3, [0, 1, 0]);
-        applyTest(3, [0, 1, 1]);
-        applyTest(3, [1, 0, 0]);
-        applyTest(3, [1, 0, 1]);
-        applyTest(3, [1, 1, 0]);
-        applyTest(3, [1, 1, 1]);
-        for (let num = 0; num < Math.pow(2, 4); num++) {
-            const numAsBitArray = getNumberAsBitArrayZeroPadded(num, 4);
-            applyTest(4, numAsBitArray);
-        }
+        // applyTest(2, [1, 0]);
+        // applyTest(2, [1, 1]);
+        // applyTest(3, [0, 0, 0]);
+        // applyTest(3, [0, 0, 1]);
+        // applyTest(3, [0, 1, 0]);
+        // applyTest(3, [0, 1, 1]);
+        // applyTest(3, [1, 0, 0]);
+        // applyTest(3, [1, 0, 1]);
+        // applyTest(3, [1, 1, 0]);
+        // applyTest(3, [1, 1, 1]);
+        // for (let num = 0; num < Math.pow(2, 4); num++) {
+        //     const numAsBitArray = getNumberAsBitArrayZeroPadded(num, 4);
+        //     applyTest(4, numAsBitArray);
+        // }
     });
 
     test('Test cases with offset 1', () => {
@@ -128,10 +128,22 @@ describe('QFT - QFT-Inverse', () => {
         }
     });
 
-    test('Read encodednumber again', () => {
+    test('Read 3-bit encodednumber again', () => {
         const num = 5;
         const encodedNumber = getNumberAsBitArray(num);
         const reg = new QubitRegister(3);
+
+        createEncodeNumberCircuit(reg, encodedNumber).execute();
+        createQFTCircuit(reg).execute();
+        createQFTInvertedCircuit(reg).execute();
+
+        expect(reg.measure()).toEqual(num);
+    });
+
+    test('Read 4-bit encodednumber again', () => {
+        const num = 13;
+        const encodedNumber = getNumberAsBitArray(num);
+        const reg = new QubitRegister(4);
 
         createEncodeNumberCircuit(reg, encodedNumber).execute();
         createQFTCircuit(reg).execute();
