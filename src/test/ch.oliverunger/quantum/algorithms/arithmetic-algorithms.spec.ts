@@ -43,5 +43,3 @@ describe("Add six bits", () => {
     });
 
 });
-
-// TODO More Tests
