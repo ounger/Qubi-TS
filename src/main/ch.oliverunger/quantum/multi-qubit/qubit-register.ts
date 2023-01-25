@@ -107,6 +107,13 @@ export class QubitRegister {
         return this.getStates().map(state => state.re * state.re + state.im * state.im);
     }
 
+    nonZeroProbabilities(): [index: number, probability: number][] {
+        return this.getStates()
+            .map((state, index) => [index, round(this.probabilityOfStateAtIndex(index), 5)] as [index: number, probability: number])
+            .filter(indexAndState => indexAndState[1] !== 0);
+
+    }
+
     measureSingleQubit(q: number): Bit {
         // https://andisama.medium.com/qubit-an-intuition-3-quantum-measurement-full-and-partial-qubits-969340a6fb3
         // https://learn.microsoft.com/en-us/azure/quantum/concepts-multiple-qubits

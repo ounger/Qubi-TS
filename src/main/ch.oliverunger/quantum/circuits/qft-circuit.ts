@@ -50,15 +50,16 @@ export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, offset:
         circuit.addGate(() => swap(reg, otherQubit, qubit));
         constructionString += `Swap(${qubit}, ${otherQubit}) `;
     }
-    for (let qubit = n - 1 + offset; qubit >= offset; qubit--) {
-        circuit.addGate(() => had(reg, qubit));
-        constructionString += `H(${qubit}) `;
-        for (let otherQubit = qubit - 1; otherQubit >= offset; otherQubit--) {
-            const angleDegrees = radsToDegs(-1 * Math.PI / Math.pow(2, qubit - otherQubit));
-            circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));
-            constructionString += `CPhase(${qubit}, ${otherQubit}, ${angleDegrees}) `;
-        }
-    }
+    // for (let controlQubit = n - 1 + offset; controlQubit >= 0; controlQubit--) {
+    //     circuit.addGate(() => had(reg, controlQubit));
+    //     constructionString += `H(${controlQubit}) `;
+    //     for (let targetQubit = controlQubit - 1; targetQubit >=; targetQubit--) {
+    //         const angleDegrees = radsToDegs(-1 * Math.PI / Math.pow(2, qubit - otherQubit));
+    //         circuit.addGate(() => cphase(reg, qubit, otherQubit, angleDegrees));
+    //         constructionString += `CPhase(${qubit}, ${otherQubit}, ${angleDegrees}) `;
+    //     }
+    //
+    // } // TODO Doesnt work
 
     console.log(constructionString);
     return circuit;
