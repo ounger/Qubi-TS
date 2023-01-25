@@ -28,7 +28,7 @@ export function createQFTCircuit(reg: QubitRegister, n?: number, offset: number 
 
     console.log(constructionString);
 
-    createSwapQubitsOutsideInCircuit(reg, n, offset).execute();
+    circuit.appendCircuitToEnd(createSwapQubitsOutsideInCircuit(reg, n, offset));
 
     return circuit;
 }
@@ -44,7 +44,7 @@ export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, offset:
     let constructionString = "";
     const circuit = new Circuit();
 
-    createSwapQubitsInsideOutCircuit(reg, n, offset).execute();
+    circuit.appendCircuitToEnd(createSwapQubitsInsideOutCircuit(reg, n, offset));
 
     for (let targetQubit = n - 1 + offset; targetQubit >= offset; targetQubit--) {
         for (let controlQubit = n - 1 + offset; controlQubit > targetQubit; controlQubit--) {

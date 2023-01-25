@@ -25,11 +25,11 @@ describe("createEncodeNumberCircuit", () => {
     });
 
     test("Success with offset", () => {
-        const reg = new QubitRegister(3);
-        const sixAsBitArray = getNumberAsBitArray(3);
+        const reg = new QubitRegister(4);
+        const sixAsBitArray = getNumberAsBitArray(6);
         const offset = 1;
         createEncodeNumberCircuit(reg, sixAsBitArray, offset).execute();
-        expect(reg.measure()).toEqual(3);
+        expect(reg.measure()).toEqual(6);
     });
 
     test("Fail - Register too small", () => {

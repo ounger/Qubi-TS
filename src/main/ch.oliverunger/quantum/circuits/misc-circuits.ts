@@ -11,10 +11,10 @@ export function createEncodeNumberCircuit(reg: QubitRegister, encodedNumber: Bit
 
     let constructionString = "";
     const circuit = new Circuit();
-    for (let qubit = offset; qubit < encodedNumber.length + offset; qubit++) {
+    for (let qubit = 0; qubit < encodedNumber.length; qubit++) {
         if (encodedNumber[qubit] === 1) {
-            circuit.addGate(() => x(reg, qubit));
-            constructionString += `X(${qubit}) `;
+            circuit.addGate(() => x(reg, qubit + offset));
+            constructionString += `X(${qubit + offset}) `;
         }
     }
 
