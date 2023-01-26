@@ -18,7 +18,7 @@ export function createEncodeNumberCircuit(reg: QubitRegister, encodedNumber: Bit
         }
     }
 
-    console.log(constructionString);
+    // console.log(constructionString);
     return circuit;
 }
 
