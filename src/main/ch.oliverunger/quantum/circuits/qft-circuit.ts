@@ -4,7 +4,7 @@ import {cphase, had} from '../multi-qubit/multi-qubit-gates';
 import {radsToDegs} from '../../math/math-util';
 import {createSwapQubitsInsideOutCircuit, createSwapQubitsOutsideInCircuit} from "./misc-circuits";
 
-export function createQFTCircuit(reg: QubitRegister, n?: number, offset: number = 0): Circuit {
+export function createQFTCircuit(reg: QubitRegister, n?: number, mirror: boolean = false, offset: number = 0): Circuit {
     n = n !== undefined ? n : reg.numQubits - offset;
 
     if (reg.numQubits - offset < n) {
@@ -26,14 +26,16 @@ export function createQFTCircuit(reg: QubitRegister, n?: number, offset: number 
         }
     }
 
-    console.log(constructionString);
+    // console.log(constructionString);
 
-    circuit.appendCircuitToEnd(createSwapQubitsOutsideInCircuit(reg, n, offset));
+    if (mirror) {
+        circuit.appendCircuitToEnd(createSwapQubitsOutsideInCircuit(reg, n, offset));
+    }
 
     return circuit;
 }
 
-export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, offset: number = 0): Circuit {
+export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, mirror: boolean = false, offset: number = 0): Circuit {
     n = n !== undefined ? n : reg.numQubits - offset;
 
     if (reg.numQubits - offset < n) {
@@ -44,7 +46,9 @@ export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, offset:
     let constructionString = "";
     const circuit = new Circuit();
 
-    circuit.appendCircuitToEnd(createSwapQubitsInsideOutCircuit(reg, n, offset));
+    if (mirror) {
+        circuit.appendCircuitToEnd(createSwapQubitsInsideOutCircuit(reg, n, offset));
+    }
 
     for (let targetQubit = n - 1 + offset; targetQubit >= offset; targetQubit--) {
         for (let controlQubit = n - 1 + offset; controlQubit > targetQubit; controlQubit--) {
@@ -57,6 +61,7 @@ export function createQFTInvertedCircuit(reg: QubitRegister, n?: number, offset:
         constructionString += `H(${targetQubit}) `;
     }
 
-    console.log(constructionString);
+    // console.log(constructionString);
+
     return circuit;
 }

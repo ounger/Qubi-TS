@@ -43,7 +43,7 @@ export function createSwapQubitsOutsideInCircuit(reg: QubitRegister, n: number, 
         circuit.addGate(() => swap(reg, qubit, otherQubit));
         constructionString += `Swap(${qubit}, ${otherQubit}) `;
     }
-    console.log(constructionString);
+    // console.log(constructionString);
     return circuit;
 }
 
@@ -61,6 +61,6 @@ export function createSwapQubitsInsideOutCircuit(reg: QubitRegister, n: number, 
             constructionString += `Swap(${qubit}, ${otherQubit}) `;
         }
     }
-    console.log(constructionString);
+    // console.log(constructionString);
     return circuit;
 }

@@ -18,7 +18,7 @@ describe('Create QFTs', () => {
         const reg = new QubitRegister(1);
 
         createEncodeNumberCircuit(reg, getNumberAsBitArray(0)).execute();
-        createQFTCircuit(reg, 1).execute();
+        createQFTCircuit(reg, 1, true).execute();
 
         expComplexArraysToBeCloseTo(reg.getStates(), STATE_PLUS);
     });
@@ -28,7 +28,7 @@ describe('Create QFTs', () => {
         const reg = new QubitRegister(2);
 
         createEncodeNumberCircuit(reg, getNumberAsBitArray(0), offset).execute();
-        createQFTCircuit(reg, 1, offset).execute();
+        createQFTCircuit(reg, 1, true, offset).execute();
 
         expComplexArraysToBeCloseTo(reg.getStates(), QubitRegister.ofQubits(QUBIT_STATE_ZERO, QUBIT_STATE_PLUS).getStates());
     });
@@ -40,7 +40,7 @@ describe('Create QFTs', () => {
         const reg = new QubitRegister(3);
 
         createEncodeNumberCircuit(reg, getNumberAsBitArrayZeroPadded(5, 3)).execute();
-        createQFTCircuit(reg).execute();
+        createQFTCircuit(reg, 3, true).execute();
 
         const expQubit0 = Qubit.ofState(STATE_MINUS);
         const expQubit1 = Qubit.ofState(STATE_R);
@@ -59,7 +59,7 @@ describe('Create QFTs', () => {
         const reg = new QubitRegister(4);
 
         createEncodeNumberCircuit(reg, getNumberAsBitArrayZeroPadded(5, 3), offset).execute();
-        createQFTCircuit(reg, 3, offset).execute();
+        createQFTCircuit(reg, 3, true, offset).execute();
 
         const expQubit0 = Qubit.ofState(STATE_ZERO);
         const expQubit1 = Qubit.ofState(STATE_MINUS);
@@ -79,32 +79,32 @@ describe('QFT - QFT-Inverse', () => {
         const reg = new QubitRegister(numQubits);
 
         createEncodeNumberCircuit(reg, encodedNumber, offset).execute();
-        createQFTCircuit(reg, encodedNumber.length, offset).execute();
-        createQFTInvertedCircuit(reg, encodedNumber.length, offset).execute();
+        createQFTCircuit(reg, encodedNumber.length, true, offset).execute();
+        createQFTInvertedCircuit(reg, encodedNumber.length, true, offset).execute();
         createEncodeNumberCircuit(reg, encodedNumber, offset).execute();
 
         expComplexArraysToBeCloseTo(reg.getStates(), new QubitRegister(numQubits).getStates());
     }
 
     test('Test cases without offset', () => {
-        // applyTest(1, [0]);
-        // applyTest(1, [1]);
-        // applyTest(2, [0, 0]);
+        applyTest(1, [0]);
+        applyTest(1, [1]);
+        applyTest(2, [0, 0]);
         applyTest(2, [0, 1]);
-        // applyTest(2, [1, 0]);
-        // applyTest(2, [1, 1]);
-        // applyTest(3, [0, 0, 0]);
-        // applyTest(3, [0, 0, 1]);
-        // applyTest(3, [0, 1, 0]);
-        // applyTest(3, [0, 1, 1]);
-        // applyTest(3, [1, 0, 0]);
-        // applyTest(3, [1, 0, 1]);
-        // applyTest(3, [1, 1, 0]);
-        // applyTest(3, [1, 1, 1]);
-        // for (let num = 0; num < Math.pow(2, 4); num++) {
-        //     const numAsBitArray = getNumberAsBitArrayZeroPadded(num, 4);
-        //     applyTest(4, numAsBitArray);
-        // }
+        applyTest(2, [1, 0]);
+        applyTest(2, [1, 1]);
+        applyTest(3, [0, 0, 0]);
+        applyTest(3, [0, 0, 1]);
+        applyTest(3, [0, 1, 0]);
+        applyTest(3, [0, 1, 1]);
+        applyTest(3, [1, 0, 0]);
+        applyTest(3, [1, 0, 1]);
+        applyTest(3, [1, 1, 0]);
+        applyTest(3, [1, 1, 1]);
+        for (let num = 0; num < Math.pow(2, 4); num++) {
+            const numAsBitArray = getNumberAsBitArrayZeroPadded(num, 4);
+            applyTest(4, numAsBitArray);
+        }
     });
 
     test('Test cases with offset 1', () => {
@@ -134,8 +134,8 @@ describe('QFT - QFT-Inverse', () => {
         const reg = new QubitRegister(3);
 
         createEncodeNumberCircuit(reg, encodedNumber).execute();
-        createQFTCircuit(reg).execute();
-        createQFTInvertedCircuit(reg).execute();
+        createQFTCircuit(reg, reg.numQubits, true).execute();
+        createQFTInvertedCircuit(reg, reg.numQubits, true).execute();
 
         expect(reg.measure()).toEqual(num);
     });
@@ -146,8 +146,8 @@ describe('QFT - QFT-Inverse', () => {
         const reg = new QubitRegister(4);
 
         createEncodeNumberCircuit(reg, encodedNumber).execute();
-        createQFTCircuit(reg).execute();
-        createQFTInvertedCircuit(reg).execute();
+        createQFTCircuit(reg, reg.numQubits, true).execute();
+        createQFTInvertedCircuit(reg, reg.numQubits, true).execute();
 
         expect(reg.measure()).toEqual(num);
     });
