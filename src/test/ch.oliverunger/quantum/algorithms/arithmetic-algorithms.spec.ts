@@ -13,6 +13,10 @@ describe("Add two integers", () => {
         }
     });
 
+    test("2096 + 1004 = 3100", () => {
+        expect(executeAddAlgorithm(4096, 5004)).toEqual(9100);
+    });
+
 });
 
 describe("Sub two integers", () => {
@@ -51,6 +55,10 @@ describe("Sub two integers", () => {
 
     test("11 - 11 = 0", () => {
         expect(executeSubAlgorithm(11, 11)).toEqual(0);
+    });
+
+    test("8044 - 4022 = 4022", () => {
+        expect(executeSubAlgorithm(8044, 4022)).toEqual(4022);
     });
 
 });
