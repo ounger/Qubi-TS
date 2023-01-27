@@ -1,45 +1,64 @@
-import {add} from "../../../../main/ch.oliverunger/quantum/algorithms/arithmetic-algorithms";
+import {
+    executeAddAlgorithm,
+    executeSubAlgorithm
+} from "../../../../main/ch.oliverunger/quantum/algorithms/arithmetic-algorithms";
 
-describe('Add two bits', () => {
+describe("Add two integers", () => {
 
-    test("0 + 0 = 0", () => {
-        expect(add(0, 0)).toEqual(0);
+    test("Test cases", () => {
+        for (let a = 0; a < 10; a++) {
+            for (let b = 0; b < 10; b++) {
+                expect(executeAddAlgorithm(a, b)).toEqual(a + b);
+            }
+        }
     });
 
-    test("0 + 1 = 1", () => {
-        expect(add(0, 1)).toEqual(1);
-    });
-
-    test("1 + 0 = 1", () => {
-        expect(add(1, 0)).toEqual(1);
-    });
-
-    test("1 + 1 = 2", () => {
-        expect(add(1, 1)).toEqual(2);
-    });
-
-});
-
-describe('Add four bits', () => {
-
-    test("2 + 1 = 3", () => {
-        expect(add(2, 1)).toEqual(3);
-    });
-
-    test("2 + 2 = 4", () => {
-        // TODO
+    test("2096 + 1004 = 3100", () => {
+        expect(executeAddAlgorithm(4096, 5004)).toEqual(9100);
     });
 
 });
 
-describe("Add six bits", () => {
+describe("Sub two integers", () => {
 
-    test("1 + 6 = 7", () => {
-        expect(add(1, 6)).toEqual(7);
+    test("5 - 3 = 2", () => {
+        expect(executeSubAlgorithm(5, 3)).toEqual(2);
     });
 
-    test("5 + 1 = 6", () => {
-        expect(add(5, 1)).toEqual(6);
+    test("2 - 1 = 1", () => {
+        expect(executeSubAlgorithm(2, 1)).toEqual(1);
+    });
+
+    test("1 - 2 = -1", () => {
+        expect(executeSubAlgorithm(1, 2)).toEqual(-1);
+    });
+
+    test("1 - 3 = -2", () => {
+        expect(executeSubAlgorithm(1, 3)).toEqual(-2);
+    });
+
+    test("3 - 5 = -2", () => {
+        expect(executeSubAlgorithm(3, 5)).toEqual(-2);
+    });
+
+    test("16 - 24 = -8", () => {
+        expect(executeSubAlgorithm(16, 24)).toEqual(-8);
+    });
+
+    test("0 - 0 = 0", () => {
+        expect(executeSubAlgorithm(0, 0)).toEqual(0);
+    });
+
+    test("1 - 1 = 0", () => {
+        expect(executeSubAlgorithm(1, 1)).toEqual(0);
+    });
+
+    test("11 - 11 = 0", () => {
+        expect(executeSubAlgorithm(11, 11)).toEqual(0);
+    });
+
+    test("8044 - 4022 = 4022", () => {
+        expect(executeSubAlgorithm(8044, 4022)).toEqual(4022);
     });
 
 });

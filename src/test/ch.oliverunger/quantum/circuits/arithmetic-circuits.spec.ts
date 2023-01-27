@@ -103,18 +103,6 @@ describe('Decrement', () => {
 
 });
 
-describe('Add', () => {
-    test('', () => {
-        // TODO
-    });
-});
-
-describe('Sub', () => {
-    test('', () => {
-        // TODO
-    });
-});
-
 describe('Half Adder', () => {
 
     function applyTest(aValue: Bit, bValue: Bit, expCValue: Bit, expSumValue: Bit) {
