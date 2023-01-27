@@ -7,3 +7,7 @@ Example: Generate a random number using a Quantum Random Number Generator (QRNG)
 
 const rand: bit = executeQRNGAlgorithm(); // Returns 0 or 1
 
+## License
+
+Licensed under the [MIT license](https://github.com/ounger/Qubi-TS/blob/master/LICENSE.md).
+
