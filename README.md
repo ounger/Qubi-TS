@@ -7,7 +7,9 @@ quantum computer.
 
 Example: Generate a random number using a Quantum Random Number Generator (QRNG):
 
+```typescript
 const rand: Bit = executeQRNGAlgorithm(); // Returns 0 or 1
+```
 
 ## Install using [`npm`](https://www.npmjs.com/package/qubi-ts-lib):
 
