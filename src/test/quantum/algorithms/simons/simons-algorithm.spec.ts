@@ -4,16 +4,16 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from '../../../../main/quantum/multi-qubit/qubit-register';
-import {createSimonsOracle} from '../../../../main/quantum/algorithms/simons/simons-oracles';
-import {Bit} from '../../../../main/math/truth-table';
+import {QubitRegister} from '../../../../lib/quantum/multi-qubit/qubit-register';
+import {createSimonsOracle} from '../../../../lib/quantum/algorithms/simons/simons-oracles';
+import {Bit} from '../../../../lib/math/truth-table';
 import {
     executeSimonsAlgorithm,
     LinearlyDependentMeasurementsException,
     solve
-} from '../../../../main/quantum/algorithms/simons/simons-algorithm';
-import {getBitArrayAsNumber, xor} from '../../../../main/util';
-import {dotBinary} from '../../../../main/math/linear-algebra';
+} from '../../../../lib/quantum/algorithms/simons/simons-algorithm';
+import {getBitArrayAsNumber, xor} from '../../../../lib/util';
+import {dotBinary} from '../../../../lib/math/linear-algebra';
 
 describe('Testing Simons Algorithm', () => {
 

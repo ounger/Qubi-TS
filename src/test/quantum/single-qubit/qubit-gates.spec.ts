@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {multiplyMatrices, multiplyMatrixScalar} from '../../../main/math/linear-algebra';
+import {multiplyMatrices, multiplyMatrixScalar} from '../../../lib/math/linear-algebra';
 import {
     getRkGate,
     getU1Gate,
@@ -13,8 +13,8 @@ import {
     PAULI_X_GATE,
     PAULI_Y_GATE,
     PAULI_Z_GATE
-} from '../../../main/quantum/single-qubit/qubit-gates';
-import {MINUS_i} from '../../../main/math/complex';
+} from '../../../lib/quantum/single-qubit/qubit-gates';
+import {MINUS_i} from '../../../lib/math/complex';
 import {expComplexMatricesToBeCloseTo} from '../../test-util';
 
 describe('Pauli matrices are involutory (their own inverse)', () => {

@@ -4,12 +4,12 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {Bit} from "../../../../main/math/truth-table";
+import {Bit} from "../../../../lib/math/truth-table";
 import {
     createBernsteinVaziraniOracle
-} from "../../../../main/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle";
-import {QubitRegister} from "../../../../main/quantum/multi-qubit/qubit-register";
-import {QUBIT_STATE_ONE, QUBIT_STATE_ZERO} from "../../../../main/quantum/single-qubit/qubit";
+} from "../../../../lib/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle";
+import {QubitRegister} from "../../../../lib/quantum/multi-qubit/qubit-register";
+import {QUBIT_STATE_ONE, QUBIT_STATE_ZERO} from "../../../../lib/quantum/single-qubit/qubit";
 
 describe('Create Bernstein-Vazirani Oracle', () => {
 

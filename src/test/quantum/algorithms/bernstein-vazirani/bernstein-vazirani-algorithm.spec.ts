@@ -6,12 +6,12 @@
 
 import {
     executeBernsteinVaziraniAlgorithm
-} from '../../../../main/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-algorithm';
-import {QubitRegister} from '../../../../main/quantum/multi-qubit/qubit-register';
+} from '../../../../lib/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-algorithm';
+import {QubitRegister} from '../../../../lib/quantum/multi-qubit/qubit-register';
 import {
     createBernsteinVaziraniOracle
-} from '../../../../main/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle';
-import {getNumberAsBitArrayZeroPadded, randomIntFromInterval} from '../../../../main/util';
+} from '../../../../lib/quantum/algorithms/bernstein-vazirani/bernstein-vazirani-oracle';
+import {getNumberAsBitArrayZeroPadded, randomIntFromInterval} from '../../../../lib/util';
 
 describe('Execute Bernstein-Vazirani Algorithm', () => {
 

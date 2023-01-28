@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {executeEntanglementSwappingAlgorithm} from "../../../main/quantum/algorithms/entanglement-swapping-algorithm";
+import {executeEntanglementSwappingAlgorithm} from "../../../lib/quantum/algorithms/entanglement-swapping-algorithm";
 
 describe("Entanglement Swapping", () => {
 

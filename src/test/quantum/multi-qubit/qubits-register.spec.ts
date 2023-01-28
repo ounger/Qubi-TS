@@ -4,17 +4,17 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from '../../../main/quantum/multi-qubit/qubit-register';
+import {QubitRegister} from '../../../lib/quantum/multi-qubit/qubit-register';
 import {
     Qubit,
     QUBIT_STATE_MINUS,
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
     QUBIT_STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit';
-import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../main/math/complex';
+} from '../../../lib/quantum/single-qubit/qubit';
+import {_0, _1, Complex, ONE_OF_SQRT_TWO} from '../../../lib/math/complex';
 import {expComplexArraysToBeCloseTo, expNumberArraysToBeCloseTo} from '../../test-util';
-import {cx, had, phaseT, phaseZ, x} from '../../../main/quantum/multi-qubit/multi-qubit-gates';
+import {cx, had, phaseT, phaseZ, x} from '../../../lib/quantum/multi-qubit/multi-qubit-gates';
 import {
     QubitState,
     STATE_L,
@@ -23,14 +23,14 @@ import {
     STATE_PLUS,
     STATE_R,
     STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit-state';
-import {round} from '../../../main/math/math-util';
+} from '../../../lib/quantum/single-qubit/qubit-state';
+import {round} from '../../../lib/math/math-util';
 import {
     BELL_STATE_PHI_MINUS,
     BELL_STATE_PHI_PLUS,
     BELL_STATE_PSI_MINUS,
     BELL_STATE_PSI_PLUS
-} from "../../../main/quantum/multi-qubit/bell-states";
+} from "../../../lib/quantum/multi-qubit/bell-states";
 
 describe('probabilityOfState', () => {
 

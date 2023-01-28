@@ -1,0 +1,7 @@
+/* Use this for publishing on npm */
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "src/test/**/*"
+  ]
+}

@@ -4,12 +4,12 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from '../../../../main/quantum/multi-qubit/qubit-register';
-import {Bit} from '../../../../main/math/truth-table';
-import {Qubit} from '../../../../main/quantum/single-qubit/qubit';
-import {_0, _1, Complex} from '../../../../main/math/complex';
-import {STATE_ONE, STATE_ZERO} from '../../../../main/quantum/single-qubit/qubit-state';
-import {createSimonsOracle} from '../../../../main/quantum/algorithms/simons/simons-oracles';
+import {QubitRegister} from '../../../../lib/quantum/multi-qubit/qubit-register';
+import {Bit} from '../../../../lib/math/truth-table';
+import {Qubit} from '../../../../lib/quantum/single-qubit/qubit';
+import {_0, _1, Complex} from '../../../../lib/math/complex';
+import {STATE_ONE, STATE_ZERO} from '../../../../lib/quantum/single-qubit/qubit-state';
+import {createSimonsOracle} from '../../../../lib/quantum/algorithms/simons/simons-oracles';
 import {expComplexArraysToBeCloseTo} from '../../../test-util';
 
 describe('createOneToOneSimonsOracle with 2 input qubits', () => {

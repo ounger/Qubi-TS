@@ -4,8 +4,8 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {Bit} from '../main/math/truth-table';
-import {getBitArrayAsNumber, getNumberAsBitArray, range, xor} from '../main/util';
+import {Bit} from '../lib/math/truth-table';
+import {getBitArrayAsNumber, getNumberAsBitArray, range, xor} from '../lib/util';
 
 describe('xor', () => {
 

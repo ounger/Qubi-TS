@@ -4,13 +4,13 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from "../../../main/quantum/multi-qubit/qubit-register";
+import {QubitRegister} from "../../../lib/quantum/multi-qubit/qubit-register";
 import {
     createEncodeNumberCircuit,
     createSwapQubitsInsideOutCircuit,
     createSwapQubitsOutsideInCircuit
-} from "../../../main/quantum/circuits/misc-circuits";
-import {getNumberAsBitArray} from "../../../main/util";
+} from "../../../lib/quantum/circuits/misc-circuits";
+import {getNumberAsBitArray} from "../../../lib/util";
 import {
     QUBIT_STATE_L,
     QUBIT_STATE_MINUS,
@@ -18,7 +18,7 @@ import {
     QUBIT_STATE_PLUS,
     QUBIT_STATE_R,
     QUBIT_STATE_ZERO
-} from "../../../main/quantum/single-qubit/qubit";
+} from "../../../lib/quantum/single-qubit/qubit";
 import {expComplexArraysToBeCloseTo} from "../../test-util";
 
 describe("createEncodeNumberCircuit", () => {

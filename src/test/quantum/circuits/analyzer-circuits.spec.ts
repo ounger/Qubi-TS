@@ -4,15 +4,15 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from "../../../main/quantum/multi-qubit/qubit-register";
-import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../../main/quantum/circuits/analyzer-circuits";
+import {QubitRegister} from "../../../lib/quantum/multi-qubit/qubit-register";
+import {analyzeBellState, createBellStateAnalyzerCircuit} from "../../../lib/quantum/circuits/analyzer-circuits";
 import {expComplexArraysToBeCloseTo} from "../../test-util";
 import {
     BELL_STATE_PHI_MINUS,
     BELL_STATE_PHI_PLUS,
     BELL_STATE_PSI_MINUS,
     BELL_STATE_PSI_PLUS
-} from "../../../main/quantum/multi-qubit/bell-states";
+} from "../../../lib/quantum/multi-qubit/bell-states";
 
 describe("Bell State analyzer", () => {
 

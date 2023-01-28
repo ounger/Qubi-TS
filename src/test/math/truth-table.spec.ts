@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {getAllRowsWith1InCol, getTT, getTTBitAt, getTTCol} from "../../main/math/truth-table";
+import {getAllRowsWith1InCol, getTT, getTTBitAt, getTTCol} from "../../lib/math/truth-table";
 
 describe('calcRowsOfTruthtable1InCol', () => {
     test('', () => {

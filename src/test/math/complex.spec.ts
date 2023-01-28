@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {Complex} from '../../main/math/complex';
+import {Complex} from '../../lib/math/complex';
 
 const a = new Complex(5, 6);
 const b = new Complex(-3, 4);

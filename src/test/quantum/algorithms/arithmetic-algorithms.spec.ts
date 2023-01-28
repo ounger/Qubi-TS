@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {executeAddAlgorithm, executeSubAlgorithm} from "../../../main/quantum/algorithms/arithmetic-algorithms";
+import {executeAddAlgorithm, executeSubAlgorithm} from "../../../lib/quantum/algorithms/arithmetic-algorithms";
 
 describe("Add two integers", () => {
 

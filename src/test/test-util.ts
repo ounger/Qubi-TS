@@ -4,9 +4,9 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {Complex} from '../main/math/complex';
-import {Qubit} from '../main/quantum/single-qubit/qubit';
-import {countCols, countRows} from '../main/math/linear-algebra';
+import {Complex} from '../lib/math/complex';
+import {Qubit} from '../lib/quantum/single-qubit/qubit';
+import {countCols, countRows} from '../lib/math/linear-algebra';
 
 // TODO Bei vielen Qubits sind die Vergleiche langsam. Wie in expComplexArraysToBeCloseTo optimieren!
 

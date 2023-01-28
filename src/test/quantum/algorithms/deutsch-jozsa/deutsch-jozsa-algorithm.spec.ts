@@ -4,13 +4,13 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {executeDeutschJozsaAlgorithm} from "../../../../main/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-algorithm";
-import {QubitRegister} from "../../../../main/quantum/multi-qubit/qubit-register";
+import {executeDeutschJozsaAlgorithm} from "../../../../lib/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-algorithm";
+import {QubitRegister} from "../../../../lib/quantum/multi-qubit/qubit-register";
 import {
     createBalancedDeutschJozsaOracle,
     createConstantDeutschJozsaOracle
-} from "../../../../main/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
-import {Bit} from "../../../../main/math/truth-table";
+} from "../../../../lib/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
+import {Bit} from "../../../../lib/math/truth-table";
 
 describe('Deutsch-Jozsa Algorithm', () => {
 

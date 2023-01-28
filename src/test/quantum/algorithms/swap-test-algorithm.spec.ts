@@ -10,9 +10,9 @@ import {
     STATE_ONE,
     STATE_PLUS,
     STATE_ZERO
-} from "../../../main/quantum/single-qubit/qubit-state";
-import {Qubit} from "../../../main/quantum/single-qubit/qubit";
-import {executeSwapTestAlgorithm} from "../../../main/quantum/algorithms/swap-test-algorithm";
+} from "../../../lib/quantum/single-qubit/qubit-state";
+import {Qubit} from "../../../lib/quantum/single-qubit/qubit";
+import {executeSwapTestAlgorithm} from "../../../lib/quantum/algorithms/swap-test-algorithm";
 
 describe('Swap test', () => {
 

@@ -13,7 +13,7 @@ import {
     QUBIT_STATE_ONE,
     QUBIT_STATE_PLUS,
     QUBIT_STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit';
+} from '../../../lib/quantum/single-qubit/qubit';
 import {
     ccx,
     chad,
@@ -37,10 +37,10 @@ import {
     rotZ,
     swap,
     x
-} from '../../../main/quantum/multi-qubit/multi-qubit-gates';
-import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../../main/math/complex';
-import {QubitRegister} from '../../../main/quantum/multi-qubit/qubit-register';
-import {expOfiTimesAngleDegrees} from '../../../main/math/math-util';
+} from '../../../lib/quantum/multi-qubit/multi-qubit-gates';
+import {_0, _1, Complex, MINUS_ONE_OF_SQRT_TWO, ONE_OF_SQRT_TWO} from '../../../lib/math/complex';
+import {QubitRegister} from '../../../lib/quantum/multi-qubit/qubit-register';
+import {expOfiTimesAngleDegrees} from '../../../lib/math/math-util';
 import {expComplexArraysToBeCloseTo} from '../../test-util';
 import {
     QubitState,
@@ -50,8 +50,8 @@ import {
     STATE_PLUS,
     STATE_R,
     STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit-state';
-import {BELL_STATE_PHI_PLUS, BELL_STATE_PSI_PLUS} from "../../../main/quantum/multi-qubit/bell-states";
+} from '../../../lib/quantum/single-qubit/qubit-state';
+import {BELL_STATE_PHI_PLUS, BELL_STATE_PSI_PLUS} from "../../../lib/quantum/multi-qubit/bell-states";
 
 const expOfiTimesAngle45Degrees = expOfiTimesAngleDegrees(45);
 const expOfiTimesAngle90Degrees = expOfiTimesAngleDegrees(90);

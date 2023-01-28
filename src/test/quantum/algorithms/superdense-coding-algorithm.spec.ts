@@ -4,7 +4,7 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {executeSuperdenseCodingAlgorithm} from "../../../main/quantum/algorithms/superdense-coding-algorithm";
+import {executeSuperdenseCodingAlgorithm} from "../../../lib/quantum/algorithms/superdense-coding-algorithm";
 
 describe("Superdense Coding", () => {
 

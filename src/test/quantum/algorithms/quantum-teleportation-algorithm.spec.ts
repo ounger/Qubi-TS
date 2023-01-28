@@ -12,8 +12,8 @@ import {
     STATE_PLUS,
     STATE_R,
     STATE_ZERO
-} from "../../../main/quantum/single-qubit/qubit-state";
-import {executeQuantumTeleportationAlgorithm} from "../../../main/quantum/algorithms/quantum-teleportation-algorithm";
+} from "../../../lib/quantum/single-qubit/qubit-state";
+import {executeQuantumTeleportationAlgorithm} from "../../../lib/quantum/algorithms/quantum-teleportation-algorithm";
 import {expComplexArraysToBeCloseTo} from "../../test-util";
 
 describe("Quantum Teleportation", () => {

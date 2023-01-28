@@ -2,13 +2,16 @@
   "name": "qubi-ts-lib",
   "version": "1.0.4",
   "description": "A quantum computer simulation library",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "/dist"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "compile": "tsc",
+    "compile-prod": "tsc -p tsconfig.prod.json"
   },
   "dependencies": {
     "tslib": "^2.3.0"

@@ -25,7 +25,7 @@ import {
     tensorMatrices,
     tensorVectors,
     trace
-} from '../../main/math/linear-algebra';
+} from '../../lib/math/linear-algebra';
 import {
     _0,
     _1,
@@ -53,7 +53,7 @@ import {
     MINUS_i,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from '../../main/math/complex';
+} from '../../lib/math/complex';
 import {expComplexMatricesToBeCloseTo} from '../test-util';
 import {
     HADAMARD_GATE,
@@ -65,8 +65,8 @@ import {
     PHASE_T_GATE,
     RNOT_GATE,
     RNOT_INVERSE_GATE
-} from '../../main/quantum/single-qubit/qubit-gates';
-import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../main/quantum/single-qubit/qubit-state';
+} from '../../lib/quantum/single-qubit/qubit-gates';
+import {STATE_MINUS, STATE_ONE, STATE_PLUS, STATE_ZERO} from '../../lib/quantum/single-qubit/qubit-state';
 
 const matrix = [
     [_3, _2, _1],

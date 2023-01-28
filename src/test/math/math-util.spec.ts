@@ -4,8 +4,8 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {degsToRads, radsToDegs, round} from '../../main/math/math-util';
-import {getNumberAsBitArrayZeroPadded} from '../../main/util';
+import {degsToRads, radsToDegs, round} from '../../lib/math/math-util';
+import {getNumberAsBitArrayZeroPadded} from '../../lib/util';
 
 describe('Rounding', () => {
     test('', () => {

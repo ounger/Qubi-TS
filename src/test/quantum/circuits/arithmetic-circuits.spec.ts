@@ -4,18 +4,18 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from '../../../main/quantum/multi-qubit/qubit-register';
-import {_0, _1} from '../../../main/math/complex';
+import {QubitRegister} from '../../../lib/quantum/multi-qubit/qubit-register';
+import {_0, _1} from '../../../lib/math/complex';
 import {expComplexArraysToBeCloseTo} from '../../test-util';
 import {
     createDecrementCircuit,
     createIncrementCircuit,
     fullAdder,
     halfAdder
-} from '../../../main/quantum/circuits/arithmetic-circuits';
-import {Bit} from "../../../main/math/truth-table";
-import {Qubit} from "../../../main/quantum/single-qubit/qubit";
-import {STATE_ONE, STATE_ZERO} from "../../../main/quantum/single-qubit/qubit-state";
+} from '../../../lib/quantum/circuits/arithmetic-circuits';
+import {Bit} from "../../../lib/math/truth-table";
+import {Qubit} from "../../../lib/quantum/single-qubit/qubit";
+import {STATE_ONE, STATE_ZERO} from "../../../lib/quantum/single-qubit/qubit-state";
 
 describe('Increment', () => {
 

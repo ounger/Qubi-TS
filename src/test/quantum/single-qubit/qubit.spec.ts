@@ -12,7 +12,7 @@ import {
     QUBIT_STATE_PLUS,
     QUBIT_STATE_R,
     QUBIT_STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit';
+} from '../../../lib/quantum/single-qubit/qubit';
 import {
     QubitState,
     STATE_L,
@@ -22,7 +22,7 @@ import {
     STATE_PLUS,
     STATE_R,
     STATE_ZERO
-} from '../../../main/quantum/single-qubit/qubit-state';
+} from '../../../lib/quantum/single-qubit/qubit-state';
 import {
     _0,
     Complex,
@@ -34,9 +34,9 @@ import {
     MINUS_i_OF_SQRT_TWO,
     MINUS_ONE_OF_SQRT_TWO,
     ONE_OF_SQRT_TWO
-} from '../../../main/math/complex';
+} from '../../../lib/math/complex';
 import {expNumberArraysToBeCloseTo, expQubitsToBeCloseTo} from '../../test-util';
-import {round} from '../../../main/math/math-util';
+import {round} from '../../../lib/math/math-util';
 
 describe('Probability Tests', () => {
 

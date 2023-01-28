@@ -5,13 +5,13 @@
  */
 
 import {expComplexArraysToBeCloseTo} from '../../test-util';
-import {getNumberAsBitArray, getNumberAsBitArrayZeroPadded} from '../../../main/util';
-import {createQFTCircuit, createQFTInvertedCircuit} from '../../../main/quantum/circuits/qft-circuit';
-import {QubitRegister} from '../../../main/quantum/multi-qubit/qubit-register';
-import {STATE_MINUS, STATE_PLUS, STATE_R, STATE_ZERO} from '../../../main/quantum/single-qubit/qubit-state';
-import {Qubit, QUBIT_STATE_PLUS, QUBIT_STATE_ZERO} from '../../../main/quantum/single-qubit/qubit';
-import {Bit} from '../../../main/math/truth-table';
-import {createEncodeNumberCircuit} from "../../../main/quantum/circuits/misc-circuits";
+import {getNumberAsBitArray, getNumberAsBitArrayZeroPadded} from '../../../lib/util';
+import {createQFTCircuit, createQFTInvertedCircuit} from '../../../lib/quantum/circuits/qft-circuit';
+import {QubitRegister} from '../../../lib/quantum/multi-qubit/qubit-register';
+import {STATE_MINUS, STATE_PLUS, STATE_R, STATE_ZERO} from '../../../lib/quantum/single-qubit/qubit-state';
+import {Qubit, QUBIT_STATE_PLUS, QUBIT_STATE_ZERO} from '../../../lib/quantum/single-qubit/qubit';
+import {Bit} from '../../../lib/math/truth-table';
+import {createEncodeNumberCircuit} from "../../../lib/quantum/circuits/misc-circuits";
 
 describe('Create QFTs', () => {
 

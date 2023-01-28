@@ -4,11 +4,11 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {QubitRegister} from "../../../../main/quantum/multi-qubit/qubit-register";
+import {QubitRegister} from "../../../../lib/quantum/multi-qubit/qubit-register";
 import {
     createBalancedDeutschJozsaOracle,
     createConstantDeutschJozsaOracle
-} from "../../../../main/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
+} from "../../../../lib/quantum/algorithms/deutsch-jozsa/deutsch-jozsa-oracles";
 
 describe('Create Deutsch-Jozsa Oracles', () => {
 

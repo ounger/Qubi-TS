@@ -4,8 +4,8 @@
  * Copyright (c) 2023 Oliver Unger
  */
 
-import {Bit} from "../../../main/math/truth-table";
-import {executeQRNGAlgorithm} from "../../../main/quantum/algorithms/qrng-algorithm";
+import {Bit} from "../../../lib/math/truth-table";
+import {executeQRNGAlgorithm} from "../../../lib/quantum/algorithms/qrng-algorithm";
 
 describe('QRNG should generate 0s and 1s', () => {
     test('', () => {
